@@ -39,15 +39,24 @@ class _LoginState extends State<Login> {
               child: SingleChildScrollView(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Welcome to RemindMe",
+                      "Welcome to back",
                       style: GoogleFonts.poppins(
                           textStyle: TextStyle(
-                              fontSize: 29, fontWeight: FontWeight.w500)),
+                              fontSize: 32, fontWeight: FontWeight.w500)),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(right: 50),
+                      child: Text("Login",
+                          style: GoogleFonts.poppins(
+                            textStyle: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.w400),
+                          )),
                     ),
                     SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.1,
+                      height: 20,
                     ),
                     _form(),
                     SizedBox(
