@@ -112,34 +112,32 @@ class SignUp extends StatelessWidget {
             backgroundColor: Colors.transparent,
             body: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Text(
-                      "Welcome to RemidMe",
-                      style: GoogleFonts.poppins(
-                          textStyle: TextStyle(
-                              fontSize: 30, fontWeight: FontWeight.bold)),
-                    ),
-                    // SizedBox(
-                    //   height: MediaQuery.of(context).size.height * 0.1,
-                    // ),
-                    _form(),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text("Or"),
-                    _google_facebook_login(),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "Already have an account ? ",
-                            textAlign: TextAlign.left,
-                          ),
-                          GestureDetector(
+              child: Center(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Text(
+                        "Welcome to RemidMe",
+                        style: GoogleFonts.poppins(
+                            textStyle: TextStyle(
+                                fontSize: 30, fontWeight: FontWeight.bold)),
+                      ),
+                      _form(),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text("Or"),
+                      _google_facebook_login(),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Already have an account ? ",
+                              textAlign: TextAlign.left,
+                            ),
+                            GestureDetector(
                               onTap: () {
                                 context.push("/login");
                               },
@@ -148,11 +146,13 @@ class SignUp extends StatelessWidget {
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
                                     color: Color.fromARGB(255, 255, 0, 0)),
-                              )),
-                        ],
-                      ),
-                    )
-                  ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),

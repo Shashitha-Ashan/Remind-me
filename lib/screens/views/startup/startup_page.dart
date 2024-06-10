@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class Home extends StatelessWidget {
-  const Home({super.key});
+class StartupPage extends StatelessWidget {
+  const StartupPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +12,9 @@ class Home extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           MaterialButton(
-            onPressed: () {},
+            onPressed: () {
+              context.push("/home");
+            },
             child: Image.asset(
               'assets/icons/google.png',
               width: 60,

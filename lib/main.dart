@@ -1,4 +1,6 @@
-import 'package:birth_daily/screens/views/home/home.dart';
+import 'package:birth_daily/screens/views/home/home_page.dart';
+import 'package:birth_daily/screens/views/search/search_page.dart';
+import 'package:birth_daily/screens/views/startup/startup_page.dart';
 import 'package:birth_daily/screens/views/login/login_screen.dart';
 import 'package:birth_daily/screens/views/signup/sign_up.dart';
 import 'package:birth_daily/utils/themes.dart';
@@ -14,7 +16,7 @@ class MainApp extends StatelessWidget {
   final _router = GoRouter(routes: <RouteBase>[
     GoRoute(
       path: "/",
-      builder: (context, state) => const Home(),
+      builder: (context, state) => const StartupPage(),
     ),
     GoRoute(
       path: "/login",
@@ -23,6 +25,14 @@ class MainApp extends StatelessWidget {
     GoRoute(
       path: "/signup",
       builder: (context, state) => const SignUp(),
+    ),
+    GoRoute(
+      path: "/home",
+      builder: (context, state) => const HomePage(),
+    ),
+    GoRoute(
+      path: "/search",
+      builder: (context, state) => const SearchPage(),
     ),
   ]);
   @override
