@@ -14,7 +14,7 @@ class HomePage extends StatelessWidget {
             floating: true,
             expandedHeight: 100,
             flexibleSpace: FlexibleSpaceBar(
-              title: Text("Home"),
+              title: const Text("Home"),
               background: Image.asset(
                 "assets/backgrounds/back.png",
                 fit: BoxFit.cover,
@@ -22,14 +22,16 @@ class HomePage extends StatelessWidget {
             ),
             actions: [
               IconButton(
-                onPressed: () {},
-                icon: Icon(Icons.settings),
+                onPressed: () {
+                  context.push("/settings");
+                },
+                icon: const Icon(Icons.settings),
               ),
               IconButton(
                 onPressed: () {
                   context.push("/search");
                 },
-                icon: Icon(Icons.output),
+                icon: const Icon(Icons.output),
               ),
             ],
           ),
@@ -38,7 +40,7 @@ class HomePage extends StatelessWidget {
               childCount: 20,
               (context, index) {
                 return ListTile(
-                  title: Text("${index} ashan"),
+                  title: Text("$index ashan"),
                 );
               },
             ),

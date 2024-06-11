@@ -1,5 +1,6 @@
 import 'package:birth_daily/screens/views/home/home_page.dart';
 import 'package:birth_daily/screens/views/search/search_page.dart';
+import 'package:birth_daily/screens/views/settings/settings_page.dart';
 import 'package:birth_daily/screens/views/startup/startup_page.dart';
 import 'package:birth_daily/screens/views/login/login_screen.dart';
 import 'package:birth_daily/screens/views/signup/sign_up.dart';
@@ -29,6 +30,10 @@ class MainApp extends StatelessWidget {
     GoRoute(
       path: "/home",
       builder: (context, state) => const HomePage(),
+    ),
+    GoRoute(
+      path: "/settings",
+      builder: (context, state) => const SettingsPage(),
     ),
     GoRoute(
       path: "/search",

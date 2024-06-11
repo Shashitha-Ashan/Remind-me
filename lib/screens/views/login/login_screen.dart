@@ -34,61 +34,67 @@ class _LoginState extends State<Login> {
           ),
           child: Scaffold(
             backgroundColor: Colors.transparent,
-            body: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Center(
-                child: SingleChildScrollView(
-                  child: Form(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Welcome back",
-                          style: GoogleFonts.poppins(
+            body: SingleChildScrollView(
+              child: Container(
+                height: MediaQuery.of(context).size.height - 200,
+                decoration: BoxDecoration(
+                  color: Colors.amber,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(50),
+                    topRight: Radius.circular(50),
+                  ),
+                ),
+                padding: EdgeInsets.all(8),
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Welcome back",
+                        style: GoogleFonts.poppins(
+                            textStyle: TextStyle(
+                                fontSize: 32, fontWeight: FontWeight.w500)),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(right: 50),
+                        child: Text("Login",
+                            style: GoogleFonts.poppins(
                               textStyle: TextStyle(
-                                  fontSize: 32, fontWeight: FontWeight.w500)),
-                        ),
-                        Container(
-                          margin: EdgeInsets.only(right: 50),
-                          child: Text("Login",
-                              style: GoogleFonts.poppins(
-                                textStyle: TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.w400),
-                              )),
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        _form(),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                "Don't have an account ? ",
+                                  fontSize: 16, fontWeight: FontWeight.w400),
+                            )),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      _form(),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Don't have an account ? ",
+                              textAlign: TextAlign.left,
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                context.push("/signup");
+                              },
+                              child: Text(
+                                "Sign Up",
                                 textAlign: TextAlign.left,
+                                style: TextStyle(
+                                    color: Color.fromARGB(255, 255, 0, 0)),
                               ),
-                              GestureDetector(
-                                onTap: () {
-                                  context.push("/signup");
-                                },
-                                child: Text(
-                                  "Sign Up",
-                                  textAlign: TextAlign.left,
-                                  style: TextStyle(
-                                      color: Color.fromARGB(255, 255, 0, 0)),
-                                ),
-                              ),
-                            ],
-                          ),
-                        )
-                      ],
-                    ),
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
                   ),
                 ),
               ),
