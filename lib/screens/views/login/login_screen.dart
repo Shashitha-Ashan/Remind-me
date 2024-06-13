@@ -1,6 +1,11 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'dart:ffi';
+
+import 'package:birth_daily/screens/components/form_text_field.dart';
+import 'package:birth_daily/screens/components/horizontal_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -14,94 +19,97 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          image: DecorationImage(
-              opacity: 0.1,
-              image: AssetImage("assets/backgrounds/back.png"),
-              fit: BoxFit.fill),
-        ),
-        child: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(colors: [
-              Color.fromARGB(43, 255, 0, 0),
-              Color.fromARGB(0, 255, 0, 0),
-              Color.fromARGB(0, 255, 0, 0),
-              Color.fromARGB(0, 255, 0, 0),
-            ]),
-          ),
-          child: Scaffold(
-            backgroundColor: Colors.transparent,
-            body: SingleChildScrollView(
-              child: Container(
-                height: MediaQuery.of(context).size.height - 200,
-                decoration: BoxDecoration(
-                  color: Colors.amber,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(50),
-                    topRight: Radius.circular(50),
-                  ),
+    return Scaffold(
+      backgroundColor: Colors.grey,
+      body: SafeArea(
+          child: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(
+              height: 10,
+            ),
+            Icon(
+              Icons.lock,
+              size: 100,
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            Container(
+              height: MediaQuery.of(context).size.height * 0.76,
+              padding:
+                  EdgeInsets.only(bottom: 10, left: 10, right: 10, top: 20),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(20),
+                  topRight: Radius.circular(20),
                 ),
-                padding: EdgeInsets.all(8),
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+              ),
+              child: Column(
+                children: [
+                  Row(
                     children: [
                       Text(
                         "Welcome back",
                         style: GoogleFonts.poppins(
                             textStyle: TextStyle(
-                                fontSize: 32, fontWeight: FontWeight.w500)),
+                                fontSize: 40, fontWeight: FontWeight.bold)),
                       ),
-                      Container(
-                        margin: EdgeInsets.only(right: 50),
-                        child: Text("Login",
-                            style: GoogleFonts.poppins(
-                              textStyle: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.w400),
-                            )),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      _form(),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "Don't have an account ? ",
-                              textAlign: TextAlign.left,
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                context.push("/signup");
-                              },
-                              child: Text(
-                                "Sign Up",
-                                textAlign: TextAlign.left,
-                                style: TextStyle(
-                                    color: Color.fromARGB(255, 255, 0, 0)),
-                              ),
-                            ),
-                          ],
-                        ),
-                      )
                     ],
                   ),
-                ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        "Login",
+                        style: GoogleFonts.poppins(
+                            textStyle: TextStyle(
+                                fontSize: 25, fontWeight: FontWeight.w600)),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 50,
+                  ),
+                  _form(),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Don't have an account ? ",
+                        style: GoogleFonts.poppins(
+                          textStyle: TextStyle(
+                            fontSize: 14,
+                          ),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          context.go("/");
+                        },
+                        child: Text(
+                          "Sign up",
+                          style:
+                              TextStyle(decoration: TextDecoration.underline),
+                        ),
+                      ),
+                    ],
+                  ),
+                  // SizedBox(
+                  //   height: 60,
+                  // ),
+                ],
               ),
-            ),
-          ),
+            )
+          ],
         ),
-      ),
+      )),
     );
   }
 
@@ -109,22 +117,18 @@ class _LoginState extends State<Login> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        TextField(
-          decoration: InputDecoration(
-              hintText: "Email",
-              border:
-                  OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
+        FormTextField(
+          hintText: "Email",
+          obscure: false,
+          textEditingController: TextEditingController(),
         ),
         SizedBox(
           height: 20,
         ),
-        TextField(
-          decoration: InputDecoration(
-              suffixIcon: Icon(Icons.remove_red_eye),
-              labelText: "Password",
-              hintText: "Password",
-              border:
-                  OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
+        FormTextField(
+          textEditingController: TextEditingController(),
+          hintText: "Password",
+          obscure: true,
         ),
         SizedBox(
           height: 10,
@@ -141,19 +145,8 @@ class _LoginState extends State<Login> {
         SizedBox(
           height: 10,
         ),
-        MaterialButton(
-          height: 40,
-          elevation: 20,
-          minWidth: double.infinity,
-          shape: OutlineInputBorder(
-              borderSide: BorderSide.none,
-              borderRadius: BorderRadius.circular(5)),
-          color: Colors.red,
-          onPressed: () {},
-          child: const Text(
-            "Login",
-            style: TextStyle(color: Colors.white),
-          ),
+        HorizontalButton(
+          buttonName: "Login",
         ),
       ],
     );
