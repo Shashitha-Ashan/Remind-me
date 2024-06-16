@@ -1,3 +1,4 @@
+import 'package:birth_daily/utils/constants/color_const.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -64,7 +65,8 @@ class StartupPage extends StatelessWidget {
                           },
                           child: const Text(
                             "Sign In",
-                            style: TextStyle(fontSize: 22),
+                            style: TextStyle(
+                                fontSize: 22, color: kFontColorPositive),
                           ),
                         ),
                       ),
@@ -82,7 +84,8 @@ class StartupPage extends StatelessWidget {
                           },
                           child: const Text(
                             "Log In",
-                            style: TextStyle(color: Colors.black, fontSize: 22),
+                            style: TextStyle(
+                                color: kFontColorNegative, fontSize: 22),
                           ),
                         ),
                       )
@@ -90,9 +93,41 @@ class StartupPage extends StatelessWidget {
                   ),
                   Column(
                     children: [
+                      Padding(
+                        padding: EdgeInsets.only(
+                            left: MediaQuery.of(context).size.width * 0.1,
+                            right: MediaQuery.of(context).size.width * 0.1),
+                        child: const Row(
+                          children: [
+                            Expanded(
+                              child: Divider(
+                                thickness: 1,
+                                color: Colors.white54,
+                              ),
+                            ),
+                            Text(
+                              " Or ",
+                              style: TextStyle(color: Colors.white54),
+                            ),
+                            Expanded(
+                              child: Divider(
+                                thickness: 1,
+                                color: Colors.white54,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
                       const Text(
                         "Login with",
-                        style: TextStyle(color: Colors.white, fontSize: 18),
+                        style:
+                            TextStyle(color: kFontColorPositive, fontSize: 18),
+                      ),
+                      const SizedBox(
+                        height: 10,
                       ),
                       _google_facebook_login(),
                     ],

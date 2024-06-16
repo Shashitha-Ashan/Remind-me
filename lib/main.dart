@@ -5,6 +5,7 @@ import 'package:birth_daily/screens/views/startup/startup_page.dart';
 import 'package:birth_daily/screens/views/login/login_screen.dart';
 import 'package:birth_daily/screens/views/signup/sign_up.dart';
 import 'package:birth_daily/utils/themes.dart';
+import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -17,7 +18,11 @@ class MainApp extends StatelessWidget {
   final _router = GoRouter(routes: <RouteBase>[
     GoRoute(
       path: "/",
-      builder: (context, state) => const StartupPage(),
+      builder: (context, state) => SignInScreen(
+        providers: [
+          EmailAuthProvider(),
+        ],
+      ),
     ),
     GoRoute(
       path: "/login",
