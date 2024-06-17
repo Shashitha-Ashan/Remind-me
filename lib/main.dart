@@ -42,7 +42,7 @@ class MainApp extends StatelessWidget {
     ),
     GoRoute(
       path: "/signup",
-      builder: (context, state) => const SignUp(),
+      builder: (context, state) => const AuthGate(),
     ),
     GoRoute(
       path: "/home",
