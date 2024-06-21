@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 
 class HorizontalButton extends StatelessWidget {
   final String buttonName;
-  const HorizontalButton({super.key, required this.buttonName});
+  final Function() onPressed;
+  const HorizontalButton(
+      {super.key, required this.buttonName, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +15,7 @@ class HorizontalButton extends StatelessWidget {
       shape: OutlineInputBorder(
           borderSide: BorderSide.none, borderRadius: BorderRadius.circular(5)),
       color: Colors.red,
-      onPressed: () {},
+      onPressed: onPressed,
       child: Text(
         buttonName,
         style: const TextStyle(color: Colors.white),

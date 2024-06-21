@@ -167,17 +167,13 @@ class AuthGate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
+    return StreamBuilder<User?>(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return SignInScreen(
               providers: [
                 EmailAuthProvider(),
-                GoogleProvider(
-                  clientId:
-                      "866459352486-odg15a713glo09r2krcau6kmir3d9cjt.apps.googleusercontent.com",
-                ),
               ],
             );
           } else {

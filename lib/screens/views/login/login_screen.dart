@@ -147,6 +147,7 @@ class _LoginState extends State<Login> {
         ),
         HorizontalButton(
           buttonName: "Login",
+          onPressed: () {},
         ),
       ],
     );

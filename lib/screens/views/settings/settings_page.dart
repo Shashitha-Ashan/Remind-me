@@ -1,5 +1,9 @@
+import 'package:birth_daily/screens/components/horizontal_button.dart';
+import 'package:birth_daily/screens/views/startup/startup_page.dart';
+import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -16,42 +20,52 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 10,
-        title: const Text('Settings'),
-      ),
-      body: ListView(
-        physics: const BouncingScrollPhysics(),
-        children: [
-          settingSectionTile('Genaral Settings'),
-          SettingTile(
-            isDisable: false,
-            onTap: () {},
-            title: 'backup & restore',
-            description: 'Back up your birthdays in the cloud',
-          ),
-          divider(),
-          settingSectionTile('Theme'),
-          divider(),
-          settingSectionTile('info'),
-          SettingTile(
-            onTap: () {
-              print("clicked");
-              context.push("/developerinfo");
-            },
-            title: 'About us',
-            description: 'Developer information',
-          ),
-          divider(),
-          settingSectionTile('Version'),
-          const SettingTile(
-            title: 'Birthday Alert',
-            description: 'Current version:Birthday Alert 1.0.0',
-          ),
-        ],
-      ),
-    );
+    return StreamBuilder<User?>(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return Scaffold(
+              appBar: AppBar(
+                elevation: 10,
+                title: const Text('Settings'),
+              ),
+              body: ListView(
+                children: [
+                  settingSectionTile('Genaral Settings'),
+                  SettingTile(
+                    isDisable: false,
+                    onTap: () {},
+                    title: 'backup & restore',
+                    description: 'Back up your birthdays in the cloud',
+                  ),
+                  divider(),
+                  settingSectionTile('Theme'),
+                  divider(),
+                  settingSectionTile('info'),
+                  SettingTile(
+                    onTap: () {
+                      context.push("/developerinfo");
+                    },
+                    title: 'About us',
+                    description: 'Developer information',
+                  ),
+                  divider(),
+                  settingSectionTile('Version'),
+                  const SettingTile(
+                    title: 'Birthday Alert',
+                    description: 'Current version:Birthday Alert 1.0.0',
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.only(left: 10, right: 10, top: 20),
+                    child: SignOutButton(),
+                  ),
+                ],
+              ),
+            );
+          } else {
+            return const StartupPage();
+          }
+        });
   }
 
   Divider divider() {
