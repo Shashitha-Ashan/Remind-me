@@ -1,4 +1,6 @@
+import 'package:birth_daily/blocs/birthday/birthdays_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class HomePage extends StatelessWidget {
@@ -35,13 +37,27 @@ class HomePage extends StatelessWidget {
               ),
             ],
           ),
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-              childCount: 20,
-              (context, index) {
-                return ListTile(
-                  title: Text("$index ashan"),
-                );
+          // SliverList(
+          //   delegate: SliverChildBuilderDelegate(
+          //     childCount: 20,
+          //     (context, index) {
+          //       return ListTile(
+          //         title: Text("$index ashan"),
+          //       );
+          //     },
+          //   ),
+          // ),
+          SliverToBoxAdapter(
+            child: BlocBuilder<BirthdaysBloc, BirthdaysState>(
+              builder: (context, state) {
+                if (state is LoadingState) {
+                  return const CircularProgressIndicator();
+                }
+                if (state is SuccessLoadState) {
+                  return Text(
+                      "Name - ${state.birthdayModel.name}Date - ${state.birthdayModel.dateTime}");
+                }
+                return const Text("error occured");
               },
             ),
           )

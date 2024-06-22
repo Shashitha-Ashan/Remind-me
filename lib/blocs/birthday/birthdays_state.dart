@@ -7,8 +7,16 @@ final class BirthdaysInitial extends BirthdaysState {}
 
 class InitialState extends BirthdaysState {}
 
-class LoadState extends BirthdaysState {}
+class LoadingState extends BirthdaysState {}
 
-class SuccessLoadState extends BirthdaysState {}
+class SuccessLoadState extends BirthdaysState {
+  final BirthdayModel birthdayModel;
 
-class FailedLoadState extends BirthdaysState {}
+  SuccessLoadState({required this.birthdayModel});
+}
+
+class FailedLoadState extends BirthdaysState {
+  final String error;
+
+  FailedLoadState({required this.error});
+}

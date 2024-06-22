@@ -1,5 +1,6 @@
 import 'package:birth_daily/blocs/birthday/birthdays_bloc.dart';
 import 'package:birth_daily/firebase_options.dart';
+import 'package:birth_daily/models/birthday/birthday_model.dart';
 import 'package:birth_daily/screens/views/home/home_page.dart';
 import 'package:birth_daily/screens/views/search/search_page.dart';
 import 'package:birth_daily/screens/views/settings/settings_page.dart';
@@ -13,6 +14,8 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'repositories/birthdays/birthday_repo.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -50,12 +53,17 @@ class MainApp extends StatelessWidget {
   ]);
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => BirthdaysBloc(),
-      child: MaterialApp.router(
-        debugShowCheckedModeBanner: false,
-        routerConfig: _router,
-        theme: textTheme,
+    return RepositoryProvider(
+      create: (context) => BirthdayRepo(
+        birthdayModel: BirthdayModel(dateTime: DateTime.now(), name: "Ashan"),
+      ),
+      child: BlocProvider(
+        create: (context) => BirthdaysBloc(context.read<BirthdayRepo>()),
+        child: MaterialApp.router(
+          debugShowCheckedModeBanner: false,
+          routerConfig: _router,
+          theme: textTheme,
+        ),
       ),
     );
   }
