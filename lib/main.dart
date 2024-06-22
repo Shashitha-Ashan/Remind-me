@@ -1,6 +1,5 @@
 import 'package:birth_daily/blocs/birthday/birthdays_bloc.dart';
 import 'package:birth_daily/firebase_options.dart';
-import 'package:birth_daily/models/birthday/birthday_model.dart';
 import 'package:birth_daily/screens/views/home/home_page.dart';
 import 'package:birth_daily/screens/views/search/search_page.dart';
 import 'package:birth_daily/screens/views/settings/settings_page.dart';
@@ -54,9 +53,7 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RepositoryProvider(
-      create: (context) => BirthdayRepo(
-        birthdayModel: BirthdayModel(dateTime: DateTime.now(), name: "Ashan"),
-      ),
+      create: (context) => BirthdayRepo(),
       child: BlocProvider(
         create: (context) => BirthdaysBloc(context.read<BirthdayRepo>()),
         child: MaterialApp.router(

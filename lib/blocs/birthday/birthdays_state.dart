@@ -5,8 +5,6 @@ sealed class BirthdaysState {}
 
 final class BirthdaysInitial extends BirthdaysState {}
 
-class InitialState extends BirthdaysState {}
-
 class LoadingState extends BirthdaysState {}
 
 class SuccessLoadState extends BirthdaysState {
