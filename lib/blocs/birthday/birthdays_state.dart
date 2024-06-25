@@ -1,20 +1,26 @@
 part of 'birthdays_bloc.dart';
 
 @immutable
-sealed class BirthdaysState {}
+sealed class BirthdayState {}
 
-final class BirthdaysInitial extends BirthdaysState {}
+final class BirthdaysInitial extends BirthdayState {}
 
-class LoadingState extends BirthdaysState {}
+class BirthdaysLoadingState extends BirthdayState {}
 
-class SuccessLoadState extends BirthdaysState {
+class BirthdaysSuccessLoadState extends BirthdayState {
   final BirthdayModel birthdayModel;
 
-  SuccessLoadState({required this.birthdayModel});
+  BirthdaysSuccessLoadState({required this.birthdayModel});
 }
 
-class FailedLoadState extends BirthdaysState {
-  final String error;
+class BirthdaysFailedLoadState extends BirthdayState {
+  final String message;
 
-  FailedLoadState({required this.error});
+  BirthdaysFailedLoadState({required this.message});
 }
+
+class BirthdayAdded extends BirthdayState {}
+
+class BirthdayUpdated extends BirthdayState {}
+
+class BirthdayDeleted extends BirthdayState {}

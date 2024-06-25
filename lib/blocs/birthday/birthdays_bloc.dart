@@ -7,17 +7,17 @@ import '../../models/birthday/birthday_model.dart';
 part 'birthdays_event.dart';
 part 'birthdays_state.dart';
 
-class BirthdaysBloc extends Bloc<BirthdaysEvent, BirthdaysState> {
+class BirthdaysBloc extends Bloc<BirthdayEvent, BirthdayState> {
   final BirthdayRepo _birthdayRepo;
   BirthdaysBloc(this._birthdayRepo) : super(BirthdaysInitial()) {
-    on<BirthdaysEvent>((event, emit) async {
-      if (event is LoadEvent) {
-        emit(LoadingState());
+    on<BirthdayEvent>((event, emit) async {
+      if (event is LoadBirthdaysEvent) {
+        emit(BirthdaysLoadingState());
         try {
           final birthdays = await _birthdayRepo.loadBirthdays();
-          emit(SuccessLoadState(birthdayModel: birthdays));
+          emit(BirthdaysSuccessLoadState(birthdayModel: birthdays));
         } catch (e) {
-          emit(FailedLoadState(error: "Error occured"));
+          emit(BirthdaysFailedLoadState(message: "Error occured"));
         }
       }
     });

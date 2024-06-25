@@ -1,6 +1,6 @@
 import 'package:birth_daily/models/birthday/birthday_model.dart';
 
-import '../../services/birthday_service.dart';
+import 'package:birth_daily/services/birthday_service.dart';
 
 abstract class IBirthdayRepo {
   Future<BirthdayModel> loadBirthdays();

@@ -109,7 +109,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   void initState() {
-    context.read<BirthdaysBloc>().add(LoadEvent());
+    context.read<BirthdaysBloc>().add(LoadBirthdaysEvent());
     super.initState();
   }
 
