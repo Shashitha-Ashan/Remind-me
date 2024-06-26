@@ -1,6 +1,7 @@
 import 'package:birth_daily/blocs/birthday/birthdays_bloc.dart';
 import 'package:birth_daily/firebase_options.dart';
 import 'package:birth_daily/screens/views/home/home_page.dart';
+import 'package:birth_daily/screens/views/profile/profile_screen.dart';
 import 'package:birth_daily/screens/views/search/search_page.dart';
 import 'package:birth_daily/screens/views/settings/settings_page.dart';
 import 'package:birth_daily/screens/views/startup/startup_page.dart';
@@ -48,6 +49,10 @@ class MainApp extends StatelessWidget {
     GoRoute(
       path: "/search",
       builder: (context, state) => const SearchPage(),
+    ),
+    GoRoute(
+      path: "/profile",
+      builder: (context, state) => const Profile(),
     ),
   ]);
   @override

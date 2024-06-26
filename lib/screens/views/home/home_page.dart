@@ -115,18 +115,62 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: FirestoreListView(
-        query: FirebaseFirestore.instance.collection('birthdays'),
-        itemBuilder: (context, doc) {
-          final birthday = doc.data();
-          final date = birthday['date'].toDate();
-          return ListTile(
-            title: Text(birthday['name']),
-            trailing: Text(date.day.toString()),
-          );
-        },
-      ),
-    );
+    return DefaultTabController(
+        length: 2,
+        child: Scaffold(
+            appBar: AppBar(
+              actions: [
+                IconButton(
+                  onPressed: () {
+                    context.push("/settings");
+                  },
+                  icon: const Icon(Icons.settings),
+                ),
+                IconButton(
+                  onPressed: () {
+                    context.push("/profile");
+                  },
+                  icon: const Icon(Icons.person_2_sharp),
+                ),
+                IconButton(
+                  onPressed: () {
+                    context.push("/search");
+                  },
+                  icon: const Icon(Icons.output),
+                ),
+              ],
+              bottom: TabBar(tabs: [
+                Tab(
+                  text: "Today",
+                ),
+                Tab(
+                  text: "Today",
+                ),
+              ]),
+            ),
+            body: TabBarView(
+              children: [
+                FirestoreListView(
+                  query: FirebaseFirestore.instance.collection('birthdays'),
+                  itemBuilder: (context, doc) {
+                    final birthday = doc.data();
+                    final date = birthday['date'].toDate();
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Material(
+                        shape: ContinuousRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10))),
+                        color: Colors.amber,
+                        child: ListTile(
+                          title: Text(birthday['name']),
+                          trailing: Text(date.day.toString()),
+                        ),
+                      ),
+                    );
+                  },
+                )
+              ],
+            )));
   }
 }
