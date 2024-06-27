@@ -8,15 +8,17 @@ class Profile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ProfileScreen(
-      showDeleteConfirmationDialog: true,
-      showMFATile: true,
-      children: [],
-      actions: [
-        SignedOutAction((context) {
-          Navigator.pushReplacementNamed(context, '/sign-in');
-        }),
-      ],
+    return Scaffold(
+      body: ProfileScreen(
+        showDeleteConfirmationDialog: true,
+        showMFATile: true,
+        children: [],
+        actions: [
+          SignedOutAction((context) {
+            Navigator.pushReplacementNamed(context, '/sign-in');
+          }),
+        ],
+      ),
     );
   }
 }

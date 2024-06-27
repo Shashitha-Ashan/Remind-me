@@ -91,7 +91,9 @@ class _HomePageState extends State<HomePage> {
         onPressed: () {},
         child: IconButton(
           icon: const Icon(Icons.add),
-          onPressed: () {},
+          onPressed: () {
+            showBottomsheet(context);
+          },
         ),
       ),
       floatingActionButtonLocation: isVisible
@@ -117,4 +119,37 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+}
+
+void showBottomsheet(BuildContext context) {
+  final TextEditingController textEditingController = TextEditingController();
+  showModalBottomSheet(
+    showDragHandle: true,
+    sheetAnimationStyle: AnimationStyle(
+      duration: const Duration(milliseconds: 300),
+    ),
+    context: context,
+    builder: (context) {
+      return Container(
+        padding: const EdgeInsets.only(left: 10, right: 10),
+        width: MediaQuery.of(context).size.width,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const Text(
+              "Add Birthday",
+              style: TextStyle(fontSize: 28),
+            ),
+            TextFormField(
+              controller: textEditingController,
+              decoration: InputDecoration(
+                hintText: "Friend name",
+                label: Text("Friend name"),
+              ),
+            )
+          ],
+        ),
+      );
+    },
+  );
 }

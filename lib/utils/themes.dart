@@ -5,7 +5,7 @@ ThemeData darkTheme = ThemeData(
   textTheme: TextTheme(
     labelLarge: GoogleFonts.poppins(),
   ),
-  appBarTheme: const AppBarTheme(backgroundColor: Colors.red),
+  appBarTheme: const AppBarTheme(backgroundColor: Colors.purple),
   iconTheme: const IconThemeData(color: Colors.white),
 );
 
