@@ -1,9 +1,7 @@
-import 'package:birth_daily/screens/components/horizontal_button.dart';
-import 'package:birth_daily/screens/views/startup/startup_page.dart';
-import 'package:firebase_ui_auth/firebase_ui_auth.dart';
+import 'package:birth_daily/blocs/theme/theme_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -19,53 +17,66 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return StreamBuilder<User?>(
-        stream: FirebaseAuth.instance.authStateChanges(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return Scaffold(
-              appBar: AppBar(
-                elevation: 10,
-                title: const Text('Settings'),
+    bool themestate = false;
+    return BlocBuilder<ThemeBloc, ThemeState>(
+      builder: (context, state) {
+        return Scaffold(
+          appBar: AppBar(
+            elevation: 10,
+            title: const Text('Settings'),
+            backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+          ),
+          body: ListView(
+            children: [
+              settingSectionTile('Genaral Settings'),
+              divider(),
+              settingSectionTile('Theme'),
+              SettingTile(
+                onTap: () {},
+                title: 'backup & restore',
+                description: 'Dark',
+                trailingWidget: Switch(
+                  value: themestate,
+                  onChanged: (value) {
+                    if (value == false) {
+                      themestate = false;
+                      print(value);
+                      context.read<ThemeBloc>().add(LightThemeEvent());
+                    }
+                    if (value == true) {
+                      themestate = true;
+                      print(value);
+                      context.read<ThemeBloc>().add(DarkThemeEvent());
+                    }
+                  },
+                ),
               ),
-              body: ListView(
-                children: [
-                  settingSectionTile('Genaral Settings'),
-                  SettingTile(
-                    isDisable: false,
-                    onTap: () {},
-                    title: 'backup & restore',
-                    description: 'Back up your birthdays in the cloud',
-                  ),
-                  divider(),
-                  settingSectionTile('Theme'),
-                  divider(),
-                  settingSectionTile('info'),
-                  SettingTile(
-                    onTap: () {
-                      context.push("/developerinfo");
-                    },
-                    title: 'About us',
-                    description: 'Developer information',
-                  ),
-                  divider(),
-                  settingSectionTile('Version'),
-                  const SettingTile(
-                    title: 'Birthday Alert',
-                    description: 'Current version:Birthday Alert 1.0.0',
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.only(left: 10, right: 10, top: 20),
-                    child: SignOutButton(),
-                  ),
-                ],
+              divider(),
+              settingSectionTile('info'),
+              SettingTile(
+                onTap: () {
+                  context.push("/developerinfo");
+                },
+                title: 'About us',
+                description: 'Developer information',
               ),
-            );
-          } else {
-            return const StartupPage();
-          }
-        });
+              divider(),
+              settingSectionTile('Version'),
+              const SettingTile(
+                title: 'RemindMe',
+                description: 'Current version: RemindMe 1.0.0',
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   Divider divider() {

@@ -5,100 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-// class HomePage extends StatefulWidget {
-//   const HomePage({super.key});
-
-//   @override
-//   State<HomePage> createState() => _HomePageState();
-// }
-
-// class _HomePageState extends State<HomePage> {
-//   @override
-//   void initState() {
-//     context.read<BirthdaysBloc>().add(LoadEvent());
-//     super.initState();
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: StreamBuilder(
-//           stream:
-//               FirebaseFirestore.instance.collection('birthdays').snapshots(),
-//           builder: (context, snapshot) {
-//             return CustomScrollView(
-//               slivers: [
-//                 SliverAppBar(
-//                   pinned: true,
-//                   floating: true,
-//                   expandedHeight: 100,
-//                   flexibleSpace: FlexibleSpaceBar(
-//                     title: const Text("Home"),
-//                     background: Image.asset(
-//                       "assets/backgrounds/back.png",
-//                       fit: BoxFit.cover,
-//                     ),
-//                   ),
-//                   actions: [
-//                     IconButton(
-//                       onPressed: () {
-//                         context.push("/settings");
-//                       },
-//                       icon: const Icon(Icons.settings),
-//                     ),
-//                     IconButton(
-//                       onPressed: () {
-//                         context.push("/search");
-//                       },
-//                       icon: const Icon(Icons.output),
-//                     ),
-//                   ],
-//                 ),
-//                 SliverToBoxAdapter(
-//                   child: FirestoreListView(
-//                     query: FirebaseFirestore.instance.collection('birthdays'),
-//                     itemBuilder: (context, doc) {
-//                       print(doc.data());
-//                       return ListTile(
-//                         title: Text(" ashan"),
-//                       );
-//                     },
-//                   ),
-//                 ),
-//                 // SliverList(
-//                 //   delegate: SliverChildBuilderDelegate(
-//                 //     childCount: snapshot.data?.docs.length,
-//                 //     (context, index) {
-//                 //       print(snapshot.data?.docs[0]['name']);
-//                 //       return ListTile(
-//                 //         title: Text(snapshot.data?.docs[index]['name']),
-//                 //       );
-//                 //     },
-//                 //   ),
-//                 // ),
-//                 SliverToBoxAdapter(
-//                   child: BlocBuilder<BirthdaysBloc, BirthdaysState>(
-//                     builder: (context, state) {
-//                       if (state is LoadingState) {
-//                         return Container(
-//                             child: const CircularProgressIndicator());
-//                       }
-//                       if (state is SuccessLoadState) {
-//                         return Text(
-//                             "Name - ${state.birthdayModel.name} Date - ${state.birthdayModel.dateTime.day}");
-//                       } else {
-//                         return const Text("error occured");
-//                       }
-//                     },
-//                   ),
-//                 )
-//               ],
-//             );
-//           }),
-//     );
-//   }
-// }
-
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -116,61 +22,83 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-        length: 2,
-        child: Scaffold(
-            appBar: AppBar(
-              actions: [
-                IconButton(
-                  onPressed: () {
-                    context.push("/settings");
-                  },
-                  icon: const Icon(Icons.settings),
-                ),
-                IconButton(
-                  onPressed: () {
-                    context.push("/profile");
-                  },
-                  icon: const Icon(Icons.person_2_sharp),
-                ),
-                IconButton(
-                  onPressed: () {
-                    context.push("/search");
-                  },
-                  icon: const Icon(Icons.output),
-                ),
-              ],
-              bottom: TabBar(tabs: [
-                Tab(
-                  text: "Today",
-                ),
-                Tab(
-                  text: "Today",
-                ),
-              ]),
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text("RemindMe"),
+          actions: [
+            IconButton(
+              onPressed: () {
+                context.push("/settings");
+              },
+              icon: const Icon(Icons.settings),
             ),
-            body: TabBarView(
-              children: [
-                FirestoreListView(
-                  query: FirebaseFirestore.instance.collection('birthdays'),
-                  itemBuilder: (context, doc) {
-                    final birthday = doc.data();
-                    final date = birthday['date'].toDate();
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Material(
-                        shape: ContinuousRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(10))),
-                        color: Colors.amber,
-                        child: ListTile(
-                          title: Text(birthday['name']),
-                          trailing: Text(date.day.toString()),
-                        ),
-                      ),
-                    );
-                  },
-                )
-              ],
-            )));
+            IconButton(
+              onPressed: () {
+                context.push("/profile");
+              },
+              icon: const Icon(Icons.person_2_sharp),
+            ),
+            IconButton(
+              onPressed: () {
+                context.push("/search");
+              },
+              icon: const Icon(Icons.output),
+            ),
+          ],
+          bottom: const TabBar(tabs: [
+            Tab(
+              text: "Today",
+            ),
+            Tab(
+              text: "Upcoming",
+            ),
+          ]),
+          flexibleSpace: Image.asset(
+            "assets/backgrounds/back.png",
+            fit: BoxFit.fill,
+          ),
+          toolbarHeight: 70,
+        ),
+        body: TabBarView(
+          children: [
+            FirestoreListView(
+              query: FirebaseFirestore.instance.collection('birthdays'),
+              itemBuilder: (context, doc) {
+                final birthday = doc.data();
+                final date = birthday['date'].toDate();
+                return const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Material(
+                    shape: ContinuousRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10))),
+                    color: Colors.amber,
+                    child: GridTile(
+                      child: Icon(Icons.person),
+                    ),
+                  ),
+                );
+              },
+            ),
+            GridView.builder(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2, crossAxisSpacing: 10, mainAxisSpacing: 10),
+              itemBuilder: (context, index) {
+                return Container(
+                  margin: EdgeInsets.only(left: 10, right: 10),
+                  decoration: const BoxDecoration(
+                    color: Colors.red,
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(20),
+                    ),
+                  ),
+                  child: Icon(Icons.person),
+                );
+              },
+            )
+          ],
+        ),
+      ),
+    );
   }
 }

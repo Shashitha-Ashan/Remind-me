@@ -1,3 +1,4 @@
+import 'package:birth_daily/screens/views/home/fancy_home_page.dart';
 import 'package:birth_daily/screens/views/home/home_page.dart';
 import 'package:birth_daily/utils/constants/color_const.dart';
 import 'package:firebase_ui_oauth_google/firebase_ui_oauth_google.dart';
