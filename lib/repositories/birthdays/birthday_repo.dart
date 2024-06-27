@@ -11,6 +11,7 @@ class BirthdayRepo implements IBirthdayRepo {
   @override
   Future<BirthdayModel> loadBirthdays() async {
     final BirthdayModel birthdayModel = await _birthdayService.getBirthdays();
+
     return birthdayModel;
   }
 }

@@ -1,14 +1,12 @@
-import 'dart:ui';
-
 import 'package:birth_daily/models/birthday/birthday_model.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dio/dio.dart';
 
 class BirthdayService {
   late BirthdayModel birthdayModel;
-  final birthdays = FirebaseFirestore.instance.collection('birthdays');
+  final _dio = Dio();
 
   Future<BirthdayModel> getBirthdays() async {
-    await Future.delayed(const Duration(seconds: 3));
+    final response = await _dio.get('http://localhost:3000/api/');
     birthdayModel = BirthdayModel(dateTime: DateTime.now(), name: "Ashan");
     return birthdayModel;
   }
