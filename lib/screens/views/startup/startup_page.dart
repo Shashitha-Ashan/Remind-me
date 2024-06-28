@@ -3,9 +3,11 @@ import 'package:birth_daily/screens/views/home/home_page.dart';
 import 'package:birth_daily/utils/constants/color_const.dart';
 import 'package:firebase_ui_oauth_google/firebase_ui_oauth_google.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class StartupPage extends StatelessWidget {
   const StartupPage({super.key});
@@ -41,12 +43,7 @@ class StartupPage extends StatelessWidget {
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Container(
-              decoration: const BoxDecoration(
-                  color: Colors.white,
-                  gradient: LinearGradient(colors: [
-                    Color.fromARGB(255, 23, 75, 186),
-                    Color.fromARGB(255, 23, 54, 55),
-                  ])),
+              color: Colors.white,
               child: Scaffold(
                 backgroundColor: const Color.fromARGB(0, 255, 255, 255),
                 body: SafeArea(
@@ -56,99 +53,103 @@ class StartupPage extends StatelessWidget {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          Text("Welcome Back",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .labelLarge!
-                                  .copyWith(color: Colors.white, fontSize: 30)),
+                          Text(
+                            "Welcome Back",
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelLarge!
+                                .copyWith(fontSize: 30),
+                          ),
+                          SvgPicture.asset(
+                            "assets/svg/login.svg",
+                            width: 400,
+                            height: 300,
+                          ),
                           Column(
                             children: [
-                              SizedBox(
-                                width: double.infinity,
-                                height: 50,
-                                child: OutlinedButton(
-                                  style: OutlinedButton.styleFrom(),
-                                  onPressed: () {
-                                    context.push("/signup");
-                                  },
-                                  child: const Text(
-                                    "Sign In",
-                                    style: TextStyle(
-                                        fontSize: 22,
-                                        color: kFontColorPositive),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 20,
-                              ),
                               SizedBox(
                                 width: double.infinity,
                                 height: 50,
                                 child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.white),
+                                      backgroundColor: Color(0xFFA330D8)),
                                   onPressed: () {
-                                    context.push("/login");
+                                    context.push("/signup");
                                   },
                                   child: const Text(
-                                    "Log In",
+                                    "Sign in with",
+                                    style: TextStyle(
+                                        color: kFontColorPositive,
+                                        fontSize: 22),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              SizedBox(
+                                width: double.infinity,
+                                height: 50,
+                                child: OutlinedButton(
+                                  style: OutlinedButton.styleFrom(
+                                      surfaceTintColor: Color(0xFFA330D8)),
+                                  onPressed: () {},
+                                  child: const Text(
+                                    "Log In with Email",
                                     style: TextStyle(
                                         color: kFontColorNegative,
                                         fontSize: 22),
                                   ),
                                 ),
-                              )
+                              ),
+                              const SizedBox(
+                                height: 50,
+                              ),
                             ],
                           ),
-                          Column(
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.only(
-                                    left:
-                                        MediaQuery.of(context).size.width * 0.1,
-                                    right: MediaQuery.of(context).size.width *
-                                        0.1),
-                                child: const Row(
-                                  children: [
-                                    Expanded(
-                                      child: Divider(
-                                        thickness: 1,
-                                        color: Colors.white54,
-                                      ),
-                                    ),
-                                    Text(
-                                      " Or ",
-                                      style: TextStyle(color: Colors.white54),
-                                    ),
-                                    Expanded(
-                                      child: Divider(
-                                        thickness: 1,
-                                        color: Colors.white54,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              const Text(
-                                "Login with",
-                                style: TextStyle(
-                                    color: kFontColorPositive, fontSize: 16),
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              // _google_facebook_login(),
-                              const GoogleSignInButton(
-                                loadingIndicator: CircularProgressIndicator(),
-                                clientId:
-                                    "866459352486-odg15a713glo09r2krcau6kmir3d9cjt.apps.googleusercontent.com",
-                              ),
-                            ],
-                          )
+                          // Column(
+                          //   children: [
+                          //     Padding(
+                          //       padding: EdgeInsets.only(
+                          //           left:
+                          //               MediaQuery.of(context).size.width * 0.1,
+                          //           right: MediaQuery.of(context).size.width *
+                          //               0.1),
+                          //       child: const Row(
+                          //         children: [
+                          //           Expanded(
+                          //             child: Divider(
+                          //               thickness: 1,
+                          //               color: Colors.black54,
+                          //             ),
+                          //           ),
+                          //           Text(
+                          //             " Or ",
+                          //             style: TextStyle(color: Colors.black54),
+                          //           ),
+                          //           Expanded(
+                          //             child: Divider(
+                          //               thickness: 1,
+                          //               color: Colors.black54,
+                          //             ),
+                          //           ),
+                          //         ],
+                          //       ),
+                          //     ),
+                          //     const SizedBox(
+                          //       height: 20,
+                          //     ),
+                          //     const Text(
+                          //       "Login with",
+                          //       style: TextStyle(
+                          //           color: kFontColorPositive, fontSize: 16),
+                          //     ),
+                          //     const SizedBox(
+                          //       height: 10,
+                          //     ),
+                          //     // _google_facebook_login(),
+                          //   ],
+                          // )
                         ],
                       ),
                     ),

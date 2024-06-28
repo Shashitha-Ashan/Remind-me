@@ -21,6 +21,12 @@ class BirthdaysFailedLoadState extends BirthdayState {
 
 class BirthdayAdded extends BirthdayState {}
 
+class BirthdayAddError extends BirthdayState {}
+
 class BirthdayUpdated extends BirthdayState {}
 
+class BirthdayUpdateError extends BirthdayState {}
+
 class BirthdayDeleted extends BirthdayState {}
+
+class BirthdayDeleteError extends BirthdayState {}

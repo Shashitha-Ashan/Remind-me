@@ -14,4 +14,36 @@ class BirthdayRepo implements IBirthdayRepo {
 
     return birthdayModel;
   }
+
+  Future<bool> addBirthday(
+      {required String name, required DateTime date}) async {
+    try {
+      bool res = await _birthdayService.addBirthday(name: name, date: date);
+      return res;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> updateBirthday(
+      {required String name,
+      required DateTime date,
+      required String docId}) async {
+    try {
+      bool res = await _birthdayService.updateBirthday(
+          name: name, date: date, docId: docId);
+      return res;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> deleteBirthday({required String docId}) async {
+    try {
+      bool res = await _birthdayService.deleteBirthday(docId: docId);
+      return res;
+    } catch (e) {
+      return false;
+    }
+  }
 }

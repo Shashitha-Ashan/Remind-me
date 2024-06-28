@@ -21,6 +21,7 @@ dependencies:
   firebase_ui_firestore: ^1.6.4
   dio: ^5.4.3+1
   flutter_svg: ^2.0.10+1
+  firebase_auth: ^5.1.1
 
 dev_dependencies:
   flutter_test:
@@ -34,3 +35,4 @@ flutter:
     - assets/icons/fb.png
     - assets/backgrounds/back.png
     - assets/images/cake.png
+    - assets/svg/

@@ -1,5 +1,7 @@
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
+import 'package:firebase_ui_oauth_google/firebase_ui_oauth_google.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
 // class SignUp extends StatelessWidget {
@@ -166,15 +168,37 @@ class AuthGate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SignInScreen(
+      showPasswordVisibilityToggle: true,
+      headerBuilder: (context, constraints, shrinkOffset) {
+        return Center(
+          child: SvgPicture.asset(
+            "assets/svg/cake.svg",
+            width: 200,
+            height: 200,
+          ),
+        );
+      },
+      footerBuilder: (context, action) {
+        return const Column(
+          children: [
+            SizedBox(
+              height: 10,
+            ),
+            GoogleSignInButton(
+                clientId:
+                    "866459352486-odg15a713glo09r2krcau6kmir3d9cjt.apps.googleusercontent.com",
+                loadingIndicator: CircularProgressIndicator()),
+          ],
+        );
+      },
       actions: [
         AuthStateChangeAction<SignedIn>((context, state) {
           context.go("/home");
-        })
+        }),
       ],
       providers: [
         EmailAuthProvider(),
       ],
     );
-    ;
   }
 }

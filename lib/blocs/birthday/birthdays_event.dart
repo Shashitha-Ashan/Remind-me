@@ -14,13 +14,13 @@ class AddBirthdayEvent extends BirthdayEvent {
 }
 
 class DeleteBirthdayEvent extends BirthdayEvent {
-  final int id;
+  final String id;
 
   DeleteBirthdayEvent({required this.id});
 }
 
 class UpdateBirthdayEvent extends BirthdayEvent {
-  final int id;
+  final String id;
   final String name;
   final DateTime date;
 
