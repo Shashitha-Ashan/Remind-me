@@ -1,5 +1,7 @@
 import 'package:birth_daily/blocs/birthday/birthdays_bloc.dart';
 import 'package:birth_daily/screens/widgets/add_birthday.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,7 +16,22 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final ScrollController _scrollController = ScrollController();
+  final User? user = FirebaseAuth.instance.currentUser;
   bool isVisible = true;
+  final List<String> months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec"
+  ];
   @override
   void initState() {
     context.read<BirthdaysBloc>().add(LoadBirthdaysEvent());
@@ -51,7 +68,7 @@ class _HomePageState extends State<HomePage> {
         child: BottomAppBar(
           height: isVisible ? 70 : 0,
           elevation: 5,
-          color: Colors.blue,
+          color: const Color(0xFFE85566),
           shape: const CircularNotchedRectangle(),
           child: Row(
             children: [
@@ -59,23 +76,29 @@ class _HomePageState extends State<HomePage> {
                 onPressed: () {
                   context.push("/home");
                 },
-                icon: const Icon(Icons.home),
+                icon: const Icon(Icons.home_filled),
+              ),
+              const SizedBox(
+                width: 20,
               ),
               IconButton(
                 onPressed: () {
                   context.push("/profile");
                 },
                 icon: Icon(
-                  Icons.person_2_sharp,
+                  Icons.calendar_month,
                   color: Theme.of(context).iconTheme.color,
                 ),
               ),
-              Spacer(),
+              const Spacer(),
               IconButton(
                 onPressed: () {
                   context.push("/search");
                 },
-                icon: const Icon(Icons.output),
+                icon: const Icon(Icons.card_giftcard_rounded),
+              ),
+              const SizedBox(
+                width: 20,
               ),
               IconButton(
                 onPressed: () {
@@ -89,9 +112,13 @@ class _HomePageState extends State<HomePage> {
       ),
       floatingActionButton: FloatingActionButton.small(
         shape: const CircleBorder(),
+        backgroundColor: Color(0xFF4849A0),
         onPressed: () {},
         child: IconButton(
-          icon: const Icon(Icons.add),
+          icon: const Icon(
+            Icons.add,
+            color: Colors.white,
+          ),
           onPressed: () {
             showBottomsheet(context);
           },
@@ -100,16 +127,14 @@ class _HomePageState extends State<HomePage> {
       floatingActionButtonLocation: isVisible
           ? FloatingActionButtonLocation.centerDocked
           : FloatingActionButtonLocation.miniEndFloat,
-      body: BlocBuilder<BirthdaysBloc, BirthdayState>(
-        builder: (context, state) {
-          if (state is BirthdaysLoadingState) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (state is BirthdaysSuccessLoadState) {
-            if (state.birthdays.isEmpty) {
-              return const Center(
-                child: Text("No birthdays to display"),
-              );
-            } else {
+      body: StreamBuilder(
+        stream: FirebaseFirestore.instance
+            .collection("birthdays")
+            .where('uid', isEqualTo: user?.uid)
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            if (snapshot.data!.docs.isNotEmpty) {
               return GridView.builder(
                 controller: _scrollController,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -117,14 +142,17 @@ class _HomePageState extends State<HomePage> {
                     crossAxisSpacing: 10,
                     mainAxisSpacing: 10),
                 itemBuilder: (context, index) {
-                  final name = state.birthdays[index].name;
-                  final month =
-                      state.birthdays[index].dateTime.toDate().month + 1;
-                  final date = state.birthdays[index].dateTime.toDate().day;
+                  final name = snapshot.data?.docs[index]['name'];
+                  final Timestamp timestamp =
+                      snapshot.data?.docs[index]['date'];
+
+                  final date = timestamp.toDate().day;
+                  final month = timestamp.toDate().month;
+
                   return Container(
                     margin: const EdgeInsets.only(left: 10, right: 10),
                     decoration: const BoxDecoration(
-                      color: Colors.red,
+                      color: Color(0xFFF9CBCF),
                       borderRadius: BorderRadius.all(
                         Radius.circular(20),
                       ),
@@ -140,7 +168,7 @@ class _HomePageState extends State<HomePage> {
                               ?.copyWith(fontSize: 26),
                         ),
                         Text(
-                          "${month}/${date}",
+                          "${months[month - 1]}/$date",
                           style: Theme.of(context)
                               .textTheme
                               .titleMedium
@@ -150,12 +178,18 @@ class _HomePageState extends State<HomePage> {
                     ),
                   );
                 },
-                itemCount: state.birthdays.length,
+                itemCount: snapshot.data!.docs.length,
+              );
+            } else {
+              return const Center(
+                child: Text("No data to display"),
               );
             }
+          } else if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
           } else {
             return const Center(
-              child: Text("Somethig went wrong"),
+              child: Text("Something went wrong"),
             );
           }
         },

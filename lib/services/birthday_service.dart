@@ -22,7 +22,10 @@ class BirthdayService {
   Future<bool> addBirthday(
       {required String name, required DateTime date}) async {
     if (user != null) {
-      await _collection.add({'date': date, 'name': name, 'uid': user?.uid});
+      final Timestamp birthDate = Timestamp.fromDate(date);
+      print(birthDate.toDate());
+      await _collection
+          .add({'date': birthDate, 'name': name, 'uid': user?.uid});
       return true;
     } else {
       return false;
