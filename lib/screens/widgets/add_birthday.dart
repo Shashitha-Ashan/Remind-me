@@ -1,11 +1,11 @@
 import 'package:birth_daily/blocs/birthday/birthdays_bloc.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 void showBottomsheet(BuildContext context) {
   final TextEditingController textEditingController = TextEditingController();
   showModalBottomSheet(
+    useSafeArea: true,
     showDragHandle: true,
     sheetAnimationStyle: AnimationStyle(
       duration: const Duration(milliseconds: 300),
@@ -24,19 +24,38 @@ void showBottomsheet(BuildContext context) {
                   "Add Birthday",
                   style: TextStyle(fontSize: 28),
                 ),
+                const SizedBox(
+                  height: 30,
+                ),
                 TextFormField(
                   controller: textEditingController,
-                  decoration: InputDecoration(
-                    hintText: "Friend name",
-                    label: Text("Friend name"),
-                  ),
+                  decoration: const InputDecoration(
+                      hintText: "Friend name",
+                      label: Text("Friend name"),
+                      prefixIcon: Icon(Icons.person_2_rounded)),
                 ),
-                ElevatedButton(
-                    onPressed: () {
-                      context.read<BirthdaysBloc>().add(AddBirthdayEvent(
-                          name: "saman", date: DateTime.now()));
-                    },
-                    child: Text("Add"))
+                const SizedBox(
+                  height: 10,
+                ),
+                TextFormField(
+                  controller: textEditingController,
+                  decoration: const InputDecoration(
+                      hintText: "DD/MM/YYYY",
+                      label: Text("DD/MM/YYYY"),
+                      prefixIcon: Icon(Icons.calendar_today_rounded)),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  child: ElevatedButton(
+                      onPressed: () {
+                        context.read<BirthdaysBloc>().add(AddBirthdayEvent(
+                            name: "saman", date: DateTime.now()));
+                      },
+                      child: Text("Add")),
+                )
               ],
             ),
           );

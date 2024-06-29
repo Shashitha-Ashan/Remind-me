@@ -1,5 +1,6 @@
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class Profile extends StatelessWidget {
   const Profile({super.key});
@@ -13,7 +14,7 @@ class Profile extends StatelessWidget {
         showMFATile: true,
         actions: [
           SignedOutAction((context) {
-            Navigator.pushReplacementNamed(context, '/sign-in');
+            context.go("/");
           }),
         ],
         children: const [],

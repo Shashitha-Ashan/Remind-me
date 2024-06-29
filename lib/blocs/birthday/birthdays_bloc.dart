@@ -15,7 +15,7 @@ class BirthdaysBloc extends Bloc<BirthdayEvent, BirthdayState> {
         emit(BirthdaysLoadingState());
         try {
           final birthdays = await _birthdayRepo.loadBirthdays();
-          emit(BirthdaysSuccessLoadState(birthdayModel: birthdays));
+          emit(BirthdaysSuccessLoadState(birthdays: birthdays));
         } catch (e) {
           emit(BirthdaysFailedLoadState(message: "Error occured"));
         }
@@ -24,6 +24,7 @@ class BirthdaysBloc extends Bloc<BirthdayEvent, BirthdayState> {
         try {
           await _birthdayRepo.addBirthday(name: event.name, date: event.date);
           emit(BirthdayAdded());
+          add(LoadBirthdaysEvent());
         } catch (e) {
           emit(BirthdayAddError());
         }
@@ -33,6 +34,7 @@ class BirthdaysBloc extends Bloc<BirthdayEvent, BirthdayState> {
           await _birthdayRepo.updateBirthday(
               name: event.name, date: event.date, docId: event.id);
           emit(BirthdayUpdated());
+          add(LoadBirthdaysEvent());
         } catch (e) {
           emit(BirthdayUpdateError());
         }
@@ -41,6 +43,7 @@ class BirthdaysBloc extends Bloc<BirthdayEvent, BirthdayState> {
         try {
           await _birthdayRepo.deleteBirthday(docId: event.id);
           emit(BirthdayDeleted());
+          add(LoadBirthdaysEvent());
         } catch (e) {
           emit(BirthdayDeleteError());
         }

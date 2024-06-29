@@ -100,23 +100,65 @@ class _HomePageState extends State<HomePage> {
       floatingActionButtonLocation: isVisible
           ? FloatingActionButtonLocation.centerDocked
           : FloatingActionButtonLocation.miniEndFloat,
-      body: GridView.builder(
-        controller: _scrollController,
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2, crossAxisSpacing: 10, mainAxisSpacing: 10),
-        itemBuilder: (context, index) {
-          return Container(
-            margin: const EdgeInsets.only(left: 10, right: 10),
-            decoration: const BoxDecoration(
-              color: Colors.red,
-              borderRadius: BorderRadius.all(
-                Radius.circular(20),
-              ),
-            ),
-            child: const Icon(Icons.person),
-          );
+      body: BlocBuilder<BirthdaysBloc, BirthdayState>(
+        builder: (context, state) {
+          if (state is BirthdaysLoadingState) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (state is BirthdaysSuccessLoadState) {
+            if (state.birthdays.isEmpty) {
+              return const Center(
+                child: Text("No birthdays to display"),
+              );
+            } else {
+              return GridView.builder(
+                controller: _scrollController,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10),
+                itemBuilder: (context, index) {
+                  final name = state.birthdays[index].name;
+                  final month =
+                      state.birthdays[index].dateTime.toDate().month + 1;
+                  final date = state.birthdays[index].dateTime.toDate().day;
+                  return Container(
+                    margin: const EdgeInsets.only(left: 10, right: 10),
+                    decoration: const BoxDecoration(
+                      color: Colors.red,
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(20),
+                      ),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          name,
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleLarge
+                              ?.copyWith(fontSize: 26),
+                        ),
+                        Text(
+                          "${month}/${date}",
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleMedium
+                              ?.copyWith(fontSize: 18),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+                itemCount: state.birthdays.length,
+              );
+            }
+          } else {
+            return const Center(
+              child: Text("Somethig went wrong"),
+            );
+          }
         },
-        itemCount: 15,
       ),
     );
   }

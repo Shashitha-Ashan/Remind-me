@@ -8,9 +8,15 @@ class BirthdayService {
   final CollectionReference _collection =
       FirebaseFirestore.instance.collection("birthdays");
 
-  Future<BirthdayModel> getBirthdays() async {
-    birthdayModel = BirthdayModel(dateTime: DateTime.now(), name: "Ashan");
-    return birthdayModel;
+  Future<List<BirthdayModel>> getBirthdays() async {
+    final bdsList = await _collection.where('uid', isEqualTo: user?.uid).get();
+
+    final birthdaysList =
+        bdsList.docs.map((doc) => doc.data() as Map<String, dynamic>).toList();
+
+    final birthdayModelList =
+        birthdaysList.map((val) => BirthdayModel.fromJson(val)).toList();
+    return birthdayModelList;
   }
 
   Future<bool> addBirthday(

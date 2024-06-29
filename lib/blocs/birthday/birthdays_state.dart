@@ -8,9 +8,9 @@ final class BirthdaysInitial extends BirthdayState {}
 class BirthdaysLoadingState extends BirthdayState {}
 
 class BirthdaysSuccessLoadState extends BirthdayState {
-  final BirthdayModel birthdayModel;
+  final List<BirthdayModel> birthdays;
 
-  BirthdaysSuccessLoadState({required this.birthdayModel});
+  BirthdaysSuccessLoadState({required this.birthdays});
 }
 
 class BirthdaysFailedLoadState extends BirthdayState {
