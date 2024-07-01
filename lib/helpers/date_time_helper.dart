@@ -29,15 +29,19 @@ class DateTimeHelper {
   }
 
   static List<dynamic> getUpcomingBirthdays({required List<dynamic> list}) {
-    List<dynamic> outputlList = [];
+    List<dynamic> outputList = [];
     final today = DateTime.now();
     for (var i = 0; i < list.length; i++) {
       final DateTime date = list[i].data()['date'].toDate();
       if (date.isAfter(today)) {
-        outputlList.add(list[i].data());
+        outputList.add(list[i].data());
       }
     }
-    print(outputlList.length);
-    return outputlList;
+    outputList.sort((a, b) {
+      DateTime dateA = a['date'].toDate();
+      DateTime dateB = b['date'].toDate();
+      return dateA.compareTo(dateB);
+    });
+    return outputList;
   }
 }

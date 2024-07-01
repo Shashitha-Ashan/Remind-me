@@ -63,6 +63,9 @@ class BirthdayListTileHorizontal extends StatelessWidget {
               ),
             ],
           ),
+          const SizedBox(
+            height: 10,
+          ),
           MaterialButton(
             onPressed: () {},
             shape: ContinuousRectangleBorder(

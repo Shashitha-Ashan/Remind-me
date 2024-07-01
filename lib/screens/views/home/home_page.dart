@@ -137,46 +137,57 @@ class _HomePageState extends State<HomePage> {
                     const Row(
                       children: [
                         SizedBox(
-                          width: 10,
+                          width: 5,
                         ),
                         Text(
                           "Today's",
-                          style: TextStyle(fontSize: 22),
+                          style: TextStyle(fontSize: 18),
                         ),
                       ],
                     ),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     Expanded(
-                        flex: 2,
-                        child: ListView.builder(
-                          itemCount: todayList.length,
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (context, index) {
-                            final todayName = todayList[index]["name"];
-                            final Timestamp todayTimestamp =
-                                todayList[index]['date'];
-                            return BirthdayListTileHorizontal(
-                                name: todayName,
-                                imageURL: "assets/avatars/2.png",
-                                date: todayTimestamp.toDate());
-                          },
-                        )),
+                      flex: 2,
+                      child: ListView.builder(
+                        itemCount: todayList.length,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) {
+                          final todayName = todayList[index]["name"];
+                          final Timestamp todayTimestamp =
+                              todayList[index]['date'];
+                          return BirthdayListTileHorizontal(
+                              name: todayName,
+                              imageURL: "assets/avatars/2.png",
+                              date: todayTimestamp.toDate());
+                        },
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     const Row(
                       children: [
                         SizedBox(
-                          width: 10,
+                          width: 5,
                         ),
                         Text(
                           "Upcoming",
-                          style: TextStyle(fontSize: 22),
+                          style: TextStyle(fontSize: 18),
                         ),
                         SizedBox(
                           height: 10,
                         ),
                       ],
                     ),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     Expanded(
                         flex: 3,
                         child: ListView.separated(
+                          controller: _scrollController,
                           separatorBuilder: (context, index) {
                             return const SizedBox(
                               height: 20,
