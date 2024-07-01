@@ -1,5 +1,8 @@
 import 'package:birth_daily/blocs/birthday/birthdays_bloc.dart';
+import 'package:birth_daily/helpers/date_time_helper.dart';
 import 'package:birth_daily/screens/widgets/add_birthday.dart';
+import 'package:birth_daily/screens/widgets/birthdat_list_tile_vertical.dart';
+import 'package:birth_daily/screens/widgets/birthday_list_tile_horizontal.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -17,21 +20,9 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final ScrollController _scrollController = ScrollController();
   final User? user = FirebaseAuth.instance.currentUser;
+
   bool isVisible = true;
-  final List<String> months = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec"
-  ];
+
   @override
   void initState() {
     context.read<BirthdaysBloc>().add(LoadBirthdaysEvent());
@@ -83,7 +74,7 @@ class _HomePageState extends State<HomePage> {
               ),
               IconButton(
                 onPressed: () {
-                  context.push("/profile");
+                  context.push("/birthday_calendar");
                 },
                 icon: Icon(
                   Icons.calendar_month,
@@ -112,7 +103,7 @@ class _HomePageState extends State<HomePage> {
       ),
       floatingActionButton: FloatingActionButton.small(
         shape: const CircleBorder(),
-        backgroundColor: Color(0xFF4849A0),
+        backgroundColor: const Color(0xFF4849A0),
         onPressed: () {},
         child: IconButton(
           icon: const Icon(
@@ -128,72 +119,95 @@ class _HomePageState extends State<HomePage> {
           ? FloatingActionButtonLocation.centerDocked
           : FloatingActionButtonLocation.miniEndFloat,
       body: StreamBuilder(
-        stream: FirebaseFirestore.instance
-            .collection("birthdays")
-            .where('uid', isEqualTo: user?.uid)
-            .snapshots(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            if (snapshot.data!.docs.isNotEmpty) {
-              return GridView.builder(
-                controller: _scrollController,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 10),
-                itemBuilder: (context, index) {
-                  final name = snapshot.data?.docs[index]['name'];
-                  final Timestamp timestamp =
-                      snapshot.data?.docs[index]['date'];
-
-                  final date = timestamp.toDate().day;
-                  final month = timestamp.toDate().month;
-
-                  return Container(
-                    margin: const EdgeInsets.only(left: 10, right: 10),
-                    decoration: const BoxDecoration(
-                      color: Color(0xFFF9CBCF),
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(20),
-                      ),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
+          stream: FirebaseFirestore.instance
+              .collection("birthdays")
+              .where('uid', isEqualTo: user?.uid)
+              .snapshots(),
+          builder: (context, snapshot) {
+            late List<dynamic> todayList;
+            late List<dynamic> upcomingList;
+            if (snapshot.hasData) {
+              todayList =
+                  DateTimeHelper.getTodayBirthdays(list: snapshot.data!.docs);
+              upcomingList = DateTimeHelper.getUpcomingBirthdays(
+                  list: snapshot.data!.docs);
+              return SafeArea(
+                child: Column(
+                  children: [
+                    const Row(
                       children: [
-                        Text(
-                          name,
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleLarge
-                              ?.copyWith(fontSize: 26),
+                        SizedBox(
+                          width: 10,
                         ),
                         Text(
-                          "${months[month - 1]}/$date",
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleMedium
-                              ?.copyWith(fontSize: 18),
+                          "Today's",
+                          style: TextStyle(fontSize: 22),
                         ),
                       ],
                     ),
-                  );
-                },
-                itemCount: snapshot.data!.docs.length,
-              );
-            } else {
-              return const Center(
-                child: Text("No data to display"),
+                    Expanded(
+                        flex: 2,
+                        child: ListView.builder(
+                          itemCount: todayList.length,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) {
+                            final todayName = todayList[index]["name"];
+                            final Timestamp todayTimestamp =
+                                todayList[index]['date'];
+                            return BirthdayListTileHorizontal(
+                                name: todayName,
+                                imageURL: "assets/avatars/2.png",
+                                date: todayTimestamp.toDate());
+                          },
+                        )),
+                    const Row(
+                      children: [
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text(
+                          "Upcoming",
+                          style: TextStyle(fontSize: 22),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                      ],
+                    ),
+                    Expanded(
+                        flex: 3,
+                        child: ListView.separated(
+                          separatorBuilder: (context, index) {
+                            return const SizedBox(
+                              height: 20,
+                            );
+                          },
+                          itemCount: upcomingList.length,
+                          itemBuilder: (context, index) {
+                            final upcomingName = upcomingList[index]["name"];
+                            final Timestamp upcomingTimestamp =
+                                upcomingList[index]['date'];
+                            return BirthdatListTileVertical(
+                                name: upcomingName,
+                                imageURL: "assets/avatars/2.png",
+                                date: upcomingTimestamp.toDate());
+                          },
+                        )),
+                  ],
+                ),
               );
             }
-          } else if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else {
-            return const Center(
-              child: Text("Something went wrong"),
-            );
-          }
-        },
-      ),
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const SafeArea(
+                  child: Center(
+                child: CircularProgressIndicator(),
+              ));
+            }
+            return const SafeArea(
+                child: Center(
+              child: Text("something went wrong"),
+            ));
+          }),
     );
   }
 }
