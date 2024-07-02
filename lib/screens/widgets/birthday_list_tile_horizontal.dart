@@ -5,10 +5,12 @@ class BirthdayListTileHorizontal extends StatelessWidget {
       {super.key,
       required this.name,
       required this.imageURL,
-      required this.date});
+      required this.date,
+      required this.index});
   final String name;
   final String imageURL;
   final DateTime date;
+  final int index;
   final List<String> months = [
     "Jan",
     "Feb",
@@ -23,19 +25,25 @@ class BirthdayListTileHorizontal extends StatelessWidget {
     "Nov",
     "Dec"
   ];
+  final List<Color> colors = [
+    const Color(0xFFF9CBCF),
+    const Color(0xFFEACBF9),
+    const Color(0xFFCFCBF9),
+    const Color(0xFFCBF9DA),
+    const Color(0xFFF9EECB),
+  ];
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(5),
-      margin: const EdgeInsets.only(left: 10, right: 10),
-      decoration: const BoxDecoration(
-        borderRadius: BorderRadius.all(
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.all(
           Radius.circular(10),
         ),
-        color: Color(0xFFF9CBCF),
+        color: colors[index],
       ),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           Image.asset(
             imageURL,

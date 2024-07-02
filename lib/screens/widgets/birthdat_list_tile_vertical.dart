@@ -5,11 +5,13 @@ class BirthdatListTileVertical extends StatelessWidget {
       {super.key,
       required this.date,
       required this.name,
-      required this.imageURL});
+      required this.imageURL,
+      required this.index});
 
   final String name;
   final String imageURL;
   final DateTime date;
+  final int index;
   final List<String> months = [
     "Jan",
     "Feb",
@@ -24,16 +26,23 @@ class BirthdatListTileVertical extends StatelessWidget {
     "Nov",
     "Dec"
   ];
+  final List<Color> colors = [
+    const Color(0xFFCFCBF9),
+    const Color(0xFFF9EECB),
+    const Color(0xFFF9CBCF),
+    const Color(0xFFEACBF9),
+    const Color(0xFFCBF9DA),
+  ];
   @override
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width / 2,
-      height: 120,
+      height: 110,
       padding: const EdgeInsets.only(left: 10, bottom: 10, top: 10),
       margin: const EdgeInsets.only(left: 10, right: 10),
-      decoration: const BoxDecoration(
-        color: Color.fromARGB(78, 226, 128, 139),
-        borderRadius: BorderRadius.all(Radius.circular(12)),
+      decoration: BoxDecoration(
+        color: colors[index],
+        borderRadius: const BorderRadius.all(Radius.circular(12)),
       ),
       child: Row(
         children: [

@@ -46,6 +46,9 @@ class _BirthdayCalendarState extends State<BirthdayCalendar> {
             body: Column(
               children: [
                 TableCalendar(
+                  calendarStyle: CalendarStyle(
+                    cellMargin: EdgeInsets.all(5),
+                  ),
                   focusedDay: _focusedDay,
                   firstDay: DateTime.utc(2010, 10, 16),
                   lastDay: DateTime.utc(2030, 3, 14),
@@ -80,6 +83,7 @@ class _BirthdayCalendarState extends State<BirthdayCalendar> {
                   height: 20,
                 ),
                 Expanded(
+                  flex: 2,
                   child: _list.isNotEmpty
                       ? ListView.separated(
                           itemCount: _list.length,
@@ -94,6 +98,7 @@ class _BirthdayCalendarState extends State<BirthdayCalendar> {
                                   _list[index]['date'].toDate();
                               final name = _list[index]['name'];
                               return BirthdatListTileVertical(
+                                index: index,
                                 name: name,
                                 date: date,
                                 imageURL: "assets/avatars/2.png",

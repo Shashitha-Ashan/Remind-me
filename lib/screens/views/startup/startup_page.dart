@@ -1,43 +1,18 @@
-import 'package:birth_daily/screens/views/home/fancy_home_page.dart';
 import 'package:birth_daily/screens/views/home/home_page.dart';
+import 'package:birth_daily/screens/views/main/main_page.dart';
 import 'package:birth_daily/utils/constants/color_const.dart';
+import 'package:firebase_ui_oauth_apple/firebase_ui_oauth_apple.dart';
 import 'package:firebase_ui_oauth_google/firebase_ui_oauth_google.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 
 class StartupPage extends StatelessWidget {
   const StartupPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    Widget _google_facebook_login() {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          MaterialButton(
-            onPressed: () {
-              context.push("/home");
-            },
-            child: Image.asset(
-              'assets/icons/google.png',
-              width: 60,
-            ),
-          ),
-          MaterialButton(
-            onPressed: () {},
-            child: Image.asset(
-              'assets/icons/fb.png',
-              width: 60,
-            ),
-          ),
-        ],
-      );
-    }
-
     return StreamBuilder<User?>(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
@@ -62,8 +37,8 @@ class StartupPage extends StatelessWidget {
                           ),
                           SvgPicture.asset(
                             "assets/svg/login.svg",
-                            width: 400,
-                            height: 300,
+                            width: MediaQuery.of(context).size.width * 0.6,
+                            height: MediaQuery.of(context).size.height * 0.35,
                           ),
                           Column(
                             children: [
@@ -72,19 +47,19 @@ class StartupPage extends StatelessWidget {
                                 height: 50,
                                 child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(
-                                      backgroundColor: Color(0xFFA330D8)),
+                                      backgroundColor: const Color(0xFFA330D8)),
                                   onPressed: () {
-                                    context.push("/signup");
+                                    context.push("/register");
                                   },
                                   child: const Text(
-                                    "Sign in with",
+                                    "Register",
                                     style: TextStyle(
                                         color: kFontColorPositive,
                                         fontSize: 22),
                                   ),
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 20,
                               ),
                               SizedBox(
@@ -93,9 +68,11 @@ class StartupPage extends StatelessWidget {
                                 child: OutlinedButton(
                                   style: OutlinedButton.styleFrom(
                                       surfaceTintColor: Color(0xFFA330D8)),
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    context.push("/login");
+                                  },
                                   child: const Text(
-                                    "Log In with Email",
+                                    "Log In",
                                     style: TextStyle(
                                         color: kFontColorNegative,
                                         fontSize: 22),
@@ -107,49 +84,46 @@ class StartupPage extends StatelessWidget {
                               ),
                             ],
                           ),
-                          // Column(
-                          //   children: [
-                          //     Padding(
-                          //       padding: EdgeInsets.only(
-                          //           left:
-                          //               MediaQuery.of(context).size.width * 0.1,
-                          //           right: MediaQuery.of(context).size.width *
-                          //               0.1),
-                          //       child: const Row(
-                          //         children: [
-                          //           Expanded(
-                          //             child: Divider(
-                          //               thickness: 1,
-                          //               color: Colors.black54,
-                          //             ),
-                          //           ),
-                          //           Text(
-                          //             " Or ",
-                          //             style: TextStyle(color: Colors.black54),
-                          //           ),
-                          //           Expanded(
-                          //             child: Divider(
-                          //               thickness: 1,
-                          //               color: Colors.black54,
-                          //             ),
-                          //           ),
-                          //         ],
-                          //       ),
-                          //     ),
-                          //     const SizedBox(
-                          //       height: 20,
-                          //     ),
-                          //     const Text(
-                          //       "Login with",
-                          //       style: TextStyle(
-                          //           color: kFontColorPositive, fontSize: 16),
-                          //     ),
-                          //     const SizedBox(
-                          //       height: 10,
-                          //     ),
-                          //     // _google_facebook_login(),
-                          //   ],
-                          // )
+                          const Padding(
+                            padding: EdgeInsets.only(left: 50, right: 50),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Divider(
+                                    thickness: 1,
+                                    color: Colors.black54,
+                                  ),
+                                ),
+                                Text(
+                                  " Or ",
+                                  style: TextStyle(color: Colors.black54),
+                                ),
+                                Expanded(
+                                  child: Divider(
+                                    thickness: 1,
+                                    color: Colors.black54,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              GoogleSignInIconButton(
+                                  size: 25,
+                                  loadingIndicator: CircularProgressIndicator(),
+                                  clientId:
+                                      "962001695927-35sjl1et0tihk884hfkqvc0u6gqqu8tu.apps.googleusercontent.com"),
+                              SizedBox(
+                                width: 20,
+                              ),
+                              AppleSignInIconButton(
+                                  size: 25,
+                                  loadingIndicator:
+                                      CircularProgressIndicator()),
+                            ],
+                          )
                         ],
                       ),
                     ),
@@ -158,7 +132,7 @@ class StartupPage extends StatelessWidget {
               ),
             );
           } else {
-            return const HomePage();
+            return const MainPage();
           }
         });
   }

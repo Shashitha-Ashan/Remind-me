@@ -1,4 +1,5 @@
 import 'package:birth_daily/blocs/theme/theme_bloc.dart';
+import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -72,6 +73,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 title: 'RemindMe',
                 description: 'Current version: RemindMe 1.0.0',
               ),
+              SignOutButton()
             ],
           ),
         );

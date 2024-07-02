@@ -26,98 +26,89 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     context.read<BirthdaysBloc>().add(LoadBirthdaysEvent());
+    _scrollController.addListener(_scrollListener);
     super.initState();
   }
 
   @override
   void dispose() {
+    _scrollController.removeListener(_scrollListener);
     _scrollController.dispose();
     super.dispose();
   }
 
+  void _scrollListener() {
+    if (_scrollController.position.userScrollDirection ==
+        ScrollDirection.reverse) {
+      if (isVisible) {
+        setState(() {
+          isVisible = false;
+        });
+      }
+    } else if (_scrollController.position.userScrollDirection ==
+        ScrollDirection.forward) {
+      if (!isVisible) {
+        setState(() {
+          isVisible = true;
+        });
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    _scrollController.addListener(
-      () {
-        if (_scrollController.position.userScrollDirection ==
-            ScrollDirection.reverse) {
-          setState(() {
-            isVisible = false;
-          });
-        }
-        if (_scrollController.position.userScrollDirection ==
-            ScrollDirection.forward) {
-          setState(() {
-            isVisible = true;
-          });
-        }
-      },
-    );
     return Scaffold(
-      bottomNavigationBar: AnimatedContainer(
-        duration: const Duration(microseconds: 200),
-        child: BottomAppBar(
-          height: isVisible ? 70 : 0,
-          elevation: 5,
-          color: const Color(0xFFE85566),
-          shape: const CircularNotchedRectangle(),
-          child: Row(
-            children: [
-              IconButton(
-                onPressed: () {
-                  context.push("/home");
-                },
-                icon: const Icon(Icons.home_filled),
-              ),
-              const SizedBox(
-                width: 20,
-              ),
-              IconButton(
-                onPressed: () {
-                  context.push("/birthday_calendar");
-                },
-                icon: Icon(
-                  Icons.calendar_month,
-                  color: Theme.of(context).iconTheme.color,
-                ),
-              ),
-              const Spacer(),
-              IconButton(
-                onPressed: () {
-                  context.push("/search");
-                },
-                icon: const Icon(Icons.card_giftcard_rounded),
-              ),
-              const SizedBox(
-                width: 20,
-              ),
-              IconButton(
-                onPressed: () {
-                  context.push("/settings");
-                },
-                icon: const Icon(Icons.settings),
-              ),
-            ],
-          ),
-        ),
+      appBar: AppBar(
+        title: Text("Home"),
       ),
-      floatingActionButton: FloatingActionButton.small(
-        shape: const CircleBorder(),
-        backgroundColor: const Color(0xFF4849A0),
-        onPressed: () {},
-        child: IconButton(
-          icon: const Icon(
-            Icons.add,
-            color: Colors.white,
-          ),
-          onPressed: () {
-            showBottomsheet(context);
-          },
-        ),
-      ),
-      floatingActionButtonLocation: isVisible
-          ? FloatingActionButtonLocation.centerDocked
-          : FloatingActionButtonLocation.miniEndFloat,
+      // bottomNavigationBar: AnimatedContainer(
+      //   height: isVisible ? 65 : 0,
+      //   duration: const Duration(milliseconds: 200),
+      //   child: BottomAppBar(
+      //     elevation: 5,
+      //     color: const Color(0xFFE85566),
+      //     shape: const CircularNotchedRectangle(),
+      //     child: Row(
+      //       children: [
+      //         IconButton(
+      //           onPressed: () {
+      //             context.push("/home");
+      //           },
+      //           icon: const Icon(Icons.home_filled),
+      //         ),
+      //         const SizedBox(
+      //           width: 20,
+      //         ),
+      //         IconButton(
+      //           onPressed: () {
+      //             context.push("/birthday_calendar");
+      //           },
+      //           icon: Icon(
+      //             Icons.calendar_month,
+      //             color: Theme.of(context).iconTheme.color,
+      //           ),
+      //         ),
+      //         const Spacer(),
+      //         IconButton(
+      //           onPressed: () {
+      //             context.push("/search");
+      //           },
+      //           icon: const Icon(Icons.card_giftcard_rounded),
+      //         ),
+      //         const SizedBox(
+      //           width: 20,
+      //         ),
+      //         IconButton(
+      //           onPressed: () {
+      //             context.push("/settings");
+      //           },
+      //           icon: const Icon(Icons.settings),
+      //         ),
+      //       ],
+      //     ),
+      //   ),
+      // ),
+
       body: StreamBuilder(
           stream: FirebaseFirestore.instance
               .collection("birthdays")
@@ -150,18 +141,27 @@ class _HomePageState extends State<HomePage> {
                     ),
                     Expanded(
                       flex: 2,
-                      child: ListView.builder(
-                        itemCount: todayList.length,
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) {
-                          final todayName = todayList[index]["name"];
-                          final Timestamp todayTimestamp =
-                              todayList[index]['date'];
-                          return BirthdayListTileHorizontal(
-                              name: todayName,
-                              imageURL: "assets/avatars/2.png",
-                              date: todayTimestamp.toDate());
-                        },
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 10),
+                        child: ListView.separated(
+                          separatorBuilder: (context, index) {
+                            return const SizedBox(
+                              width: 10,
+                            );
+                          },
+                          itemCount: todayList.length,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) {
+                            final todayName = todayList[index]["name"];
+                            final Timestamp todayTimestamp =
+                                todayList[index]['date'];
+                            return BirthdayListTileHorizontal(
+                                index: index,
+                                name: todayName,
+                                imageURL: "assets/avatars/2.png",
+                                date: todayTimestamp.toDate());
+                          },
+                        ),
                       ),
                     ),
                     const SizedBox(
@@ -185,7 +185,7 @@ class _HomePageState extends State<HomePage> {
                       height: 10,
                     ),
                     Expanded(
-                        flex: 3,
+                        flex: 2,
                         child: ListView.separated(
                           controller: _scrollController,
                           separatorBuilder: (context, index) {
@@ -199,6 +199,7 @@ class _HomePageState extends State<HomePage> {
                             final Timestamp upcomingTimestamp =
                                 upcomingList[index]['date'];
                             return BirthdatListTileVertical(
+                                index: index,
                                 name: upcomingName,
                                 imageURL: "assets/avatars/2.png",
                                 date: upcomingTimestamp.toDate());

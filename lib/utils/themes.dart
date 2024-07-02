@@ -16,7 +16,7 @@ ThemeData darkTheme = ThemeData(
       color: Colors.white,
     ),
   ),
-  appBarTheme: const AppBarTheme(backgroundColor: Colors.purple),
+  appBarTheme: const AppBarTheme(backgroundColor: Color(0xFFE85566)),
   iconTheme: const IconThemeData(color: Colors.white),
 );
 
