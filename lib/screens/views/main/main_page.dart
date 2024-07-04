@@ -1,5 +1,6 @@
 import 'package:birth_daily/screens/views/add_birthday/add_birthday.dart';
 import 'package:birth_daily/screens/views/calendar/birthday_calendar.dart';
+import 'package:birth_daily/screens/views/home/home.dart';
 import 'package:birth_daily/screens/views/home/home_page.dart';
 import 'package:birth_daily/screens/views/settings/settings_page.dart';
 import 'package:flutter/material.dart';
@@ -16,11 +17,12 @@ class _MainPageState extends State<MainPage> {
   int currentPageIndex = 0;
   final List<Widget> _navList = [
     const NavigationDestination(
-        icon: Icon(
-          Icons.home_filled,
-          color: Colors.white,
-        ),
-        label: "Home"),
+      icon: Icon(
+        Icons.home_filled,
+        color: Colors.white,
+      ),
+      label: "Home",
+    ),
     const NavigationDestination(
         icon: Icon(
           Icons.calendar_month,
@@ -43,36 +45,27 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton.small(
-        shape: const CircleBorder(),
-        backgroundColor: const Color(0xFF4849A0),
-        onPressed: () {},
-        child: IconButton(
-          icon: const Icon(
-            Icons.add,
-            color: Colors.white,
-          ),
-          onPressed: () {
-            context.push("/add-birthday");
+      bottomNavigationBar: NavigationBarTheme(
+        data: NavigationBarThemeData(
+            labelTextStyle:
+                WidgetStatePropertyAll(TextStyle(color: Colors.white))),
+        child: NavigationBar(
+          onDestinationSelected: (value) {
+            setState(() {
+              currentPageIndex = value;
+            });
           },
+          destinations: _navList,
+          height: 65,
+          backgroundColor: const Color(0xFFE85566),
+          animationDuration: const Duration(milliseconds: 300),
+          indicatorColor: Color(0xFFE48994),
+          labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
+          selectedIndex: currentPageIndex,
         ),
       ),
-      bottomNavigationBar: NavigationBar(
-        onDestinationSelected: (value) {
-          setState(() {
-            currentPageIndex = value;
-          });
-        },
-        destinations: _navList,
-        height: 65,
-        backgroundColor: const Color(0xFFE85566),
-        animationDuration: const Duration(milliseconds: 300),
-        indicatorColor: Color(0xFFE48994),
-        labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
-        selectedIndex: currentPageIndex,
-      ),
       body: <Widget>[
-        HomePage(),
+        Home(),
         BirthdayCalendar(),
         Center(
           child: Text("Wishes"),

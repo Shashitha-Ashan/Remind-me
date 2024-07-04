@@ -10,6 +10,9 @@ class Profile extends StatelessWidget {
     ;
     return Scaffold(
       body: ProfileScreen(
+        appBar: AppBar(
+          title: const Text("Profile"),
+        ),
         showDeleteConfirmationDialog: true,
         showMFATile: true,
         actions: [

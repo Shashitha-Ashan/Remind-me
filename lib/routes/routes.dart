@@ -34,7 +34,7 @@ final routers = GoRouter(routes: <RouteBase>[
   ),
   GoRoute(
     path: "/search",
-    builder: (context, state) => const SearchPage(),
+    builder: (context, state) => SearchPage(),
   ),
   GoRoute(
     path: "/profile",

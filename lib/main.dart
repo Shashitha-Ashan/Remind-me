@@ -17,11 +17,11 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await FirebaseMessages().initFCM();
-  runApp(MainApp());
+  runApp(const MainApp());
 }
 
 class MainApp extends StatelessWidget {
-  MainApp({super.key});
+  const MainApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +38,6 @@ class MainApp extends StatelessWidget {
         ],
         child: BlocBuilder<ThemeBloc, ThemeState>(
           builder: (context, state) {
-            print(state);
             if (state is ThemeInitialState) {
               return MaterialApp.router(
                 debugShowCheckedModeBanner: false,

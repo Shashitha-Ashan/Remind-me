@@ -1,3 +1,5 @@
+import 'package:birth_daily/helpers/list_tile_colors.dart';
+import 'package:birth_daily/helpers/months_list.dart';
 import 'package:flutter/material.dart';
 
 class BirthdatListTileVertical extends StatelessWidget {
@@ -12,32 +14,11 @@ class BirthdatListTileVertical extends StatelessWidget {
   final String imageURL;
   final DateTime date;
   final int index;
-  final List<String> months = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec"
-  ];
-  final List<Color> colors = [
-    const Color(0xFFCFCBF9),
-    const Color(0xFFF9EECB),
-    const Color(0xFFF9CBCF),
-    const Color(0xFFEACBF9),
-    const Color(0xFFCBF9DA),
-  ];
+
   @override
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width / 2,
-      height: 110,
       padding: const EdgeInsets.only(left: 10, bottom: 10, top: 10),
       margin: const EdgeInsets.only(left: 10, right: 10),
       decoration: BoxDecoration(
@@ -58,7 +39,7 @@ class BirthdatListTileVertical extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Text(
-                name,
+                name[0].toUpperCase() + name.substring(1),
                 style: Theme.of(context)
                     .textTheme
                     .titleLarge!

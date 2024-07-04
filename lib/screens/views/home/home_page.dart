@@ -1,5 +1,6 @@
 import 'package:birth_daily/blocs/birthday/birthdays_bloc.dart';
 import 'package:birth_daily/helpers/date_time_helper.dart';
+import 'package:birth_daily/helpers/list_tile_imgs.dart';
 import 'package:birth_daily/screens/widgets/add_birthday.dart';
 import 'package:birth_daily/screens/widgets/birthdat_list_tile_vertical.dart';
 import 'package:birth_daily/screens/widgets/birthday_list_tile_horizontal.dart';
@@ -61,54 +62,6 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Text("Home"),
       ),
-      // bottomNavigationBar: AnimatedContainer(
-      //   height: isVisible ? 65 : 0,
-      //   duration: const Duration(milliseconds: 200),
-      //   child: BottomAppBar(
-      //     elevation: 5,
-      //     color: const Color(0xFFE85566),
-      //     shape: const CircularNotchedRectangle(),
-      //     child: Row(
-      //       children: [
-      //         IconButton(
-      //           onPressed: () {
-      //             context.push("/home");
-      //           },
-      //           icon: const Icon(Icons.home_filled),
-      //         ),
-      //         const SizedBox(
-      //           width: 20,
-      //         ),
-      //         IconButton(
-      //           onPressed: () {
-      //             context.push("/birthday_calendar");
-      //           },
-      //           icon: Icon(
-      //             Icons.calendar_month,
-      //             color: Theme.of(context).iconTheme.color,
-      //           ),
-      //         ),
-      //         const Spacer(),
-      //         IconButton(
-      //           onPressed: () {
-      //             context.push("/search");
-      //           },
-      //           icon: const Icon(Icons.card_giftcard_rounded),
-      //         ),
-      //         const SizedBox(
-      //           width: 20,
-      //         ),
-      //         IconButton(
-      //           onPressed: () {
-      //             context.push("/settings");
-      //           },
-      //           icon: const Icon(Icons.settings),
-      //         ),
-      //       ],
-      //     ),
-      //   ),
-      // ),
-
       body: StreamBuilder(
           stream: FirebaseFirestore.instance
               .collection("birthdays")
@@ -158,7 +111,7 @@ class _HomePageState extends State<HomePage> {
                             return BirthdayListTileHorizontal(
                                 index: index,
                                 name: todayName,
-                                imageURL: "assets/avatars/2.png",
+                                imageURL: imageURLs[0],
                                 date: todayTimestamp.toDate());
                           },
                         ),

@@ -1,24 +1,13 @@
+import 'package:birth_daily/helpers/list_tile_imgs.dart';
+import 'package:birth_daily/models/birthday/birthday_model.dart';
+import 'package:birth_daily/screens/widgets/birthdat_list_tile_vertical.dart';
+import 'package:birth_daily/services/birthday_service.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class SearchTable extends SearchDelegate {
-  final List<String> searchList = [
-    "Apple",
-    "Banana",
-    "Cherry",
-    "Date",
-    "Fig",
-    "Grapes",
-    "Kiwi",
-    "Lemon",
-    "Mango",
-    "Orange",
-    "Papaya",
-    "Raspberry",
-    "Strawberry",
-    "Tomato",
-    "Watermelon",
-  ];
+  final BirthdayService _birthdayService = BirthdayService();
+
   @override
   List<Widget>? buildActions(BuildContext context) {
     return [
@@ -38,16 +27,31 @@ class SearchTable extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    final List<String> searchResults = searchList
-        .where((item) => item.toLowerCase().contains(query.toLowerCase()))
-        .toList();
-    return ListView.builder(
-      itemCount: searchResults.length,
-      itemBuilder: (context, index) {
-        return ListTile(
-          title: Text(searchResults[index]),
-          onTap: () {
-            close(context, searchResults[index]);
+    return FutureBuilder<List<BirthdayModel>>(
+      future: _birthdayService.getBirthdays(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        if (!snapshot.hasData || snapshot.data!.isEmpty) {
+          return const Center(child: Text('No birthdays found.'));
+        }
+        final searchResults = snapshot.data!
+            .where(
+                (item) => item.name.toLowerCase().contains(query.toLowerCase()))
+            .toList();
+
+        return ListView.separated(
+          separatorBuilder: (context, index) => const SizedBox(
+            height: 15,
+          ),
+          itemCount: searchResults.length,
+          itemBuilder: (context, index) {
+            return BirthdatListTileVertical(
+                date: searchResults[index].dateTime.toDate(),
+                name: searchResults[index].name,
+                imageURL: imageURLs[1],
+                index: index);
           },
         );
       },
@@ -56,19 +60,37 @@ class SearchTable extends SearchDelegate {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    final List<String> suggestionList = query.isEmpty
-        ? []
-        : searchList
-            .where((item) => item.toLowerCase().contains(query.toLowerCase()))
-            .toList();
+    return FutureBuilder<List<BirthdayModel>>(
+      future: _birthdayService.getBirthdays(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        if (!snapshot.hasData || snapshot.data!.isEmpty) {
+          return const Center(child: Text('No suggestions.'));
+        }
+        final List<BirthdayModel> suggestionList = query.isEmpty
+            ? snapshot.data!
+                .map(
+                  (e) => e,
+                )
+                .toList()
+            : snapshot.data!
+                .where((item) =>
+                    item.name.toLowerCase().contains(query.toLowerCase()))
+                .toList();
 
-    return ListView.builder(
-      itemCount: suggestionList.length,
-      itemBuilder: (context, index) {
-        return ListTile(
-          title: Text(suggestionList[index]),
-          onTap: () {
-            query = suggestionList[index];
+        return ListView.separated(
+          separatorBuilder: (context, index) => const SizedBox(
+            height: 15,
+          ),
+          itemCount: suggestionList.length,
+          itemBuilder: (context, index) {
+            return BirthdatListTileVertical(
+                date: suggestionList[index].dateTime.toDate(),
+                name: suggestionList[index].name,
+                imageURL: imageURLs[0],
+                index: index);
           },
         );
       },

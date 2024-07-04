@@ -44,4 +44,21 @@ class DateTimeHelper {
     });
     return outputList;
   }
+
+  static List<dynamic> getPastBirthdays({required List<dynamic> list}) {
+    List<dynamic> outputList = [];
+    final today = DateTime.now();
+    for (var i = 0; i < list.length; i++) {
+      final DateTime date = list[i].data()['date'].toDate();
+      if (date.isBefore(today)) {
+        outputList.add(list[i].data());
+      }
+    }
+    outputList.sort((a, b) {
+      DateTime dateA = a['date'].toDate();
+      DateTime dateB = b['date'].toDate();
+      return dateB.compareTo(dateA);
+    });
+    return outputList;
+  }
 }

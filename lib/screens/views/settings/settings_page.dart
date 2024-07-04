@@ -1,7 +1,7 @@
-import 'package:birth_daily/blocs/theme/theme_bloc.dart';
-import 'package:firebase_ui_auth/firebase_ui_auth.dart';
+// ignore_for_file: non_constant_identifier_names
+
+import 'package:birth_daily/screens/widgets/setting_tile.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class SettingsPage extends StatefulWidget {
@@ -13,122 +13,127 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    bool themestate = false;
-    return BlocBuilder<ThemeBloc, ThemeState>(
-      builder: (context, state) {
-        return Scaffold(
-          appBar: AppBar(
-            elevation: 10,
-            title: const Text('Settings'),
-            backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
-          ),
-          body: ListView(
+    TextStyle? textStyle = Theme.of(context).textTheme.titleLarge!.copyWith(
+        fontWeight: FontWeight.bold, fontSize: 16, color: Colors.black);
+    Color iconColor = const Color(0xFF4849A0); //  0xFF5E00F5
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Settings", style: Theme.of(context).textTheme.titleLarge),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.only(left: 10, right: 10),
+        child: SingleChildScrollView(
+          child: Column(
             children: [
-              settingSectionTile('Genaral Settings'),
-              divider(),
-              settingSectionTile('Theme'),
+              CategoryTitle(title: "General"),
               SettingTile(
-                onTap: () {},
-                title: 'backup & restore',
-                description: 'Dark',
-                trailingWidget: Switch(
-                  value: themestate,
-                  onChanged: (value) {
-                    if (value == false) {
-                      themestate = false;
-                      print(value);
-                      context.read<ThemeBloc>().add(LightThemeEvent());
-                    }
-                    if (value == true) {
-                      themestate = true;
-                      print(value);
-                      context.read<ThemeBloc>().add(DarkThemeEvent());
-                    }
-                  },
+                leading: Icon(
+                  Icons.person_2,
+                  color: iconColor,
+                ),
+                title: Text(
+                  "Profile Infomation",
+                  style: textStyle,
+                ),
+                onTap: () => context.push("/profile"),
+              ),
+              // Notifications on off setting
+              Gap(),
+              SettingTile(
+                leading: Icon(
+                  Icons.notifications_active,
+                  color: iconColor,
+                ),
+                title: Text(
+                  "App Notifications",
+                  style: textStyle,
+                ),
+                subtitle: const Text(
+                    "Allow the app to send notification about upcoming bithdays"),
+                trailing: Switch(
+                  value: true,
+                  onChanged: (value) {},
                 ),
               ),
-              divider(),
-              settingSectionTile('info'),
+              // Notifications time setting
+              Gap(),
               SettingTile(
-                onTap: () {
-                  context.push("/developerinfo");
-                },
-                title: 'About us',
-                description: 'Developer information',
+                leading: Icon(
+                  Icons.access_time,
+                  color: iconColor,
+                ),
+                title: Text(
+                  "Notification Time",
+                  style: textStyle,
+                ),
+                subtitle: const Text("12:00 AM"),
               ),
-              divider(),
-              settingSectionTile('Version'),
-              const SettingTile(
-                title: 'RemindMe',
-                description: 'Current version: RemindMe 1.0.0',
+              // Theme setting
+              Gap(),
+              SettingTile(
+                leading: Icon(
+                  Icons.brightness_4,
+                  color: iconColor,
+                ),
+                title: Text(
+                  "Theme",
+                  style: textStyle,
+                ),
+                subtitle: const Text("Light"),
+                trailing: Switch(
+                  value: false,
+                  onChanged: (value) {},
+                ),
               ),
-              SignOutButton()
+              // about setting
+              CategoryTitle(title: "About App"),
+              SettingTile(
+                leading: Icon(
+                  Icons.lock,
+                  color: iconColor,
+                ),
+                title: Text(
+                  "Privacy Policy",
+                  style: textStyle,
+                ),
+              ),
+              Gap(),
+              SettingTile(
+                leading: Icon(
+                  Icons.info,
+                  color: iconColor,
+                ),
+                title: Text(
+                  "About Us",
+                  style: textStyle,
+                ),
+              ),
             ],
           ),
-        );
-      },
-    );
-  }
-
-  Divider divider() {
-    return const Divider(
-      thickness: 1.5,
-      height: 20,
-    );
-  }
-
-  Container settingSectionTile(String title) {
-    return Container(
-      padding: const EdgeInsets.only(top: 10),
-      margin: const EdgeInsets.only(left: 5),
-      child: Text(
-        title,
-        style: const TextStyle(
-          fontSize: 14,
-          fontWeight: FontWeight.bold,
         ),
       ),
     );
   }
-}
 
-class SettingTile extends StatelessWidget {
-  const SettingTile(
-      {super.key,
-      this.isDisable = true,
-      required this.title,
-      required this.description,
-      this.trailingWidget,
-      this.onTap});
-  final String title;
-  final String description;
-  final Widget? trailingWidget;
-  final Function()? onTap;
-  final bool isDisable;
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      child: ListTile(
-        shape: const Border(),
-        enabled: isDisable,
-        // tileColor: Colors.transparent,
-        enableFeedback: true,
-        title: Text(title),
-        subtitle: Text(description),
-        trailing: trailingWidget,
-      ),
+  Widget CategoryTitle({required String title}) {
+    return Row(
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(top: 20, bottom: 20),
+          child: Text(
+            title,
+            style: const TextStyle(color: Color(0xFFE85566), fontSize: 15),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget Gap() {
+    return const SizedBox(
+      height: 15,
     );
   }
 }

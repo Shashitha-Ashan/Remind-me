@@ -1,5 +1,6 @@
 import 'package:birth_daily/helpers/date_time_helper.dart';
 import 'package:birth_daily/screens/widgets/birthdat_list_tile_vertical.dart';
+import 'package:birth_daily/screens/widgets/floating_action_button.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -43,12 +44,16 @@ class _BirthdayCalendarState extends State<BirthdayCalendar> {
                 style: Theme.of(context).textTheme.titleLarge,
               ),
             ),
+            floatingActionButton:
+                addBirthdayFloatingActionButton(context: context),
             body: Column(
               children: [
                 TableCalendar(
                   calendarStyle: CalendarStyle(
                     cellMargin: EdgeInsets.all(5),
                   ),
+                  rowHeight: 40,
+                  daysOfWeekHeight: 25,
                   focusedDay: _focusedDay,
                   firstDay: DateTime.utc(2010, 10, 16),
                   lastDay: DateTime.utc(2030, 3, 14),
