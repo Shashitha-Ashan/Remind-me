@@ -33,7 +33,9 @@ class _HomeState extends State<Home> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Home", style: Theme.of(context).textTheme.titleLarge),
+        title: Text(
+          "Home",
+        ),
         actions: [
           IconButton(
               onPressed: () {
@@ -101,7 +103,8 @@ class _HomeState extends State<Home> {
                             style: Theme.of(context)
                                 .textTheme
                                 .titleSmall!
-                                .copyWith(fontSize: 16, color: Colors.black),
+                                .copyWith(
+                                    fontSize: 16, color: Color(0xFFE85566)),
                           ),
                         ],
                       ),
@@ -118,7 +121,8 @@ class _HomeState extends State<Home> {
                             style: Theme.of(context)
                                 .textTheme
                                 .titleSmall!
-                                .copyWith(fontSize: 16, color: Colors.black),
+                                .copyWith(
+                                    fontSize: 16, color: Color(0xFFE85566)),
                           ),
                         ],
                       ),
@@ -135,7 +139,7 @@ class _HomeState extends State<Home> {
                         style: Theme.of(context)
                             .textTheme
                             .titleSmall!
-                            .copyWith(fontSize: 16, color: Colors.black),
+                            .copyWith(fontSize: 16, color: Color(0xFFE85566)),
                       ),
                     ),
                 ],
@@ -181,12 +185,12 @@ class _HomeState extends State<Home> {
                 ? BirthdayListTileHorizontal(
                     index: index,
                     name: todayName,
-                    imageURL: imageURLs[0],
+                    imageURL: imageURLs[index % imageURLs.length],
                     date: todayTimestamp.toDate())
                 : BirthdatListTileVertical(
                     index: index,
                     name: todayName,
-                    imageURL: imageURLs[1],
+                    imageURL: imageURLs[index % imageURLs.length],
                     date: todayTimestamp.toDate());
           },
         ),

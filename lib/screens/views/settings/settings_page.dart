@@ -20,7 +20,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Settings", style: Theme.of(context).textTheme.titleLarge),
+        title: const Text("Settings"),
       ),
       body: Padding(
         padding: const EdgeInsets.only(left: 10, right: 10),

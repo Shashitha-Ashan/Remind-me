@@ -3,6 +3,7 @@ import 'package:birth_daily/models/birthday/birthday_model.dart';
 import 'package:birth_daily/screens/widgets/birthdat_list_tile_vertical.dart';
 import 'package:birth_daily/services/birthday_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:go_router/go_router.dart';
 
 class SearchTable extends SearchDelegate {
@@ -47,11 +48,31 @@ class SearchTable extends SearchDelegate {
           ),
           itemCount: searchResults.length,
           itemBuilder: (context, index) {
-            return BirthdatListTileVertical(
-                date: searchResults[index].dateTime.toDate(),
-                name: searchResults[index].name,
-                imageURL: imageURLs[1],
-                index: index);
+            return Slidable(
+              key: ValueKey(searchResults[index]),
+              endActionPane: ActionPane(
+                  motion: const StretchMotion(),
+                  dismissible: DismissiblePane(onDismissed: () {}),
+                  children: [
+                    SlidableAction(
+                      onPressed: (context) {},
+                      icon: Icons.edit,
+                      label: 'Edit',
+                      backgroundColor: Colors.blue,
+                    ),
+                    SlidableAction(
+                      onPressed: (context) {},
+                      icon: Icons.delete,
+                      label: 'Delete',
+                      backgroundColor: Colors.red,
+                    ),
+                  ]),
+              child: BirthdatListTileVertical(
+                  date: searchResults[index].dateTime.toDate(),
+                  name: searchResults[index].name,
+                  imageURL: imageURLs[index % imageURLs.length],
+                  index: index),
+            );
           },
         );
       },
@@ -86,11 +107,31 @@ class SearchTable extends SearchDelegate {
           ),
           itemCount: suggestionList.length,
           itemBuilder: (context, index) {
-            return BirthdatListTileVertical(
-                date: suggestionList[index].dateTime.toDate(),
-                name: suggestionList[index].name,
-                imageURL: imageURLs[0],
-                index: index);
+            return Slidable(
+              key: ValueKey(suggestionList[index]),
+              endActionPane: ActionPane(
+                  motion: const StretchMotion(),
+                  dismissible: DismissiblePane(onDismissed: () {}),
+                  children: [
+                    SlidableAction(
+                      onPressed: (context) {},
+                      icon: Icons.edit,
+                      label: 'Edit',
+                      backgroundColor: Colors.blue,
+                    ),
+                    SlidableAction(
+                      onPressed: (context) {},
+                      icon: Icons.delete,
+                      label: 'Delete',
+                      backgroundColor: Colors.red,
+                    ),
+                  ]),
+              child: BirthdatListTileVertical(
+                  date: suggestionList[index].dateTime.toDate(),
+                  name: suggestionList[index].name,
+                  imageURL: imageURLs[0],
+                  index: index),
+            );
           },
         );
       },

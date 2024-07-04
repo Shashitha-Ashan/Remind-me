@@ -10,13 +10,6 @@ enum ThemeStatus { dark, light }
 
 class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
   ThemeBloc() : super(ThemeInitialState(themeData: darkTheme)) {
-    on<ThemeEvent>((event, emit) {
-      if (event is DarkThemeEvent) {
-        emit(DarkThemeState(themeData: darkTheme));
-      }
-      if (event is LightThemeEvent) {
-        emit(LightThemeState(themeData: lightTheme));
-      }
-    });
+    on<ThemeEvent>((event, emit) {});
   }
 }

@@ -16,7 +16,10 @@ ThemeData darkTheme = ThemeData(
       color: Colors.white,
     ),
   ),
-  appBarTheme: const AppBarTheme(backgroundColor: Color(0xFFE85566)),
+  appBarTheme: AppBarTheme(
+    backgroundColor: const Color(0xFFE85566),
+    titleTextStyle: GoogleFonts.poppins(color: Colors.white, fontSize: 24),
+  ),
   iconTheme: const IconThemeData(color: Colors.white),
 );
 
@@ -34,7 +37,14 @@ ThemeData lightTheme = ThemeData(
     displayLarge: GoogleFonts.poppins(
       color: Colors.black,
     ),
+    labelMedium: GoogleFonts.poppins(
+      color: Colors.white,
+    ),
   ),
-  appBarTheme: const AppBarTheme(backgroundColor: Colors.red),
-  iconTheme: const IconThemeData(color: Colors.white),
+  buttonTheme: ButtonThemeData(),
+  appBarTheme: AppBarTheme(
+    backgroundColor: const Color(0xFFE85566),
+    titleTextStyle: GoogleFonts.poppins(color: Colors.white, fontSize: 24),
+    iconTheme: const IconThemeData(color: Colors.white),
+  ),
 );

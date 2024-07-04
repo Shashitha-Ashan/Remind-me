@@ -21,9 +21,22 @@ class BirthdaysFailedLoadState extends BirthdayState {
 
 class BirthdayAdded extends BirthdayState {}
 
+class BirthdayAdd extends BirthdayState {}
+
 class BirthdayAddError extends BirthdayState {}
 
 class BirthdayUpdated extends BirthdayState {}
+
+class BirthdayUpdate extends BirthdayState {
+  final String id;
+  final String name;
+  final DateTime date;
+  final bool isLovingOne;
+  final int avatarIndex;
+
+  BirthdayUpdate(this.isLovingOne, this.avatarIndex,
+      {required this.id, required this.name, required this.date});
+}
 
 class BirthdayUpdateError extends BirthdayState {}
 

@@ -2,11 +2,11 @@ import 'package:birth_daily/blocs/birthday/birthdays_bloc.dart';
 import 'package:birth_daily/blocs/theme/theme_bloc.dart';
 import 'package:birth_daily/firebase_options.dart';
 import 'package:birth_daily/routes/routes.dart';
+import 'package:birth_daily/utils/themes.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'repositories/birthdays/birthday_repo.dart';
@@ -36,35 +36,20 @@ class MainApp extends StatelessWidget {
             create: (context) => ThemeBloc(),
           ),
         ],
-        child: BlocBuilder<ThemeBloc, ThemeState>(
-          builder: (context, state) {
-            if (state is ThemeInitialState) {
-              return MaterialApp.router(
-                debugShowCheckedModeBanner: false,
-                routerConfig: routers,
-                theme: state.themeData,
-              );
-            }
-            if (state is DarkThemeState) {
-              return MaterialApp.router(
-                debugShowCheckedModeBanner: false,
-                routerConfig: routers,
-                theme: state.themeData,
-              );
-            }
-            if (state is LightThemeState) {
-              return MaterialApp.router(
-                debugShowCheckedModeBanner: false,
-                routerConfig: routers,
-                theme: state.themeData,
-              );
-            }
+        child: BlocBuilder<ThemeBloc, ThemeState>(builder: (context, state) {
+          if (state is ToggleThemeState) {
             return MaterialApp.router(
               debugShowCheckedModeBanner: false,
               routerConfig: routers,
+              theme: state.themeData,
             );
-          },
-        ),
+          }
+          return MaterialApp.router(
+            debugShowCheckedModeBanner: false,
+            routerConfig: routers,
+            theme: lightTheme,
+          );
+        }),
       ),
     );
   }

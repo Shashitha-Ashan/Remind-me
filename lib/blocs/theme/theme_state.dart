@@ -11,14 +11,8 @@ final class ThemeInitialState extends ThemeState {
   });
 }
 
-class DarkThemeState extends ThemeState {
+class ToggleThemeState extends ThemeState {
   final ThemeData themeData;
 
-  DarkThemeState({required this.themeData});
-}
-
-class LightThemeState extends ThemeState {
-  final ThemeData themeData;
-
-  LightThemeState({required this.themeData});
+  ToggleThemeState({required this.themeData});
 }

@@ -41,7 +41,6 @@ class _BirthdayCalendarState extends State<BirthdayCalendar> {
             appBar: AppBar(
               title: Text(
                 "Birthday calendar",
-                style: Theme.of(context).textTheme.titleLarge,
               ),
             ),
             floatingActionButton:

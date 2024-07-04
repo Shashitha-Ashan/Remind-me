@@ -22,7 +22,7 @@ class BirthdayListTileHorizontal extends StatelessWidget {
         borderRadius: const BorderRadius.all(
           Radius.circular(10),
         ),
-        color: colors[index],
+        color: colors[index % colors.length],
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,

@@ -3,6 +3,7 @@ import 'package:birth_daily/screens/views/search/search_table_delegate.dart';
 import 'package:birth_daily/screens/widgets/birthdat_list_tile_vertical.dart';
 import 'package:birth_daily/services/birthday_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 class SearchPage extends StatelessWidget {
   SearchPage({super.key});
@@ -37,11 +38,31 @@ class SearchPage extends StatelessWidget {
                 ),
                 itemCount: snapshot.data!.length,
                 itemBuilder: (context, index) {
-                  return BirthdatListTileVertical(
-                      date: snapshot.data![index].dateTime.toDate(),
-                      name: snapshot.data![index].name,
-                      imageURL: imageURLs[0],
-                      index: index);
+                  return Slidable(
+                    key: ValueKey(snapshot.data![index]),
+                    endActionPane: ActionPane(
+                        motion: const StretchMotion(),
+                        dismissible: DismissiblePane(onDismissed: () {}),
+                        children: [
+                          SlidableAction(
+                            onPressed: (context) {},
+                            icon: Icons.edit,
+                            label: 'Edit',
+                            backgroundColor: Colors.blue,
+                          ),
+                          SlidableAction(
+                            onPressed: (context) {},
+                            icon: Icons.delete,
+                            label: 'Delete',
+                            backgroundColor: Colors.red,
+                          ),
+                        ]),
+                    child: BirthdatListTileVertical(
+                        date: snapshot.data![index].dateTime.toDate(),
+                        name: snapshot.data![index].name,
+                        imageURL: imageURLs[index % imageURLs.length],
+                        index: index),
+                  );
                 },
               );
             }
