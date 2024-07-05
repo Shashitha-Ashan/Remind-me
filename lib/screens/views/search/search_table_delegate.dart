@@ -1,13 +1,13 @@
 import 'package:birth_daily/helpers/list_tile_imgs.dart';
 import 'package:birth_daily/models/birthday/birthday_model.dart';
+import 'package:birth_daily/repositories/birthdays/birthday_repo.dart';
 import 'package:birth_daily/screens/widgets/birthdat_list_tile_vertical.dart';
-import 'package:birth_daily/services/birthday_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:go_router/go_router.dart';
 
 class SearchTable extends SearchDelegate {
-  final BirthdayService _birthdayService = BirthdayService();
+  final BirthdayRepo _birthdayService = BirthdayRepo();
 
   @override
   List<Widget>? buildActions(BuildContext context) {
@@ -29,7 +29,7 @@ class SearchTable extends SearchDelegate {
   @override
   Widget buildResults(BuildContext context) {
     return FutureBuilder<List<BirthdayModel>>(
-      future: _birthdayService.getBirthdays(),
+      future: _birthdayService.loadBirthdays(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
@@ -68,10 +68,7 @@ class SearchTable extends SearchDelegate {
                     ),
                   ]),
               child: BirthdatListTileVertical(
-                  date: searchResults[index].dateTime.toDate(),
-                  name: searchResults[index].name,
-                  imageURL: imageURLs[index % imageURLs.length],
-                  index: index),
+                  birthdayModel: snapshot.data![index], index: index),
             );
           },
         );
@@ -82,7 +79,7 @@ class SearchTable extends SearchDelegate {
   @override
   Widget buildSuggestions(BuildContext context) {
     return FutureBuilder<List<BirthdayModel>>(
-      future: _birthdayService.getBirthdays(),
+      future: _birthdayService.loadBirthdays(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
@@ -127,10 +124,7 @@ class SearchTable extends SearchDelegate {
                     ),
                   ]),
               child: BirthdatListTileVertical(
-                  date: suggestionList[index].dateTime.toDate(),
-                  name: suggestionList[index].name,
-                  imageURL: imageURLs[0],
-                  index: index),
+                  birthdayModel: snapshot.data![index], index: index),
             );
           },
         );

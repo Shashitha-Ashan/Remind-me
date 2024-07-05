@@ -1,9 +1,11 @@
-import 'package:birth_daily/helpers/date_time_helper.dart';
+import 'package:birth_daily/models/birthday/birthday_model.dart';
+import 'package:birth_daily/repositories/birthday_list/birthday_list.dart';
 import 'package:birth_daily/screens/widgets/birthdat_list_tile_vertical.dart';
 import 'package:birth_daily/screens/widgets/floating_action_button.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -26,7 +28,7 @@ class _BirthdayCalendarState extends State<BirthdayCalendar> {
 
   @override
   Widget build(BuildContext context) {
-    List<dynamic> _list = [];
+    List<BirthdayModel> list = [];
     return StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection("birthdays")
@@ -34,12 +36,12 @@ class _BirthdayCalendarState extends State<BirthdayCalendar> {
             .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            _list = DateTimeHelper.getSelectedDateBirthdays(
+            list = context.read<BirthdayListRepo>().getSelectedDateBirthdayList(
                 list: snapshot.data!.docs, selectedDate: _selectedDay);
           }
           return Scaffold(
             appBar: AppBar(
-              title: Text(
+              title: const Text(
                 "Birthday calendar",
               ),
             ),
@@ -48,7 +50,7 @@ class _BirthdayCalendarState extends State<BirthdayCalendar> {
             body: Column(
               children: [
                 TableCalendar(
-                  calendarStyle: CalendarStyle(
+                  calendarStyle: const CalendarStyle(
                     cellMargin: EdgeInsets.all(5),
                   ),
                   rowHeight: 40,
@@ -88,26 +90,22 @@ class _BirthdayCalendarState extends State<BirthdayCalendar> {
                 ),
                 Expanded(
                   flex: 2,
-                  child: _list.isNotEmpty
+                  child: list.isNotEmpty
                       ? ListView.separated(
-                          itemCount: _list.length,
+                          itemCount: list.length,
                           separatorBuilder: (context, index) {
                             return const SizedBox(
                               height: 20,
                             );
                           },
                           itemBuilder: (context, index) {
-                            if (_list.isNotEmpty) {
-                              final DateTime date =
-                                  _list[index]['date'].toDate();
-                              final name = _list[index]['name'];
+                            if (list.isNotEmpty) {
                               return BirthdatListTileVertical(
                                 index: index,
-                                name: name,
-                                date: date,
-                                imageURL: "assets/avatars/2.png",
+                                birthdayModel: list[index],
                               );
                             }
+                            return null;
                           },
                         )
                       : Center(

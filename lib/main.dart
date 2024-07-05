@@ -1,6 +1,7 @@
 import 'package:birth_daily/blocs/birthday/birthdays_bloc.dart';
 import 'package:birth_daily/blocs/theme/theme_bloc.dart';
 import 'package:birth_daily/firebase_options.dart';
+import 'package:birth_daily/repositories/birthday_list/birthday_list.dart';
 import 'package:birth_daily/routes/routes.dart';
 import 'package:birth_daily/utils/themes.dart';
 
@@ -25,8 +26,15 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider(
-      create: (context) => BirthdayRepo(),
+    return MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider(
+          create: (context) => BirthdayRepo(),
+        ),
+        RepositoryProvider(
+          create: (context) => BirthdayListRepo(),
+        ),
+      ],
       child: MultiBlocProvider(
         providers: [
           BlocProvider(

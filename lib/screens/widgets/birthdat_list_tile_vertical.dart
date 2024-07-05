@@ -1,20 +1,15 @@
 import 'package:birth_daily/helpers/list_tile_colors.dart';
 import 'package:birth_daily/helpers/months_list.dart';
+import 'package:birth_daily/models/birthday/birthday_model.dart';
 import 'package:birth_daily/screens/views/birthday_user_profile/birthday_user_profile.dart';
 import 'package:flutter/material.dart';
 
 class BirthdatListTileVertical extends StatelessWidget {
   BirthdatListTileVertical(
-      {super.key,
-      required this.date,
-      required this.name,
-      required this.imageURL,
-      required this.index});
+      {super.key, required this.index, required this.birthdayModel});
 
-  final String name;
-  final String imageURL;
-  final DateTime date;
   final int index;
+  final BirthdayModel birthdayModel;
 
   @override
   Widget build(BuildContext context) {
@@ -24,8 +19,7 @@ class BirthdatListTileVertical extends StatelessWidget {
             context,
             MaterialPageRoute(
               builder: (context) => BirthdayUserProfile(
-                name: name,
-                date: date,
+                birthdayModel: birthdayModel,
               ),
             ));
       },
@@ -40,7 +34,7 @@ class BirthdatListTileVertical extends StatelessWidget {
         child: Row(
           children: [
             Image.asset(
-              imageURL,
+              birthdayModel.imageURL,
               height: 100,
               width: 100,
             ),
@@ -51,7 +45,8 @@ class BirthdatListTileVertical extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
-                  name[0].toUpperCase() + name.substring(1),
+                  birthdayModel.name[0].toUpperCase() +
+                      birthdayModel.name.substring(1),
                   style: Theme.of(context)
                       .textTheme
                       .titleLarge!
@@ -65,7 +60,7 @@ class BirthdatListTileVertical extends StatelessWidget {
                       width: 10,
                     ),
                     Text(
-                      "${months[date.month - 1]}/${date.day}",
+                      "${months[birthdayModel.dateTime.toDate().month - 1]}/${birthdayModel.dateTime.toDate().day}",
                       style: Theme.of(context)
                           .textTheme
                           .titleLarge!

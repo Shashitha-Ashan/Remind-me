@@ -1,6 +1,5 @@
 import 'package:birth_daily/screens/views/add_birthday/add_birthday.dart';
 import 'package:birth_daily/screens/views/calendar/birthday_calendar.dart';
-import 'package:birth_daily/screens/views/home/home_page.dart';
 import 'package:birth_daily/screens/views/main/main_page.dart';
 import 'package:birth_daily/screens/views/profile/profile_screen.dart';
 import 'package:birth_daily/screens/views/search/search_page.dart';
@@ -19,10 +18,6 @@ final routers = GoRouter(routes: <RouteBase>[
   GoRoute(
     path: "/register",
     builder: (context, state) => const AuthGate(),
-  ),
-  GoRoute(
-    path: "/home",
-    builder: (context, state) => const HomePage(),
   ),
   GoRoute(
     path: "/main",

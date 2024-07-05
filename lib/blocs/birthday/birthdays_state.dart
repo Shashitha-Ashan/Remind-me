@@ -27,15 +27,19 @@ class BirthdayAddError extends BirthdayState {}
 
 class BirthdayUpdated extends BirthdayState {}
 
-class BirthdayUpdate extends BirthdayState {
-  final String id;
+class BirthdayUpdateState extends BirthdayState {
+  final String? docId;
   final String name;
-  final DateTime date;
+  final Timestamp date;
   final bool isLovingOne;
-  final int avatarIndex;
+  final String imageURL;
 
-  BirthdayUpdate(this.isLovingOne, this.avatarIndex,
-      {required this.id, required this.name, required this.date});
+  BirthdayUpdateState(
+      {required this.isLovingOne,
+      required this.imageURL,
+      this.docId,
+      required this.name,
+      required this.date});
 }
 
 class BirthdayUpdateError extends BirthdayState {}

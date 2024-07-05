@@ -1,5 +1,6 @@
 import 'package:birth_daily/repositories/birthdays/birthday_repo.dart';
 import 'package:bloc/bloc.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:meta/meta.dart';
 
 import 'package:birth_daily/models/birthday/birthday_model.dart';
@@ -22,9 +23,12 @@ class BirthdaysBloc extends Bloc<BirthdayEvent, BirthdayState> {
       }
       if (event is AddBirthdayEvent) {
         try {
-          await _birthdayRepo.addBirthday(name: event.name, date: event.date);
+          await _birthdayRepo.addBirthday(
+              name: event.name,
+              date: event.date,
+              imageURL: event.imageURL,
+              isLovingOne: event.isLovingOne);
           emit(BirthdayAdded());
-          add(LoadBirthdaysEvent());
         } catch (e) {
           emit(BirthdayAddError());
         }
@@ -32,9 +36,12 @@ class BirthdaysBloc extends Bloc<BirthdayEvent, BirthdayState> {
       if (event is UpdateBirthdayEvent) {
         try {
           await _birthdayRepo.updateBirthday(
-              name: event.name, date: event.date, docId: event.id);
+              name: event.name,
+              date: event.date,
+              docId: event.id,
+              imageURL: event.imageURL,
+              isLovingOne: event.isLovingOne);
           emit(BirthdayUpdated());
-          add(LoadBirthdaysEvent());
         } catch (e) {
           emit(BirthdayUpdateError());
         }
@@ -43,10 +50,23 @@ class BirthdaysBloc extends Bloc<BirthdayEvent, BirthdayState> {
         try {
           await _birthdayRepo.deleteBirthday(docId: event.id);
           emit(BirthdayDeleted());
-          add(LoadBirthdaysEvent());
         } catch (e) {
           emit(BirthdayDeleteError());
         }
+      }
+      if (event is AddBirthdayClickEvent) {
+        emit(BirthdayAdd());
+      }
+      if (event is UpdateBirthdayClickEvent) {
+        try {
+          final BirthdayModel? res =
+              await _birthdayRepo.getBirthdayById(docId: event.docId);
+          emit(BirthdayUpdateState(
+              date: res!.dateTime,
+              name: res.name,
+              imageURL: res.imageURL,
+              isLovingOne: res.isLovingOne));
+        } catch (e) {}
       }
     });
   }

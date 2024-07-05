@@ -1,21 +1,22 @@
-import 'package:birth_daily/helpers/date_time_helper.dart';
-import 'package:birth_daily/helpers/list_tile_imgs.dart';
+import 'package:birth_daily/models/birthday/birthday_model.dart';
+import 'package:birth_daily/repositories/birthday_list/birthday_list.dart';
 import 'package:birth_daily/screens/widgets/birthdat_list_tile_vertical.dart';
 import 'package:birth_daily/screens/widgets/birthday_list_tile_horizontal.dart';
 import 'package:birth_daily/screens/widgets/floating_action_button.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-class Home extends StatefulWidget {
-  const Home({super.key});
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
 
   @override
-  State<Home> createState() => _HomeState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _HomeState extends State<Home> {
+class _HomePageState extends State<HomePage> {
   final User? user = FirebaseAuth.instance.currentUser;
 
   @override
@@ -33,7 +34,7 @@ class _HomeState extends State<Home> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           "Home",
         ),
         actions: [
@@ -59,12 +60,15 @@ class _HomeState extends State<Home> {
           } else if (snapshot.hasError) {
             return const Center(child: Text("Something went wrong"));
           } else if (snapshot.hasData && snapshot.data!.docs.isNotEmpty) {
-            List<dynamic> todayList =
-                DateTimeHelper.getTodayBirthdays(list: snapshot.data!.docs);
-            List<dynamic> upcomingList =
-                DateTimeHelper.getUpcomingBirthdays(list: snapshot.data!.docs);
-            List<dynamic> pastList =
-                DateTimeHelper.getPastBirthdays(list: snapshot.data!.docs);
+            List<BirthdayModel> todayList = context
+                .read<BirthdayListRepo>()
+                .getTodayBirthdayList(list: snapshot.data!.docs);
+            List<BirthdayModel> upcomingList = context
+                .read<BirthdayListRepo>()
+                .getUpcomingBirthdayList(list: snapshot.data!.docs);
+            List<BirthdayModel> pastList = context
+                .read<BirthdayListRepo>()
+                .getPastBirthdayList(list: snapshot.data!.docs);
 
             return SingleChildScrollView(
               child: Column(
@@ -104,7 +108,8 @@ class _HomeState extends State<Home> {
                                 .textTheme
                                 .titleSmall!
                                 .copyWith(
-                                    fontSize: 16, color: Color(0xFFE85566)),
+                                    fontSize: 16,
+                                    color: const Color(0xFFE85566)),
                           ),
                         ],
                       ),
@@ -122,7 +127,8 @@ class _HomeState extends State<Home> {
                                 .textTheme
                                 .titleSmall!
                                 .copyWith(
-                                    fontSize: 16, color: Color(0xFFE85566)),
+                                    fontSize: 16,
+                                    color: const Color(0xFFE85566)),
                           ),
                         ],
                       ),
@@ -136,10 +142,8 @@ class _HomeState extends State<Home> {
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
                         "No birthdays found",
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleSmall!
-                            .copyWith(fontSize: 16, color: Color(0xFFE85566)),
+                        style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                            fontSize: 16, color: const Color(0xFFE85566)),
                       ),
                     ),
                 ],
@@ -152,7 +156,7 @@ class _HomeState extends State<Home> {
                 style: Theme.of(context)
                     .textTheme
                     .titleSmall!
-                    .copyWith(fontSize: 16, color: Colors.black),
+                    .copyWith(fontSize: 16, color: const Color(0xFFE85566)),
               ),
             );
           }
@@ -162,7 +166,7 @@ class _HomeState extends State<Home> {
   }
 
   Widget listBuilder(
-      {required List<dynamic> list, required bool isHorizontal}) {
+      {required List<BirthdayModel> list, required bool isHorizontal}) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: SizedBox(
@@ -179,19 +183,15 @@ class _HomeState extends State<Home> {
           itemCount: list.length,
           scrollDirection: isHorizontal ? Axis.horizontal : Axis.vertical,
           itemBuilder: (context, index) {
-            final todayName = list[index]["name"];
-            final Timestamp todayTimestamp = list[index]['date'];
             return isHorizontal
                 ? BirthdayListTileHorizontal(
                     index: index,
-                    name: todayName,
-                    imageURL: imageURLs[index % imageURLs.length],
-                    date: todayTimestamp.toDate())
+                    birthdayModel: list[index],
+                  )
                 : BirthdatListTileVertical(
                     index: index,
-                    name: todayName,
-                    imageURL: imageURLs[index % imageURLs.length],
-                    date: todayTimestamp.toDate());
+                    birthdayModel: list[index],
+                  );
           },
         ),
       ),

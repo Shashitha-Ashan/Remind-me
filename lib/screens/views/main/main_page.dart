@@ -1,10 +1,7 @@
-import 'package:birth_daily/screens/views/add_birthday/add_birthday.dart';
 import 'package:birth_daily/screens/views/calendar/birthday_calendar.dart';
 import 'package:birth_daily/screens/views/home/home.dart';
-import 'package:birth_daily/screens/views/home/home_page.dart';
 import 'package:birth_daily/screens/views/settings/settings_page.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -65,7 +62,7 @@ class _MainPageState extends State<MainPage> {
         ),
       ),
       body: <Widget>[
-        Home(),
+        HomePage(),
         BirthdayCalendar(),
         Center(
           child: Text("Wishes"),

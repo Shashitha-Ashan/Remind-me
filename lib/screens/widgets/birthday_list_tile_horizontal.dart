@@ -1,19 +1,13 @@
 import 'package:birth_daily/helpers/list_tile_colors.dart';
 import 'package:birth_daily/helpers/months_list.dart';
+import 'package:birth_daily/models/birthday/birthday_model.dart';
 import 'package:flutter/material.dart';
 
 class BirthdayListTileHorizontal extends StatelessWidget {
   const BirthdayListTileHorizontal(
-      {super.key,
-      required this.name,
-      required this.imageURL,
-      required this.date,
-      required this.index});
-  final String name;
-  final String imageURL;
-  final DateTime date;
+      {super.key, required this.index, required this.birthdayModel});
   final int index;
-
+  final BirthdayModel birthdayModel;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -28,12 +22,13 @@ class BirthdayListTileHorizontal extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           Image.asset(
-            imageURL,
+            birthdayModel.imageURL,
             height: 70,
             width: 70,
           ),
           Text(
-            name[0].toUpperCase() + name.substring(1),
+            birthdayModel.name[0].toUpperCase() +
+                birthdayModel.name.substring(1),
             style:
                 Theme.of(context).textTheme.titleLarge?.copyWith(fontSize: 22),
           ),
@@ -45,7 +40,7 @@ class BirthdayListTileHorizontal extends StatelessWidget {
                 width: 10,
               ),
               Text(
-                "${months[date.month - 1]}/${date.day}",
+                "${months[birthdayModel.dateTime.toDate().month - 1]}/${birthdayModel.dateTime.toDate().day}",
                 style: Theme.of(context)
                     .textTheme
                     .titleMedium

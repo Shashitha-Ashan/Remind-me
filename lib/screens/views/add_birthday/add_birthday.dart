@@ -1,5 +1,7 @@
 import 'package:birth_daily/blocs/birthday/birthdays_bloc.dart';
 import 'package:birth_daily/helpers/list_tile_imgs.dart';
+import 'package:birth_daily/helpers/months_list.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -13,10 +15,11 @@ class AddBirthday extends StatefulWidget {
 class _AddBirthdayState extends State<AddBirthday> {
   final TextEditingController _name = TextEditingController();
   final TextEditingController _date = TextEditingController();
-  late DateTime? birthdate;
+  late Timestamp? birthdate;
   bool _isLovingOne = false;
   bool isEditMode = false;
   int _selectedImageIndex = 0;
+  String? _docId;
 
   @override
   void dispose() {
@@ -29,12 +32,17 @@ class _AddBirthdayState extends State<AddBirthday> {
   Widget build(BuildContext context) {
     return BlocBuilder<BirthdaysBloc, BirthdayState>(
       builder: (context, state) {
-        if (state is BirthdayUpdate) {
+        if (state is BirthdayUpdateState) {
+          print("awaaa");
+          _selectedImageIndex = imageURLs.indexWhere(
+            (element) => element == state.imageURL,
+          );
           isEditMode = true;
           _name.text = state.name;
-          _date.text = state.date.toString();
+          _date.text =
+              "${months[state.date.toDate().month - 1]}/${state.date.toDate().day}";
           _isLovingOne = state.isLovingOne;
-          _selectedImageIndex = state.avatarIndex;
+          _docId = state.docId;
         }
         if (state is BirthdayAdd) {
           isEditMode = false;
@@ -101,13 +109,14 @@ class _AddBirthdayState extends State<AddBirthday> {
                                         Icons.check_circle,
                                         color: Colors.green,
                                       ))
-                                  : Positioned(
+                                  : const Positioned(
                                       right: 0,
                                       top: 0,
                                       child: Icon(
                                         Icons.circle,
                                         color: Colors.white,
-                                      ))
+                                      ),
+                                    )
                             ],
                           ),
                         ),
@@ -138,7 +147,7 @@ class _AddBirthdayState extends State<AddBirthday> {
                         controller: _date,
                         readOnly: true,
                         onTap: () async {
-                          birthdate = await showDatePicker(
+                          DateTime? selectDate = await showDatePicker(
                             keyboardType: TextInputType.datetime,
                             initialDatePickerMode: DatePickerMode.day,
                             initialEntryMode: DatePickerEntryMode.input,
@@ -152,6 +161,9 @@ class _AddBirthdayState extends State<AddBirthday> {
                               DateTime.december,
                             ),
                           );
+                          if (selectDate != null) {
+                            birthdate = Timestamp.fromDate(selectDate);
+                          }
                         },
                         decoration: InputDecoration(
                             hintText: "Enter birth date",
@@ -193,12 +205,23 @@ class _AddBirthdayState extends State<AddBirthday> {
                         height: 50,
                         color: const Color(0xFFE85566),
                         onPressed: () {
-                          // if (state is BirthdayAdd) {
-                          //   context.read<BirthdaysBloc>().add(AddBirthdayEvent(date: , name: _name.text));
-                          // }
-                          // if (state is BirthdayUpdate) {
-                          //   context.read<BirthdaysBloc>().add(UpdateBirthdayEvent(date: , id: , name: _name.text));
-                          // }
+                          if (state is BirthdayAdd) {
+                            context.read<BirthdaysBloc>().add(AddBirthdayEvent(
+                                date: birthdate!,
+                                name: _name.text,
+                                imageURL: imageURLs[_selectedImageIndex],
+                                isLovingOne: _isLovingOne));
+                          }
+                          if (state is BirthdayUpdateState) {
+                            print("update state");
+                            context.read<BirthdaysBloc>().add(
+                                UpdateBirthdayEvent(
+                                    date: birthdate!,
+                                    id: _docId!,
+                                    name: _name.text,
+                                    imageURL: imageURLs[_selectedImageIndex],
+                                    isLovingOne: _isLovingOne));
+                          }
                         },
                         shape: ContinuousRectangleBorder(
                           borderRadius: BorderRadius.circular(25),
