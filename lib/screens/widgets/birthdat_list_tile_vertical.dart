@@ -16,7 +16,7 @@ class BirthdatListTileVertical extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
+      onLongPress: () {
         Navigator.push(
             context,
             MaterialPageRoute(
@@ -37,14 +37,12 @@ class BirthdatListTileVertical extends StatelessWidget {
           borderRadius: const BorderRadius.all(Radius.circular(12)),
         ),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Image.asset(
               birthdayModel.imageURL,
               height: 100,
               width: 100,
-            ),
-            const SizedBox(
-              width: 20,
             ),
             Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -74,6 +72,19 @@ class BirthdatListTileVertical extends StatelessWidget {
                   ],
                 ),
               ],
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: birthdayModel.isLovingOne
+                  ? const Icon(
+                      Icons.favorite,
+                      color: Color(0xFFE85566),
+                      size: 40,
+                      shadows: [
+                        Shadow(blurRadius: 1, offset: Offset(1, 1)),
+                      ],
+                    )
+                  : const Icon(null),
             )
           ],
         ),

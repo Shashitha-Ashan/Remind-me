@@ -18,56 +18,74 @@ class BirthdayListTileHorizontal extends StatelessWidget {
         ),
         color: colors[index % colors.length],
       ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+      child: Stack(
         children: [
-          Image.asset(
-            birthdayModel.imageURL,
-            height: 70,
-            width: 70,
-          ),
-          Text(
-            birthdayModel.name[0].toUpperCase() +
-                birthdayModel.name.substring(1),
-            style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  fontSize: 22,
-                  color: const Color(0xFFF0717B),
-                ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              const Icon(
-                Icons.cake,
-                color: Color(0xFFF0717B),
-              ),
-              const SizedBox(
-                width: 10,
+              Image.asset(
+                birthdayModel.imageURL,
+                height: 70,
+                width: 70,
               ),
               Text(
-                "${months[birthdayModel.dateTime.toDate().month - 1]}/${birthdayModel.dateTime.toDate().day}",
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontSize: 18,
-                      color: const Color(0xFF000000),
+                birthdayModel.name[0].toUpperCase() +
+                    birthdayModel.name.substring(1),
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      fontSize: 22,
+                      color: const Color(0xFFF0717B),
                     ),
               ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(
+                    Icons.cake,
+                    color: Color(0xFFF0717B),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    "${months[birthdayModel.dateTime.toDate().month - 1]}/${birthdayModel.dateTime.toDate().day}",
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          fontSize: 18,
+                          color: const Color(0xFF000000),
+                        ),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              MaterialButton(
+                onPressed: () {},
+                shape: ContinuousRectangleBorder(
+                    borderRadius: BorderRadius.circular(20)),
+                color: const Color(0xFFF0717B),
+                child: Text(
+                  "Send wishes",
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleMedium
+                      ?.copyWith(fontSize: 14, color: Colors.white),
+                ),
+              )
             ],
           ),
-          const SizedBox(
-            height: 10,
-          ),
-          MaterialButton(
-            onPressed: () {},
-            shape: ContinuousRectangleBorder(
-                borderRadius: BorderRadius.circular(20)),
-            color: const Color(0xFFF0717B),
-            child: Text(
-              "Send wishes",
-              style: Theme.of(context)
-                  .textTheme
-                  .titleMedium
-                  ?.copyWith(fontSize: 14, color: Colors.white),
-            ),
+          Positioned(
+            top: 1,
+            right: 1,
+            child: birthdayModel.isLovingOne
+                ? const Icon(
+                    Icons.favorite,
+                    color: Color(0xFFE85566),
+                    size: 25,
+                    shadows: [
+                      Shadow(blurRadius: 1, offset: Offset(1, 0)),
+                    ],
+                  )
+                : const Icon(null),
           )
         ],
       ),
