@@ -42,8 +42,55 @@ class BirthdayUpdateState extends BirthdayState {
       required this.date});
 }
 
+class BirthdayProfileState extends BirthdayState {
+  final String? docId;
+  final String name;
+  final Timestamp date;
+  final bool isLovingOne;
+  final String imageURL;
+
+  BirthdayProfileState(
+      {required this.isLovingOne,
+      required this.imageURL,
+      this.docId,
+      required this.name,
+      required this.date});
+}
+
 class BirthdayUpdateError extends BirthdayState {}
 
 class BirthdayDeleted extends BirthdayState {}
 
 class BirthdayDeleteError extends BirthdayState {}
+
+// form states
+
+class BirthdayNameUpdatedState extends BirthdayState {
+  final String name;
+
+  BirthdayNameUpdatedState({required this.name});
+}
+
+class BirthdayDateUpdatedState extends BirthdayState {
+  final Timestamp date;
+
+  BirthdayDateUpdatedState({required this.date});
+}
+
+class BirthdayLovingOneUpdatedState extends BirthdayState {
+  final bool isLovingOne;
+
+  BirthdayLovingOneUpdatedState({required this.isLovingOne});
+}
+
+class BirthdayImageUpdatedState extends BirthdayState {
+  final String imageURL;
+
+  BirthdayImageUpdatedState({required this.imageURL});
+}
+
+class BirthdayEditAccessState extends BirthdayState {
+  final bool editAccess;
+
+  BirthdayEditAccessState({required this.editAccess});
+}

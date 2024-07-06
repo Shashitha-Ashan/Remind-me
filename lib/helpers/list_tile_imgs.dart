@@ -1,9 +1,10 @@
 final List<String> imageURLs = [
+  "assets/avatars/0.png",
   "assets/avatars/1.png",
   "assets/avatars/2.png",
+  "assets/avatars/5.png",
   "assets/avatars/3.png",
   "assets/avatars/4.png",
-  "assets/avatars/5.png",
   "assets/avatars/6.png",
   "assets/avatars/7.png",
   "assets/avatars/8.png",

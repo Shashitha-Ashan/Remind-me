@@ -1,8 +1,11 @@
 import 'package:birth_daily/blocs/birthday/birthdays_bloc.dart';
 import 'package:birth_daily/helpers/list_tile_imgs.dart';
 import 'package:birth_daily/helpers/months_list.dart';
+import 'package:birth_daily/screens/widgets/date_picker.dart';
+import 'package:birth_daily/screens/widgets/snack_bar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AddBirthday extends StatefulWidget {
@@ -17,9 +20,7 @@ class _AddBirthdayState extends State<AddBirthday> {
   final TextEditingController _date = TextEditingController();
   late Timestamp? birthdate;
   bool _isLovingOne = false;
-  bool isEditMode = false;
   int _selectedImageIndex = 0;
-  String? _docId;
 
   @override
   void dispose() {
@@ -32,26 +33,31 @@ class _AddBirthdayState extends State<AddBirthday> {
   Widget build(BuildContext context) {
     return BlocBuilder<BirthdaysBloc, BirthdayState>(
       builder: (context, state) {
-        if (state is BirthdayUpdateState) {
-          print("awaaa");
-          _selectedImageIndex = imageURLs.indexWhere(
-            (element) => element == state.imageURL,
-          );
-          isEditMode = true;
-          _name.text = state.name;
-          _date.text =
-              "${months[state.date.toDate().month - 1]}/${state.date.toDate().day}";
-          _isLovingOne = state.isLovingOne;
-          _docId = state.docId;
+        if (state is BirthdayAdded) {
+          SchedulerBinding.instance.addPostFrameCallback((_) {
+            showSnackBar(
+                message: "Birthday Added",
+                bkgColor: Colors.green,
+                context: context);
+          });
+          _name.clear();
+          _date.clear();
         }
-        if (state is BirthdayAdd) {
-          isEditMode = false;
+
+        if (state is BirthdayAddError) {
+          SchedulerBinding.instance.addPostFrameCallback((_) {
+            showSnackBar(
+                message: "Birthday not Added",
+                bkgColor: Colors.red,
+                context: context);
+          });
         }
+
         return Scaffold(
           appBar: AppBar(
             centerTitle: true,
-            title: Text(
-              isEditMode ? "Edit birthday" : "Add birthday",
+            title: const Text(
+              "Add birthday",
             ),
           ),
           body: Padding(
@@ -147,21 +153,11 @@ class _AddBirthdayState extends State<AddBirthday> {
                         controller: _date,
                         readOnly: true,
                         onTap: () async {
-                          DateTime? selectDate = await showDatePicker(
-                            keyboardType: TextInputType.datetime,
-                            initialDatePickerMode: DatePickerMode.day,
-                            initialEntryMode: DatePickerEntryMode.input,
-                            context: context,
-                            firstDate: DateTime(
-                              1900,
-                              DateTime.january,
-                            ),
-                            lastDate: DateTime(
-                              DateTime.now().year,
-                              DateTime.december,
-                            ),
-                          );
+                          DateTime? selectDate =
+                              await showBirthdatePicker(context: context);
                           if (selectDate != null) {
+                            _date.text =
+                                "${months[selectDate.month - 1]}/${selectDate.day}";
                             birthdate = Timestamp.fromDate(selectDate);
                           }
                         },
@@ -205,29 +201,17 @@ class _AddBirthdayState extends State<AddBirthday> {
                         height: 50,
                         color: const Color(0xFFE85566),
                         onPressed: () {
-                          if (state is BirthdayAdd) {
-                            context.read<BirthdaysBloc>().add(AddBirthdayEvent(
-                                date: birthdate!,
-                                name: _name.text,
-                                imageURL: imageURLs[_selectedImageIndex],
-                                isLovingOne: _isLovingOne));
-                          }
-                          if (state is BirthdayUpdateState) {
-                            print("update state");
-                            context.read<BirthdaysBloc>().add(
-                                UpdateBirthdayEvent(
-                                    date: birthdate!,
-                                    id: _docId!,
-                                    name: _name.text,
-                                    imageURL: imageURLs[_selectedImageIndex],
-                                    isLovingOne: _isLovingOne));
-                          }
+                          context.read<BirthdaysBloc>().add(AddBirthdayEvent(
+                              date: birthdate!,
+                              name: _name.text,
+                              imageURL: imageURLs[_selectedImageIndex],
+                              isLovingOne: _isLovingOne));
                         },
                         shape: ContinuousRectangleBorder(
                           borderRadius: BorderRadius.circular(25),
                         ),
                         child: Text(
-                          isEditMode ? "Update" : "Save",
+                          "Save",
                           style: Theme.of(context)
                               .textTheme
                               .labelMedium!

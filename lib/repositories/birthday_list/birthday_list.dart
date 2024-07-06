@@ -36,6 +36,6 @@ class BirthdayListRepo extends IBirthdayListRepo {
 
   @override
   Future<List<BirthdayModel>> getAllBirthdays() async {
-    return BirthdayService().getBirthdays();
+    return await BirthdayService().getBirthdays();
   }
 }

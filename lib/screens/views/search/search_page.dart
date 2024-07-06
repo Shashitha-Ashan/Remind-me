@@ -1,6 +1,8 @@
 import 'package:birth_daily/repositories/birthday_list/birthday_list.dart';
+import 'package:birth_daily/screens/views/birthday_user_profile/birthday_user_profile.dart';
 import 'package:birth_daily/screens/views/search/search_table_delegate.dart';
 import 'package:birth_daily/screens/widgets/birthdat_list_tile_vertical.dart';
+import 'package:birth_daily/screens/widgets/delete_alert.dart';
 import 'package:birth_daily/services/birthday_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -44,15 +46,14 @@ class SearchPage extends StatelessWidget {
                     endActionPane: ActionPane(
                         motion: const StretchMotion(),
                         dismissible: DismissiblePane(onDismissed: () {}),
+                        dragDismissible: false,
                         children: [
                           SlidableAction(
-                            onPressed: (context) {},
-                            icon: Icons.edit,
-                            label: 'Edit',
-                            backgroundColor: Colors.blue,
-                          ),
-                          SlidableAction(
-                            onPressed: (context) {},
+                            onPressed: (context) async {
+                              await deleteBirthdayAlert(
+                                  context: context,
+                                  docId: snapshot.data![index].id!);
+                            },
                             icon: Icons.delete,
                             label: 'Delete',
                             backgroundColor: Colors.red,

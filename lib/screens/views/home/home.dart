@@ -83,19 +83,21 @@ class _HomePageState extends State<HomePage> {
                             style: Theme.of(context)
                                 .textTheme
                                 .titleSmall!
-                                .copyWith(fontSize: 18, color: Colors.black),
+                                .copyWith(
+                                    fontSize: 18,
+                                    color: const Color(0xFFE85566)),
                           ),
                         ],
                       ),
                     ),
-                    Row(
+                    const Row(
                       children: [
-                        const SizedBox(
+                        SizedBox(
                           width: 10,
                         ),
-                        listBuilder(list: todayList, isHorizontal: true),
                       ],
                     ),
+                    listBuilder(list: todayList, isHorizontal: true),
                   ],
                   if (upcomingList.isNotEmpty) ...[
                     Padding(
@@ -172,7 +174,9 @@ class _HomePageState extends State<HomePage> {
       child: SizedBox(
         height: isHorizontal ? MediaQuery.of(context).size.height * 0.3 : null,
         child: ListView.separated(
-          physics: const NeverScrollableScrollPhysics(),
+          physics: isHorizontal
+              ? const AlwaysScrollableScrollPhysics()
+              : const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           separatorBuilder: (context, index) {
             return const SizedBox(

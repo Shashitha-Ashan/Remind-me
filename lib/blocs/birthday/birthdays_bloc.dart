@@ -12,15 +12,15 @@ class BirthdaysBloc extends Bloc<BirthdayEvent, BirthdayState> {
   final BirthdayRepo _birthdayRepo;
   BirthdaysBloc(this._birthdayRepo) : super(BirthdaysInitial()) {
     on<BirthdayEvent>((event, emit) async {
-      if (event is LoadBirthdaysEvent) {
-        emit(BirthdaysLoadingState());
-        try {
-          final birthdays = await _birthdayRepo.loadBirthdays();
-          emit(BirthdaysSuccessLoadState(birthdays: birthdays));
-        } catch (e) {
-          emit(BirthdaysFailedLoadState(message: "Error occured"));
-        }
-      }
+      // if (event is LoadBirthdaysEvent) {
+      //   emit(BirthdaysLoadingState());
+      //   try {
+      //     final birthdays = await _birthdayRepo.loadBirthdays();
+      //     emit(BirthdaysSuccessLoadState(birthdays: birthdays));
+      //   } catch (e) {
+      //     emit(BirthdaysFailedLoadState(message: "Error occured"));
+      //   }
+      // }
       if (event is AddBirthdayEvent) {
         try {
           await _birthdayRepo.addBirthday(
@@ -54,19 +54,33 @@ class BirthdaysBloc extends Bloc<BirthdayEvent, BirthdayState> {
           emit(BirthdayDeleteError());
         }
       }
-      if (event is AddBirthdayClickEvent) {
-        emit(BirthdayAdd());
-      }
-      if (event is UpdateBirthdayClickEvent) {
+      if (event is BirthdayProfileEvent) {
         try {
           final BirthdayModel? res =
               await _birthdayRepo.getBirthdayById(docId: event.docId);
-          emit(BirthdayUpdateState(
-              date: res!.dateTime,
+          emit(BirthdayProfileState(
+              docId: res!.id,
+              date: res.dateTime,
               name: res.name,
               imageURL: res.imageURL,
               isLovingOne: res.isLovingOne));
         } catch (e) {}
+      }
+
+      if (event is BirthdayEditAccessEvent) {
+        emit(BirthdayEditAccessState(editAccess: event.editAccess));
+      }
+      if (event is BirthdayNameUpdatedEvent) {
+        emit(BirthdayNameUpdatedState(name: event.name));
+      }
+      if (event is BirthdayDateUpdatedEvent) {
+        emit(BirthdayDateUpdatedState(date: event.date));
+      }
+      if (event is BirthdayLovingOneUpdatedEvent) {
+        emit(BirthdayLovingOneUpdatedState(isLovingOne: event.isLovingOne));
+      }
+      if (event is BirthdayImageUpdatedEvent) {
+        emit(BirthdayImageUpdatedState(imageURL: event.imageURL));
       }
     });
   }

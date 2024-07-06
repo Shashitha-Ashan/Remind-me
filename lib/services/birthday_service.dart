@@ -18,17 +18,15 @@ class BirthdayService {
   Future<List<BirthdayModel>> getBirthdays() async {
     final bdsList = await _collection.where('uid', isEqualTo: user?.uid).get();
 
-    final List<BirthdayDocument> birthdaysList = bdsList.docs
-        .map((doc) {
-          BirthdayDocument(
-              data: doc.data() as Map<String, dynamic>, docId: doc.id);
-        })
-        .cast<BirthdayDocument>()
-        .toList();
+    final List<BirthdayDocument> birthdaysList = bdsList.docs.map((doc) {
+      return BirthdayDocument(
+          data: doc.data() as Map<String, dynamic>, docId: doc.id);
+    }).toList();
 
     final birthdayModelList = birthdaysList
         .map((val) => BirthdayModel.fromJson(val.data, val.docId))
         .toList();
+
     return birthdayModelList;
   }
 

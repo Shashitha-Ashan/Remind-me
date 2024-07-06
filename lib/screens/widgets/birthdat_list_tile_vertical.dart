@@ -1,8 +1,10 @@
+import 'package:birth_daily/blocs/birthday/birthdays_bloc.dart';
 import 'package:birth_daily/helpers/list_tile_colors.dart';
 import 'package:birth_daily/helpers/months_list.dart';
 import 'package:birth_daily/models/birthday/birthday_model.dart';
 import 'package:birth_daily/screens/views/birthday_user_profile/birthday_user_profile.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class BirthdatListTileVertical extends StatelessWidget {
   BirthdatListTileVertical(
@@ -22,6 +24,9 @@ class BirthdatListTileVertical extends StatelessWidget {
                 birthdayModel: birthdayModel,
               ),
             ));
+        context
+            .read<BirthdaysBloc>()
+            .add(BirthdayProfileEvent(docId: birthdayModel.id!));
       },
       child: Container(
         width: MediaQuery.of(context).size.width,

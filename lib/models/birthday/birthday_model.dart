@@ -20,7 +20,7 @@ class BirthdayModel {
             dateTime: json['date']! as Timestamp? ?? Timestamp.now(),
             id: id,
             isLovingOne: json['isLovingOne'] ?? false,
-            imageURL: json['imageURL'] as String? ?? "assets/avatars/2.png");
+            imageURL: json['imageURL'] as String? ?? "assets/avatars/0.png");
 
   Map<String, Object?> toJson() {
     return {

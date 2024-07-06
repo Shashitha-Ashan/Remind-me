@@ -29,22 +29,27 @@ class BirthdayListTileHorizontal extends StatelessWidget {
           Text(
             birthdayModel.name[0].toUpperCase() +
                 birthdayModel.name.substring(1),
-            style:
-                Theme.of(context).textTheme.titleLarge?.copyWith(fontSize: 22),
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  fontSize: 22,
+                  color: const Color(0xFFF0717B),
+                ),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Icon(Icons.cake),
+              const Icon(
+                Icons.cake,
+                color: Color(0xFFF0717B),
+              ),
               const SizedBox(
                 width: 10,
               ),
               Text(
                 "${months[birthdayModel.dateTime.toDate().month - 1]}/${birthdayModel.dateTime.toDate().day}",
-                style: Theme.of(context)
-                    .textTheme
-                    .titleMedium
-                    ?.copyWith(fontSize: 18),
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      fontSize: 18,
+                      color: const Color(0xFF000000),
+                    ),
               ),
             ],
           ),
@@ -55,13 +60,13 @@ class BirthdayListTileHorizontal extends StatelessWidget {
             onPressed: () {},
             shape: ContinuousRectangleBorder(
                 borderRadius: BorderRadius.circular(20)),
-            color: const Color.fromARGB(255, 240, 113, 123),
+            color: const Color(0xFFF0717B),
             child: Text(
               "Send wishes",
               style: Theme.of(context)
                   .textTheme
                   .titleMedium
-                  ?.copyWith(fontSize: 14),
+                  ?.copyWith(fontSize: 14, color: Colors.white),
             ),
           )
         ],

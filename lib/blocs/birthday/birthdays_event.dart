@@ -25,12 +25,10 @@ class DeleteBirthdayEvent extends BirthdayEvent {
   DeleteBirthdayEvent({required this.id});
 }
 
-class AddBirthdayClickEvent extends BirthdayEvent {}
-
-class UpdateBirthdayClickEvent extends BirthdayEvent {
+class BirthdayProfileEvent extends BirthdayEvent {
   final String docId;
 
-  UpdateBirthdayClickEvent({required this.docId});
+  BirthdayProfileEvent({required this.docId});
 }
 
 class UpdateBirthdayEvent extends BirthdayEvent {
@@ -46,4 +44,36 @@ class UpdateBirthdayEvent extends BirthdayEvent {
       required this.name,
       required this.date,
       required this.imageURL});
+}
+
+// form events
+
+class BirthdayNameUpdatedEvent extends BirthdayEvent {
+  final String name;
+
+  BirthdayNameUpdatedEvent({required this.name});
+}
+
+class BirthdayDateUpdatedEvent extends BirthdayEvent {
+  final Timestamp date;
+
+  BirthdayDateUpdatedEvent({required this.date});
+}
+
+class BirthdayLovingOneUpdatedEvent extends BirthdayEvent {
+  final bool isLovingOne;
+
+  BirthdayLovingOneUpdatedEvent({required this.isLovingOne});
+}
+
+class BirthdayImageUpdatedEvent extends BirthdayEvent {
+  final String imageURL;
+
+  BirthdayImageUpdatedEvent({required this.imageURL});
+}
+
+class BirthdayEditAccessEvent extends BirthdayEvent {
+  final bool editAccess;
+
+  BirthdayEditAccessEvent({required this.editAccess});
 }
