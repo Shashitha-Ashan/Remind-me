@@ -12,3 +12,5 @@ class NotificationToggleEvent extends PreferenceEvent {
   final bool notificationStatus;
   NotificationToggleEvent({required this.notificationStatus});
 }
+
+class FirstRunCompleteEvent extends PreferenceEvent {}

@@ -1,4 +1,6 @@
+import 'package:birth_daily/blocs/preference/preference_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class OnboardScreen4 extends StatelessWidget {
@@ -41,7 +43,9 @@ class OnboardScreen4 extends StatelessWidget {
               height: 30,
             ),
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+                context.read<PreferenceBloc>().add(FirstRunCompleteEvent());
+              },
               child: SizedBox(
                 height: 60,
                 width: MediaQuery.of(context).size.height * 0.5,

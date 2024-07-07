@@ -12,7 +12,10 @@ import 'package:birth_daily/screens/views/signup/sign_up.dart';
 import 'package:go_router/go_router.dart';
 
 final routers = GoRouter(routes: <RouteBase>[
-  GoRoute(path: "/", builder: (context, state) => const StartupPage()),
+  GoRoute(
+    path: "/",
+    builder: (context, state) => const StartupPage(),
+  ),
   GoRoute(
     path: "/login",
     builder: (context, state) => const LoginScreen(),

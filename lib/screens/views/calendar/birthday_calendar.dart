@@ -81,7 +81,7 @@ class _BirthdayCalendarState extends State<BirthdayCalendar> {
                       style: Theme.of(context)
                           .textTheme
                           .titleLarge!
-                          .copyWith(color: Colors.black, fontSize: 16),
+                          .copyWith(fontSize: 16),
                     ),
                   ],
                 ),

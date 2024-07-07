@@ -19,3 +19,5 @@ class NotificationToggleState extends PreferenceState {
   final bool notificationStatus;
   NotificationToggleState({required this.notificationStatus});
 }
+
+class FirstRunCompleteState extends PreferenceState {}

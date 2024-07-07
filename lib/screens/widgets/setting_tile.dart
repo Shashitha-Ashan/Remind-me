@@ -20,8 +20,8 @@ class SettingTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-        color: const Color(0x90E4EDF7),
+        borderRadius: BorderRadius.circular(20),
+        color: Theme.of(context).listTileTheme.tileColor,
       ),
       child: InkWell(
         child: ListTile(

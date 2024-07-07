@@ -56,7 +56,7 @@ class _MainPageState extends State<MainPage> {
           },
           destinations: _navList,
           height: 65,
-          backgroundColor: const Color(0xFFE85566),
+          backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
           animationDuration: const Duration(milliseconds: 300),
           indicatorColor: const Color(0xFFE48994),
           labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,

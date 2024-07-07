@@ -1,6 +1,5 @@
 import 'package:birth_daily/helpers/birthday_wishes_messages.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class BirthdayGiftPage extends StatelessWidget {
@@ -9,23 +8,24 @@ class BirthdayGiftPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text("Birthday Gifts"),
-        ),
-        body: Padding(
-          padding: const EdgeInsets.only(top: 10),
-          child: ListView.separated(
-              itemBuilder: (context, index) {
-                return _giftContainer(
-                    message: birthdayWishes[index], context: context);
-              },
-              separatorBuilder: (context, index) {
-                return const SizedBox(
-                  height: 20,
-                );
-              },
-              itemCount: 5),
-        ));
+      appBar: AppBar(
+        title: const Text("Birthday Gifts"),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.only(top: 10),
+        child: ListView.separated(
+            itemBuilder: (context, index) {
+              return _giftContainer(
+                  message: birthdayWishes[index], context: context);
+            },
+            separatorBuilder: (context, index) {
+              return const SizedBox(
+                height: 20,
+              );
+            },
+            itemCount: 5),
+      ),
+    );
   }
 
   Widget _giftContainer(
@@ -34,7 +34,7 @@ class BirthdayGiftPage extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Container(
         decoration: BoxDecoration(
-          border: Border.all(width: 1, color: Colors.black38),
+          border: Border.all(width: 1, color: Theme.of(context).dividerColor),
           borderRadius: BorderRadius.circular(10),
         ),
         child: Padding(

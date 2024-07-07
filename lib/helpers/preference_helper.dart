@@ -24,22 +24,35 @@ class PreferenceHelper {
     return await prefs.setBool('notification', notificationStatus);
   }
 
+  Future<bool?> setFirstRunCompleted() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return await prefs.setBool('firsRun', false);
+  }
+
   static Future<InitialPrefernce> getInitialPreferences() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
     return InitialPrefernce(
         notificationStatus: prefs.getBool('notification'),
-        themeStatus: prefs.getBool('theme'));
+        themeStatus: prefs.getBool('theme'),
+        isFirstRun: prefs.getBool('firsRun'));
   }
 }
 
 class InitialPrefernce {
   final bool? notificationStatus;
   final bool? themeStatus;
-  InitialPrefernce(
-      {required this.notificationStatus, required this.themeStatus});
-  InitialPrefernce.copyWith({bool? notificationStatus, bool? themeStatus})
+  final bool? isFirstRun;
+  InitialPrefernce({
+    required this.notificationStatus,
+    required this.themeStatus,
+    required this.isFirstRun,
+  });
+  InitialPrefernce.copyWith(
+      {bool? notificationStatus, bool? themeStatus, bool? isFirstRun})
       : this(
-            notificationStatus: notificationStatus ?? true,
-            themeStatus: themeStatus ?? false);
+          notificationStatus: notificationStatus ?? true,
+          themeStatus: themeStatus ?? false,
+          isFirstRun: isFirstRun ?? true,
+        );
 }

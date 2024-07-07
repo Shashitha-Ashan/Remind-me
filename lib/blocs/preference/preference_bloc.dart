@@ -23,6 +23,10 @@ class PreferenceBloc extends Bloc<PreferenceEvent, PreferenceState> {
         emit(NotificationToggleState(
             notificationStatus: event.notificationStatus));
       }
+      if (event is FirstRunCompleteEvent) {
+        emit(FirstRunCompleteState());
+        await prefereceRepo.setFirstRunCompleted();
+      }
     });
   }
 }

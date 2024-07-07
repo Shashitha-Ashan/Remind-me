@@ -38,9 +38,14 @@ class PrefereceRepo extends IPrefereceRepo {
     return await preferenceHelper.setThemeStatus(themeStatus: themeStatus);
   }
 
+  Future<bool?> setFirstRunCompleted() async {
+    return await preferenceHelper.setFirstRunCompleted();
+  }
+
   InitialPrefernce getInitialPreferences() {
     return InitialPrefernce.copyWith(
         notificationStatus: initialPrefernce.notificationStatus,
-        themeStatus: initialPrefernce.themeStatus);
+        themeStatus: initialPrefernce.themeStatus,
+        isFirstRun: initialPrefernce.isFirstRun);
   }
 }

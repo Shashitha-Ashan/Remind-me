@@ -16,12 +16,18 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
-    TextStyle? textStyle = Theme.of(context).textTheme.titleLarge!.copyWith(
-        fontWeight: FontWeight.bold, fontSize: 16, color: Colors.black);
+    TextStyle? titleStyle = Theme.of(context).textTheme.titleLarge!.copyWith(
+          fontWeight: FontWeight.bold,
+          fontSize: 16,
+        );
+    TextStyle? subtitleStyle = Theme.of(context).textTheme.labelSmall!.copyWith(
+          fontSize: 13,
+        );
     Color iconColor = const Color(0xFF4849A0); //  0xFF5E00F5
 
     return BlocBuilder<PreferenceBloc, PreferenceState>(
       builder: (context, state) {
+        print(state);
         bool themeButtonVal = false;
         bool notificationButtonVal = true;
         if (state is ThemeToggleState) {
@@ -30,7 +36,12 @@ class _SettingsPageState extends State<SettingsPage> {
         if (state is NotificationToggleState) {
           notificationButtonVal = state.notificationStatus;
         }
+        if (state is PreferenceInitial) {
+          notificationButtonVal = state.initialPrefernce.notificationStatus!;
+          themeButtonVal = state.initialPrefernce.themeStatus!;
+        }
         return Scaffold(
+          backgroundColor: Theme.of(context).primaryColor,
           appBar: AppBar(
             title: const Text("Settings"),
           ),
@@ -47,7 +58,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     ),
                     title: Text(
                       "Profile Infomation",
-                      style: textStyle,
+                      style: titleStyle,
                     ),
                     onTap: () => context.push("/profile"),
                   ),
@@ -60,31 +71,33 @@ class _SettingsPageState extends State<SettingsPage> {
                     ),
                     title: Text(
                       "App Notifications",
-                      style: textStyle,
+                      style: titleStyle,
                     ),
-                    subtitle: const Text(
-                        "Allow the app to send notification about upcoming bithdays"),
+                    subtitle: Text(
+                      "Allow the app to send notification about upcoming bithdays",
+                      style: subtitleStyle,
+                    ),
                     trailing: Switch(
                       value: notificationButtonVal,
                       onChanged: (value) {},
                     ),
                   ),
                   // Notifications time setting
-                  Gap(),
-                  SettingTile(
-                    onTap: () {
-                      context.push("/onboarding");
-                    },
-                    leading: Icon(
-                      Icons.access_time,
-                      color: iconColor,
-                    ),
-                    title: Text(
-                      "Notification Time",
-                      style: textStyle,
-                    ),
-                    subtitle: const Text("12:00 AM"),
-                  ),
+                  // Gap(),
+                  // SettingTile(
+                  //   onTap: () {
+                  //     context.push("/onboarding");
+                  //   },
+                  //   leading: Icon(
+                  //     Icons.access_time,
+                  //     color: iconColor,
+                  //   ),
+                  //   title: Text(
+                  //     "Notification Time",
+                  //     style: titleStyle,
+                  //   ),
+                  //   subtitle: const Text("12:00 AM"),
+                  // ),
                   // Theme setting
                   Gap(),
                   SettingTile(
@@ -94,9 +107,12 @@ class _SettingsPageState extends State<SettingsPage> {
                     ),
                     title: Text(
                       "Theme",
-                      style: textStyle,
+                      style: titleStyle,
                     ),
-                    subtitle: const Text("Light"),
+                    subtitle: Text(
+                      themeButtonVal ? "Dark" : "Light",
+                      style: subtitleStyle,
+                    ),
                     trailing: Switch(
                       value: themeButtonVal,
                       onChanged: (value) {
@@ -115,7 +131,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     ),
                     title: Text(
                       "Privacy Policy",
-                      style: textStyle,
+                      style: titleStyle,
                     ),
                   ),
                   Gap(),
@@ -127,7 +143,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     ),
                     title: Text(
                       "About Us",
-                      style: textStyle,
+                      style: titleStyle,
                     ),
                   ),
                 ],
