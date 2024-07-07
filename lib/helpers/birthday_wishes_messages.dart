@@ -1,0 +1,22 @@
+List<String> birthdayWishes = [
+  "Wishing you a day filled with love, joy, and all your favorite things. Happy Birthday!",
+  "Happy Birthday! May your day be as amazing as you are.",
+  "Wishing you a fantastic birthday and a wonderful year ahead. Enjoy your special day!",
+  "May your birthday be filled with happiness, laughter, and unforgettable memories. Happy Birthday!",
+  "Happy Birthday to someone who brings so much joy and happiness into the lives of others.",
+  "Cheers to another year of success, happiness, and health. Happy Birthday!",
+  "On your special day, I wish you nothing but the best. Happy Birthday!",
+  "May all your dreams and wishes come true on your birthday. Have an amazing day!",
+  "Happy Birthday! May your day be filled with lots of love, laughter, and cake!",
+  "Wishing you a birthday that's just as wonderful and special as you are.",
+  "Happy Birthday to one of the most amazing people I know. Enjoy your day!",
+  "May your birthday be the start of a year filled with good luck, good health, and much happiness.",
+  "Wishing you a year filled with adventure, love, and success. Happy Birthday!",
+  "Happy Birthday! Here's to a day filled with love, laughter, and lots of cake.",
+  "May your special day be filled with beautiful moments and amazing surprises. Happy Birthday!",
+  "Sending you warm birthday wishes and a big hug. Have a fantastic day!",
+  "Happy Birthday to someone who deserves nothing but the best. Enjoy your special day!",
+  "Wishing you a day that's as special and wonderful as you are. Happy Birthday!",
+  "Happy Birthday! May your day be filled with lots of love, laughter, and joy.",
+  "On your birthday, I wish you all the happiness in the world. Have a fantastic day!"
+];

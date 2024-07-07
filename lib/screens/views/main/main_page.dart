@@ -1,7 +1,9 @@
+import 'package:birth_daily/screens/views/birthday_gift/birthday_gift_page.dart';
 import 'package:birth_daily/screens/views/calendar/birthday_calendar.dart';
 import 'package:birth_daily/screens/views/home/home.dart';
 import 'package:birth_daily/screens/views/settings/settings_page.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -15,26 +17,26 @@ class _MainPageState extends State<MainPage> {
   final List<Widget> _navList = [
     const NavigationDestination(
       icon: Icon(
-        Icons.home_filled,
+        FontAwesomeIcons.house,
         color: Colors.white,
       ),
       label: "Home",
     ),
     const NavigationDestination(
         icon: Icon(
-          Icons.calendar_month,
+          FontAwesomeIcons.calendarDay,
           color: Colors.white,
         ),
         label: "Calendar"),
     const NavigationDestination(
         icon: Icon(
-          Icons.card_giftcard_rounded,
+          FontAwesomeIcons.gift,
           color: Colors.white,
         ),
         label: "Wishes"),
     const NavigationDestination(
         icon: Icon(
-          Icons.settings,
+          FontAwesomeIcons.gear,
           color: Colors.white,
         ),
         label: "Settings"),
@@ -43,7 +45,7 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: NavigationBarTheme(
-        data: NavigationBarThemeData(
+        data: const NavigationBarThemeData(
             labelTextStyle:
                 WidgetStatePropertyAll(TextStyle(color: Colors.white))),
         child: NavigationBar(
@@ -56,18 +58,16 @@ class _MainPageState extends State<MainPage> {
           height: 65,
           backgroundColor: const Color(0xFFE85566),
           animationDuration: const Duration(milliseconds: 300),
-          indicatorColor: Color(0xFFE48994),
-          labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
+          indicatorColor: const Color(0xFFE48994),
+          labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
           selectedIndex: currentPageIndex,
         ),
       ),
       body: <Widget>[
-        HomePage(),
-        BirthdayCalendar(),
-        Center(
-          child: Text("Wishes"),
-        ),
-        SettingsPage()
+        const HomePage(),
+        const BirthdayCalendar(),
+        const BirthdayGiftPage(),
+        const SettingsPage()
       ][currentPageIndex],
     );
   }

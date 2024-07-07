@@ -63,6 +63,8 @@ class BirthdayDeleted extends BirthdayState {}
 
 class BirthdayDeleteError extends BirthdayState {}
 
+class BirthdayAddingState extends BirthdayState {}
+
 // form states
 
 class BirthdayNameUpdatedState extends BirthdayState {

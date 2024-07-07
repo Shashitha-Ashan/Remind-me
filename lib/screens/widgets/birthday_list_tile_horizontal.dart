@@ -2,6 +2,7 @@ import 'package:birth_daily/helpers/list_tile_colors.dart';
 import 'package:birth_daily/helpers/months_list.dart';
 import 'package:birth_daily/models/birthday/birthday_model.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class BirthdayListTileHorizontal extends StatelessWidget {
   const BirthdayListTileHorizontal(
@@ -40,7 +41,7 @@ class BirthdayListTileHorizontal extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Icon(
-                    Icons.cake,
+                    FontAwesomeIcons.cakeCandles,
                     color: Color(0xFFF0717B),
                   ),
                   const SizedBox(
@@ -78,7 +79,7 @@ class BirthdayListTileHorizontal extends StatelessWidget {
             right: 1,
             child: birthdayModel.isLovingOne
                 ? const Icon(
-                    Icons.favorite,
+                    FontAwesomeIcons.solidHeart,
                     color: Color(0xFFE85566),
                     size: 25,
                     shadows: [

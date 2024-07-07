@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 void showSnackBar(
     {required String message,
@@ -6,12 +7,19 @@ void showSnackBar(
     required BuildContext context}) {
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
     duration: const Duration(seconds: 2),
-    content: Text(message),
-    action: SnackBarAction(
-      label: 'Undo',
-      onPressed: () {
-        // Some code to undo the change.
-      },
+    content: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(message),
+        IconButton(
+            onPressed: () {
+              context.pop();
+            },
+            icon: const Icon(
+              Icons.close,
+              color: Colors.white,
+            ))
+      ],
     ),
     backgroundColor: bkgColor,
   ));

@@ -7,6 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 
 class HomePage extends StatefulWidget {
@@ -43,7 +44,7 @@ class _HomePageState extends State<HomePage> {
                 context.push("/search");
               },
               icon: const Icon(
-                Icons.search,
+                FontAwesomeIcons.magnifyingGlass,
                 color: Colors.white,
               ))
         ],
@@ -90,14 +91,14 @@ class _HomePageState extends State<HomePage> {
                         ],
                       ),
                     ),
-                    const Row(
+                    Row(
                       children: [
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
+                        listBuilder(list: todayList, isHorizontal: true),
                       ],
                     ),
-                    listBuilder(list: todayList, isHorizontal: true),
                   ],
                   if (upcomingList.isNotEmpty) ...[
                     Padding(

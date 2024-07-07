@@ -46,6 +46,7 @@ class UpdateBirthdayEvent extends BirthdayEvent {
       required this.imageURL});
 }
 
+class AddBirthdayClickEvent extends BirthdayEvent {}
 // form events
 
 class BirthdayNameUpdatedEvent extends BirthdayEvent {

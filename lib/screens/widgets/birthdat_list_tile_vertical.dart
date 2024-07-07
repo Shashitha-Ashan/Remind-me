@@ -5,6 +5,7 @@ import 'package:birth_daily/models/birthday/birthday_model.dart';
 import 'package:birth_daily/screens/views/birthday_user_profile/birthday_user_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class BirthdatListTileVertical extends StatelessWidget {
   BirthdatListTileVertical(
@@ -58,7 +59,8 @@ class BirthdatListTileVertical extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Icon(Icons.cake, color: Color(0xFFE85566)),
+                    const Icon(FontAwesomeIcons.cakeCandles,
+                        color: Color(0xFFE85566)),
                     const SizedBox(
                       width: 10,
                     ),
@@ -77,7 +79,7 @@ class BirthdatListTileVertical extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: birthdayModel.isLovingOne
                   ? const Icon(
-                      Icons.favorite,
+                      FontAwesomeIcons.solidHeart,
                       color: Color(0xFFE85566),
                       size: 40,
                       shadows: [

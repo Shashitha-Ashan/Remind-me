@@ -101,6 +101,7 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
               Gap(),
               SettingTile(
+                onTap: () => context.push("/dev-info"),
                 leading: Icon(
                   Icons.info,
                   color: iconColor,

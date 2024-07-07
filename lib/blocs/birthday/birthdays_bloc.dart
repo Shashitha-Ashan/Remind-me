@@ -82,6 +82,9 @@ class BirthdaysBloc extends Bloc<BirthdayEvent, BirthdayState> {
       if (event is BirthdayImageUpdatedEvent) {
         emit(BirthdayImageUpdatedState(imageURL: event.imageURL));
       }
+      if (event is AddBirthdayClickEvent) {
+        emit(BirthdayAddingState());
+      }
     });
   }
 }

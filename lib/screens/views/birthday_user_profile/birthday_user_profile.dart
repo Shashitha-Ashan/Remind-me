@@ -9,7 +9,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class BirthdayUserProfile extends StatefulWidget {
   const BirthdayUserProfile({super.key, required this.birthdayModel});
@@ -163,11 +163,23 @@ class _BirthdayUserProfileState extends State<BirthdayUserProfile> {
                               },
                               icon: isLovingOne
                                   ? const Icon(
+                                      shadows: [
+                                        Shadow(
+                                            blurRadius: 50,
+                                            color: Colors.black54,
+                                            offset: Offset(1, 1))
+                                      ],
                                       Icons.favorite,
                                       size: 35,
                                       color: Color(0xFFE85566),
                                     )
                                   : const Icon(
+                                      shadows: [
+                                        Shadow(
+                                            blurRadius: 50,
+                                            color: Colors.black54,
+                                            offset: Offset(1, 1))
+                                      ],
                                       Icons.favorite_outline,
                                       size: 35,
                                       color: Color(0xFFE85566),
@@ -202,7 +214,7 @@ class _BirthdayUserProfileState extends State<BirthdayUserProfile> {
                                     BirthdayEditAccessEvent(editAccess: true));
                               },
                               icon: const Icon(Icons.edit)),
-                          labelText: "Name",
+                          label: const Icon(FontAwesomeIcons.solidUser),
                         ),
                       ),
                       const SizedBox(
@@ -234,7 +246,7 @@ class _BirthdayUserProfileState extends State<BirthdayUserProfile> {
                                 }
                               },
                               icon: const Icon(Icons.edit)),
-                          labelText: "Birthdate",
+                          label: const Icon(FontAwesomeIcons.cakeCandles),
                         ),
                       ),
                       const SizedBox(

@@ -7,6 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class AddBirthday extends StatefulWidget {
   const AddBirthday({super.key});
@@ -33,6 +34,7 @@ class _AddBirthdayState extends State<AddBirthday> {
   Widget build(BuildContext context) {
     return BlocBuilder<BirthdaysBloc, BirthdayState>(
       builder: (context, state) {
+        print(state);
         if (state is BirthdayAdded) {
           SchedulerBinding.instance.addPostFrameCallback((_) {
             showSnackBar(
@@ -187,8 +189,8 @@ class _AddBirthdayState extends State<AddBirthday> {
                               },
                               icon: Icon(
                                 _isLovingOne
-                                    ? Icons.favorite
-                                    : Icons.favorite_outline,
+                                    ? FontAwesomeIcons.solidHeart
+                                    : FontAwesomeIcons.heart,
                                 color: const Color(0xFFE85566),
                                 size: 30,
                               ))
