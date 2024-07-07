@@ -60,6 +60,9 @@ class _SettingsPageState extends State<SettingsPage> {
               // Notifications time setting
               Gap(),
               SettingTile(
+                onTap: () {
+                  context.push("/onboarding");
+                },
                 leading: Icon(
                   Icons.access_time,
                   color: iconColor,
