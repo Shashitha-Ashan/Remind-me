@@ -1,4 +1,5 @@
 import 'package:birth_daily/screens/views/add_birthday/add_birthday.dart';
+import 'package:birth_daily/screens/views/avatar_selector/avatar_selector_page.dart';
 import 'package:birth_daily/screens/views/calendar/birthday_calendar.dart';
 import 'package:birth_daily/screens/views/dev_info/developer_info.dart';
 import 'package:birth_daily/screens/views/main/main_page.dart';
@@ -55,5 +56,11 @@ final routers = GoRouter(routes: <RouteBase>[
   GoRoute(
     path: "/onboarding",
     builder: (context, state) => const OnboardTour(),
+  ),
+  GoRoute(
+    path: "/avatar-selector",
+    builder: (context, state) => AvatarSelectorPage(
+      selectedIndex: state.extra as int,
+    ),
   ),
 ]);

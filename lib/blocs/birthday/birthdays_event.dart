@@ -78,3 +78,10 @@ class BirthdayEditAccessEvent extends BirthdayEvent {
 
   BirthdayEditAccessEvent({required this.editAccess});
 }
+
+class BirthdayAvatarEditClickEvent extends BirthdayEvent {}
+
+class BirthdayAvatarSelectedEvent extends BirthdayEvent {
+  final String imageURL;
+  BirthdayAvatarSelectedEvent({required this.imageURL});
+}

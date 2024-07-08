@@ -96,3 +96,10 @@ class BirthdayEditAccessState extends BirthdayState {
 
   BirthdayEditAccessState({required this.editAccess});
 }
+
+class BirthdayAvatarEditClickState extends BirthdayState {}
+
+class BirthdayAvatarSelectedState extends BirthdayState {
+  final String imageURL;
+  BirthdayAvatarSelectedState({required this.imageURL});
+}

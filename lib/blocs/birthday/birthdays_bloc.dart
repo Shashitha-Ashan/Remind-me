@@ -85,6 +85,12 @@ class BirthdaysBloc extends Bloc<BirthdayEvent, BirthdayState> {
       if (event is AddBirthdayClickEvent) {
         emit(BirthdayAddingState());
       }
+      if (event is BirthdayAvatarEditClickEvent) {
+        emit(BirthdayAvatarEditClickState());
+      }
+      if (event is BirthdayAvatarSelectedEvent) {
+        emit(BirthdayAvatarSelectedState(imageURL: event.imageURL));
+      }
     });
   }
 }

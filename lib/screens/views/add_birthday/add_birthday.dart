@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 
 class AddBirthday extends StatefulWidget {
   const AddBirthday({super.key});
@@ -21,7 +22,7 @@ class _AddBirthdayState extends State<AddBirthday> {
   final TextEditingController _date = TextEditingController();
   late Timestamp? birthdate;
   bool _isLovingOne = false;
-  int _selectedImageIndex = 0;
+  String imageURL = imageURLs[0];
 
   @override
   void dispose() {
@@ -34,7 +35,6 @@ class _AddBirthdayState extends State<AddBirthday> {
   Widget build(BuildContext context) {
     return BlocBuilder<BirthdaysBloc, BirthdayState>(
       builder: (context, state) {
-        print(state);
         if (state is BirthdayAdded) {
           SchedulerBinding.instance.addPostFrameCallback((_) {
             showSnackBar(
@@ -44,6 +44,7 @@ class _AddBirthdayState extends State<AddBirthday> {
           });
           _name.clear();
           _date.clear();
+          imageURL = imageURLs[0];
         }
 
         if (state is BirthdayAddError) {
@@ -53,6 +54,9 @@ class _AddBirthdayState extends State<AddBirthday> {
                 bkgColor: Colors.red,
                 context: context);
           });
+        }
+        if (state is BirthdayAvatarSelectedState) {
+          imageURL = state.imageURL;
         }
 
         return Scaffold(
@@ -64,166 +68,139 @@ class _AddBirthdayState extends State<AddBirthday> {
           ),
           body: Padding(
             padding: const EdgeInsets.only(left: 10, right: 10),
-            child: Column(
-              children: [
-                SizedBox(
-                  height: MediaQuery.of(context).size.width * 0.05,
-                ),
-                Row(
-                  children: [
-                    Text(
-                      "Select an Avatar",
-                      style: Theme.of(context).textTheme.titleMedium,
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.width * 0.05,
-                ),
-                Expanded(
-                  child: ListView.separated(
-                    separatorBuilder: (context, index) => const SizedBox(
-                      width: 20,
-                    ),
-                    itemCount: imageURLs.length,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) {
-                      return GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            _selectedImageIndex = index;
-                          });
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFF3C3C9),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Stack(
-                            children: [
-                              Center(
-                                child: Image.asset(
-                                  imageURLs[index],
-                                  height: 120,
-                                  width: 80,
-                                  fit: BoxFit.contain,
-                                ),
-                              ),
-                              _selectedImageIndex == index
-                                  ? const Positioned(
-                                      right: 0,
-                                      top: 0,
-                                      child: Icon(
-                                        Icons.check_circle,
-                                        color: Colors.green,
-                                      ))
-                                  : const Positioned(
-                                      right: 0,
-                                      top: 0,
-                                      child: Icon(
-                                        Icons.circle,
-                                        color: Colors.white,
-                                      ),
-                                    )
-                            ],
-                          ),
-                        ),
-                      );
-                    },
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.width * 0.05,
                   ),
-                ),
-                Expanded(
-                  flex: 3,
-                  child: ListView(
+                  Row(
                     children: [
-                      SizedBox(
-                        height: MediaQuery.of(context).size.width * 0.10,
+                      Text(
+                        "Select an Avatar",
+                        style: Theme.of(context).textTheme.titleMedium,
                       ),
-                      TextField(
-                        controller: _name,
-                        decoration: InputDecoration(
-                            hintText: "Enter name",
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            suffixIcon: const Icon(Icons.person_2_rounded)),
-                      ),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      TextField(
-                        controller: _date,
-                        readOnly: true,
-                        onTap: () async {
-                          DateTime? selectDate =
-                              await showBirthdatePicker(context: context);
-                          if (selectDate != null) {
-                            _date.text =
-                                "${months[selectDate.month - 1]}/${selectDate.day}";
-                            birthdate = Timestamp.fromDate(selectDate);
-                          }
-                        },
-                        decoration: InputDecoration(
-                            hintText: "Enter birth date",
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            suffixIcon:
-                                const Icon(Icons.calendar_today_rounded)),
-                      ),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text("Make as loving one"),
-                          IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  _isLovingOne = !_isLovingOne;
-                                });
-                              },
-                              icon: Icon(
-                                _isLovingOne
-                                    ? FontAwesomeIcons.solidHeart
-                                    : FontAwesomeIcons.heart,
-                                color: const Color(0xFFE85566),
-                                size: 30,
-                              ))
-                        ],
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.width * 0.15,
-                      ),
-                      MaterialButton(
-                        height: 50,
-                        color: const Color(0xFFE85566),
-                        onPressed: () {
-                          context.read<BirthdaysBloc>().add(AddBirthdayEvent(
-                              date: birthdate!,
-                              name: _name.text,
-                              imageURL: imageURLs[_selectedImageIndex],
-                              isLovingOne: _isLovingOne));
-                        },
-                        shape: ContinuousRectangleBorder(
-                          borderRadius: BorderRadius.circular(25),
-                        ),
-                        child: Text(
-                          "Save",
-                          style: Theme.of(context)
-                              .textTheme
-                              .labelMedium!
-                              .copyWith(fontSize: 20),
-                        ),
-                      )
                     ],
                   ),
-                ),
-              ],
+                  SizedBox(
+                    height: MediaQuery.of(context).size.width * 0.05,
+                  ),
+                  Stack(
+                    children: [
+                      CircleAvatar(
+                        radius: 80,
+                        child: Image.asset(
+                          imageURL,
+                          width: 100,
+                          height: 100,
+                        ),
+                      ),
+                      Positioned(
+                        top: 0,
+                        right: 0,
+                        child: IconButton(
+                          onPressed: () {
+                            context
+                                .read<BirthdaysBloc>()
+                                .add(BirthdayAvatarEditClickEvent());
+                            context.push(
+                              "/avatar-selector",
+                              extra: 0,
+                            );
+                          },
+                          icon: const Icon(
+                            Icons.edit,
+                            size: 28,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.width * 0.10,
+                  ),
+                  TextField(
+                    controller: _name,
+                    decoration: InputDecoration(
+                        hintText: "Enter name",
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        suffixIcon: const Icon(Icons.person_2_rounded)),
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  TextField(
+                    controller: _date,
+                    readOnly: true,
+                    onTap: () async {
+                      DateTime? selectDate =
+                          await showBirthdatePicker(context: context);
+                      if (selectDate != null) {
+                        _date.text =
+                            "${months[selectDate.month - 1]}/${selectDate.day}";
+                        birthdate = Timestamp.fromDate(selectDate);
+                      }
+                    },
+                    decoration: InputDecoration(
+                        hintText: "Enter birth date",
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        suffixIcon: const Icon(Icons.calendar_today_rounded)),
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text("Make as loving one"),
+                      IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _isLovingOne = !_isLovingOne;
+                            });
+                          },
+                          icon: Icon(
+                            _isLovingOne
+                                ? FontAwesomeIcons.solidHeart
+                                : FontAwesomeIcons.heart,
+                            color: const Color(0xFFE85566),
+                            size: 30,
+                          ))
+                    ],
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.width * 0.15,
+                  ),
+                  MaterialButton(
+                    height: 50,
+                    color: const Color(0xFFE85566),
+                    onPressed: () {
+                      context.read<BirthdaysBloc>().add(AddBirthdayEvent(
+                          date: birthdate!,
+                          name: _name.text,
+                          imageURL: imageURL,
+                          isLovingOne: _isLovingOne));
+                    },
+                    shape: ContinuousRectangleBorder(
+                      borderRadius: BorderRadius.circular(25),
+                    ),
+                    child: Text(
+                      "Save",
+                      style: Theme.of(context)
+                          .textTheme
+                          .labelMedium!
+                          .copyWith(fontSize: 20),
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         );

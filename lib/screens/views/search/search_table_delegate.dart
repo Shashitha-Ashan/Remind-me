@@ -2,6 +2,7 @@ import 'package:birth_daily/helpers/list_tile_imgs.dart';
 import 'package:birth_daily/models/birthday/birthday_model.dart';
 import 'package:birth_daily/repositories/birthdays/birthday_repo.dart';
 import 'package:birth_daily/screens/widgets/birthdat_list_tile_vertical.dart';
+import 'package:birth_daily/screens/widgets/delete_alert.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:go_router/go_router.dart';
@@ -55,13 +56,10 @@ class SearchTable extends SearchDelegate {
                   dismissible: DismissiblePane(onDismissed: () {}),
                   children: [
                     SlidableAction(
-                      onPressed: (context) {},
-                      icon: Icons.edit,
-                      label: 'Edit',
-                      backgroundColor: Colors.blue,
-                    ),
-                    SlidableAction(
-                      onPressed: (context) {},
+                      onPressed: (context) async {
+                        await deleteBirthdayAlert(
+                            context: context, docId: snapshot.data![index].id!);
+                      },
                       icon: Icons.delete,
                       label: 'Delete',
                       backgroundColor: Colors.red,
@@ -111,13 +109,10 @@ class SearchTable extends SearchDelegate {
                   dismissible: DismissiblePane(onDismissed: () {}),
                   children: [
                     SlidableAction(
-                      onPressed: (context) {},
-                      icon: Icons.edit,
-                      label: 'Edit',
-                      backgroundColor: Colors.blue,
-                    ),
-                    SlidableAction(
-                      onPressed: (context) {},
+                      onPressed: (context) async {
+                        await deleteBirthdayAlert(
+                            context: context, docId: snapshot.data![index].id!);
+                      },
                       icon: Icons.delete,
                       label: 'Delete',
                       backgroundColor: Colors.red,

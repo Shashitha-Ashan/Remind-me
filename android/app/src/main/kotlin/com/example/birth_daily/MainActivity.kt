@@ -1,4 +1,4 @@
-package com.example.birth_daily
+package com.shashitha.remindme
 
 import io.flutter.embedding.android.FlutterActivity
 
