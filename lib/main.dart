@@ -1,6 +1,7 @@
 import 'package:birth_daily/blocs/birthday/birthdays_bloc.dart';
 import 'package:birth_daily/blocs/preference/preference_bloc.dart';
 import 'package:birth_daily/firebase_options.dart';
+import 'package:birth_daily/helpers/device_id_helper.dart';
 import 'package:birth_daily/helpers/preference_helper.dart';
 import 'package:birth_daily/repositories/birthday_list/birthday_list.dart';
 import 'package:birth_daily/repositories/preference/preferece_repo.dart';
@@ -20,7 +21,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   InitialPrefernce initialPref = await PreferenceHelper.getInitialPreferences();
-  await FirebaseMessages().initFCM();
+  await FirebaseMessages.initFCM();
   runApp(MainApp(
     initialPrefernce: initialPref,
   ));
@@ -83,11 +84,14 @@ class MainApp extends StatelessWidget {
 }
 
 class FirebaseMessages {
-  final _firebaseMessaging = FirebaseMessaging.instance;
+  static final _firebaseMessaging = FirebaseMessaging.instance;
 
-  Future<void> initFCM() async {
+  static Future<void> initFCM() async {
     await _firebaseMessaging.requestPermission();
     final token = await _firebaseMessaging.getToken();
-    print(token);
+    if (token != null) {
+      final res = await DeviceIdHelper.updateDeviceId(deviceId: token);
+      print(res);
+    }
   }
 }
