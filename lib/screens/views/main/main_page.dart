@@ -1,7 +1,10 @@
+import 'package:birth_daily/helpers/device_id_helper.dart';
 import 'package:birth_daily/screens/views/birthday_gift/birthday_gift_page.dart';
 import 'package:birth_daily/screens/views/calendar/birthday_calendar.dart';
 import 'package:birth_daily/screens/views/home/home.dart';
 import 'package:birth_daily/screens/views/settings/settings_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -41,6 +44,31 @@ class _MainPageState extends State<MainPage> {
         ),
         label: "Settings"),
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    _getToken();
+  }
+
+  void _getToken() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+    String? token = await messaging.getToken();
+
+    if (token != null) {
+      _sendTokenToServer(token, user!.uid);
+    }
+
+    messaging.onTokenRefresh.listen((newToken) {
+      _sendTokenToServer(newToken, user!.uid);
+    });
+  }
+
+  void _sendTokenToServer(String token, String uid) async {
+    await DeviceIdHelper.updateDeviceId(deviceId: token, uid: uid);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
