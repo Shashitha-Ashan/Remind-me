@@ -7,6 +7,7 @@ import 'package:birth_daily/repositories/birthday_list/birthday_list.dart';
 import 'package:birth_daily/repositories/preference/preferece_repo.dart';
 import 'package:birth_daily/routes/routes.dart';
 import 'package:birth_daily/utils/themes.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -20,8 +21,9 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  User? user = FirebaseAuth.instance.currentUser;
   InitialPrefernce initialPref = await PreferenceHelper.getInitialPreferences();
-  await FirebaseMessages.initFCM();
+  await FirebaseMessages.initFCM(uid: user?.uid);
   runApp(MainApp(
     initialPrefernce: initialPref,
   ));
@@ -86,12 +88,14 @@ class MainApp extends StatelessWidget {
 class FirebaseMessages {
   static final _firebaseMessaging = FirebaseMessaging.instance;
 
-  static Future<void> initFCM() async {
+  static Future<void> initFCM({required String? uid}) async {
     await _firebaseMessaging.requestPermission();
     final token = await _firebaseMessaging.getToken();
-    if (token != null) {
-      final res = await DeviceIdHelper.updateDeviceId(deviceId: token);
-      print(res);
+    print(token);
+    if (token != null && uid != null) {
+      final res =
+          await DeviceIdHelper.updateDeviceId(deviceId: token, uid: uid);
+      print("res is $res ");
     }
   }
 }
