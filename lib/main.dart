@@ -19,7 +19,6 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-
   InitialPrefernce initialPref = await PreferenceHelper.getInitialPreferences();
   await FirebaseMessages.initFCM();
   runApp(MainApp(

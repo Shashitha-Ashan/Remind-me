@@ -22,38 +22,23 @@ class _AvatarSelectorPageState extends State<AvatarSelectorPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          "Select an Avatar",
+          style: Theme.of(context)
+              .textTheme
+              .titleMedium!
+              .copyWith(fontSize: 20, color: Colors.white),
+        ),
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
           child: Stack(children: [
             Column(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    IconButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        icon: const Icon(Icons.arrow_back)),
-                    Text(
-                      "Select an Avatar",
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleMedium!
-                          .copyWith(fontSize: 20),
-                    ),
-                    SizedBox(
-                      child: Row(
-                        children: [
-                          IconButton(
-                              onPressed: () {}, icon: const Icon(Icons.female)),
-                          IconButton(
-                              onPressed: () {}, icon: const Icon(Icons.male)),
-                        ],
-                      ),
-                    )
-                  ],
+                SizedBox(
+                  height: 10,
                 ),
                 Expanded(
                   child: GridView.builder(

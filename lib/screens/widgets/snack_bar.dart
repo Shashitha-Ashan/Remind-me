@@ -10,7 +10,13 @@ void showSnackBar(
     content: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(message),
+        Text(
+          message,
+          style: Theme.of(context)
+              .textTheme
+              .labelSmall!
+              .copyWith(color: Colors.white, fontSize: 16),
+        ),
         IconButton(
             onPressed: () {
               context.pop();

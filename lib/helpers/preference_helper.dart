@@ -32,6 +32,8 @@ class PreferenceHelper {
 
   Future<bool?> setFirstRunCompleted() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('theme', false);
+    await prefs.setBool('notification', true);
     return await prefs.setBool('firsRun', false);
   }
 
