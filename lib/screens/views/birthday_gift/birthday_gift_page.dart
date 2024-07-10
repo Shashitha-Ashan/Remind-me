@@ -1,6 +1,6 @@
 import 'package:birth_daily/helpers/birthday_wishes_messages.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter/services.dart';
 
 class BirthdayGiftPage extends StatelessWidget {
   const BirthdayGiftPage({super.key});
@@ -9,10 +9,12 @@ class BirthdayGiftPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Birthday Gifts"),
+        title: const Text("Birthday Wishes"),
       ),
       body: Padding(
-        padding: const EdgeInsets.only(top: 10),
+        padding: const EdgeInsets.only(
+          top: 10,
+        ),
         child: ListView.separated(
             itemBuilder: (context, index) {
               return _giftContainer(
@@ -53,32 +55,38 @@ class BirthdayGiftPage extends StatelessWidget {
                 height: 20,
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
+                  // IconButton(
+                  //     onPressed: () {},
+                  //     icon: const Icon(
+                  //       FontAwesomeIcons.shareNodes,
+                  //       color: Colors.blue,
+                  //     )),
+                  // const SizedBox(
+                  //   width: 20,
+                  // ),
                   IconButton(
-                      onPressed: () {},
-                      icon: const Icon(
-                        FontAwesomeIcons.shareNodes,
-                        color: Colors.blue,
-                      )),
-                  const SizedBox(
-                    width: 20,
-                  ),
-                  IconButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      await Clipboard.setData(ClipboardData(text: message));
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        content: Text("Copied to clipboard"),
+                        duration: Duration(seconds: 2),
+                      ));
+                    },
                     icon: const Icon(
-                      FontAwesomeIcons.solidCopy,
+                      Icons.copy,
                       color: Colors.purple,
                     ),
                   ),
-                  const SizedBox(
-                    width: 20,
-                  ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: const Icon(FontAwesomeIcons.heart,
-                        color: Color(0xFFE85566)),
-                  ),
+                  // const SizedBox(
+                  //   width: 20,
+                  // ),
+                  // IconButton(
+                  //   onPressed: () {},
+                  //   icon: const Icon(FontAwesomeIcons.heart,
+                  //       color: Color(0xFFE85566)),
+                  // ),
                 ],
               )
             ],

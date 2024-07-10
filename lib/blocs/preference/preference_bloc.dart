@@ -15,12 +15,19 @@ class PreferenceBloc extends Bloc<PreferenceEvent, PreferenceState> {
     on<PreferenceEvent>((event, emit) async {
       if (event is ThemeToggleEvent) {
         await prefereceRepo.setThemeStatus(themeStatus: event.themeStatus);
-        emit(ThemeToggleState(themeStatus: event.themeStatus));
+        final notificationStatus = await prefereceRepo.getNotificationStatus();
+        emit(ThemeToggleState(
+          notificationStatus: notificationStatus!,
+          themeStatus: event.themeStatus,
+        ));
       }
       if (event is NotificationToggleEvent) {
         await prefereceRepo.setNotificationStatus(
             notificationStatus: event.notificationStatus);
+        final themeStatus = await prefereceRepo.getThemeStatus();
+
         emit(NotificationToggleState(
+            themeStatus: themeStatus!,
             notificationStatus: event.notificationStatus));
       }
       if (event is FirstRunCompleteEvent) {

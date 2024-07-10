@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PreferenceHelper {
@@ -20,6 +21,11 @@ class PreferenceHelper {
 
   Future<bool?> setNotificationStatus(
       {required bool notificationStatus}) async {
+    if (notificationStatus) {
+      FirebaseMessaging.instance.subscribeToTopic('all');
+    } else {
+      FirebaseMessaging.instance.unsubscribeFromTopic('all');
+    }
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     return await prefs.setBool('notification', notificationStatus);
   }

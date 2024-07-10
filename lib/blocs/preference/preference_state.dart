@@ -12,12 +12,20 @@ class PreferenceInitial extends PreferenceState {
 
 class ThemeToggleState extends PreferenceState {
   final bool themeStatus;
-  ThemeToggleState({required this.themeStatus});
+  final bool notificationStatus;
+  ThemeToggleState({
+    required this.notificationStatus,
+    required this.themeStatus,
+  });
 }
 
 class NotificationToggleState extends PreferenceState {
   final bool notificationStatus;
-  NotificationToggleState({required this.notificationStatus});
+  final bool themeStatus;
+  NotificationToggleState({
+    required this.notificationStatus,
+    required this.themeStatus,
+  });
 }
 
 class FirstRunCompleteState extends PreferenceState {}

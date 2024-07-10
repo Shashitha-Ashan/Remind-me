@@ -57,7 +57,15 @@ class MainApp extends StatelessWidget {
         ],
         child: BlocBuilder<PreferenceBloc, PreferenceState>(
             builder: (context, state) {
+          print(state);
           if (state is ThemeToggleState) {
+            return MaterialApp.router(
+              debugShowCheckedModeBanner: false,
+              routerConfig: routers,
+              theme: state.themeStatus ? darkTheme : lightTheme,
+            );
+          }
+          if (state is NotificationToggleState) {
             return MaterialApp.router(
               debugShowCheckedModeBanner: false,
               routerConfig: routers,

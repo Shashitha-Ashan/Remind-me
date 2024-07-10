@@ -14,6 +14,8 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
+  bool themeButtonVal = false;
+  bool notificationButtonVal = true;
   @override
   Widget build(BuildContext context) {
     TextStyle? titleStyle = Theme.of(context).textTheme.titleLarge!.copyWith(
@@ -28,18 +30,17 @@ class _SettingsPageState extends State<SettingsPage> {
     return BlocBuilder<PreferenceBloc, PreferenceState>(
       builder: (context, state) {
         print(state);
-        bool themeButtonVal = false;
-        bool notificationButtonVal = true;
+        if (state is PreferenceInitial) {
+          notificationButtonVal = state.initialPrefernce.notificationStatus!;
+          themeButtonVal = state.initialPrefernce.themeStatus!;
+        }
         if (state is ThemeToggleState) {
           themeButtonVal = state.themeStatus;
         }
         if (state is NotificationToggleState) {
           notificationButtonVal = state.notificationStatus;
         }
-        if (state is PreferenceInitial) {
-          notificationButtonVal = state.initialPrefernce.notificationStatus!;
-          themeButtonVal = state.initialPrefernce.themeStatus!;
-        }
+
         return Scaffold(
           backgroundColor: Theme.of(context).primaryColor,
           appBar: AppBar(
@@ -79,7 +80,10 @@ class _SettingsPageState extends State<SettingsPage> {
                     ),
                     trailing: Switch(
                       value: notificationButtonVal,
-                      onChanged: (value) {},
+                      onChanged: (value) {
+                        context.read<PreferenceBloc>().add(
+                            NotificationToggleEvent(notificationStatus: value));
+                      },
                     ),
                   ),
                   // Notifications time setting
