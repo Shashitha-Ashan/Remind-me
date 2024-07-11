@@ -69,7 +69,7 @@ ThemeData lightTheme = ThemeData(
     iconTheme: const IconThemeData(color: Colors.white),
   ),
   iconTheme: const IconThemeData(
-    color: Colors.white,
+    color: Colors.black,
   ),
   switchTheme: const SwitchThemeData(
     thumbColor: WidgetStatePropertyAll<Color>(Color(0xFF6D77FB)),

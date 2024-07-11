@@ -1,4 +1,5 @@
 import 'package:birth_daily/blocs/birthday/birthdays_bloc.dart';
+import 'package:birth_daily/blocs/internet_cubit/internet_cubit.dart';
 import 'package:birth_daily/blocs/preference/preference_bloc.dart';
 import 'package:birth_daily/firebase_options.dart';
 import 'package:birth_daily/helpers/preference_helper.dart';
@@ -53,10 +54,12 @@ class MainApp extends StatelessWidget {
             create: (context) =>
                 PreferenceBloc(prefereceRepo: context.read<PrefereceRepo>()),
           ),
+          BlocProvider(
+            create: (context) => InternetCubit(),
+          ),
         ],
         child: BlocBuilder<PreferenceBloc, PreferenceState>(
             builder: (context, state) {
-          print(state);
           if (state is ThemeToggleState) {
             return MaterialApp.router(
               debugShowCheckedModeBanner: false,
