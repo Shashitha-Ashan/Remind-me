@@ -21,7 +21,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   InitialPrefernce initialPref = await PreferenceHelper.getInitialPreferences();
-  await FirebaseMessages.initFCM();
+  // await FirebaseMessages.initFCM();
   runApp(MainApp(
     initialPrefernce: initialPref,
   ));
@@ -93,11 +93,12 @@ class MainApp extends StatelessWidget {
   }
 }
 
-class FirebaseMessages {
-  static final _firebaseMessaging = FirebaseMessaging.instance;
+// class FirebaseMessages {
+//   static final _firebaseMessaging = FirebaseMessaging.instance;
 
-  static Future<void> initFCM() async {
-    await _firebaseMessaging.requestPermission();
-    await _firebaseMessaging.getToken();
-  }
-}
+//   static Future<void> initFCM() async {
+//     await _firebaseMessaging.requestPermission();
+//     final token = await _firebaseMessaging.getToken();
+//     print(token);
+//   }
+// }

@@ -22,9 +22,9 @@ class PreferenceHelper {
   Future<bool?> setNotificationStatus(
       {required bool notificationStatus}) async {
     if (notificationStatus) {
-      FirebaseMessaging.instance.subscribeToTopic('all');
+      FirebaseMessaging.instance.getToken();
     } else {
-      FirebaseMessaging.instance.unsubscribeFromTopic('all');
+      FirebaseMessaging.instance.deleteToken();
     }
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     return await prefs.setBool('notification', notificationStatus);

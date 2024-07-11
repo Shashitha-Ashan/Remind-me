@@ -67,11 +67,6 @@ class _MainPageState extends State<MainPage> {
   void _getToken() async {
     User? user = FirebaseAuth.instance.currentUser;
     FirebaseMessaging messaging = FirebaseMessaging.instance;
-    String? token = await messaging.getToken();
-
-    if (token != null) {
-      _sendTokenToServer(token, user!.uid);
-    }
 
     messaging.onTokenRefresh.listen((newToken) {
       _sendTokenToServer(newToken, user!.uid);

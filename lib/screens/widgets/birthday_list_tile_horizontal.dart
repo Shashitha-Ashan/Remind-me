@@ -3,6 +3,7 @@ import 'package:birth_daily/helpers/months_list.dart';
 import 'package:birth_daily/models/birthday/birthday_model.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 
 class BirthdayListTileHorizontal extends StatelessWidget {
   const BirthdayListTileHorizontal(
@@ -60,7 +61,9 @@ class BirthdayListTileHorizontal extends StatelessWidget {
                 height: 10,
               ),
               MaterialButton(
-                onPressed: () {},
+                onPressed: () {
+                  context.push("/birthday-gift");
+                },
                 shape: ContinuousRectangleBorder(
                     borderRadius: BorderRadius.circular(20)),
                 color: const Color(0xFFF0717B),
