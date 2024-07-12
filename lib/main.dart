@@ -9,7 +9,6 @@ import 'package:birth_daily/routes/routes.dart';
 import 'package:birth_daily/utils/themes.dart';
 
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -60,32 +59,22 @@ class MainApp extends StatelessWidget {
         ],
         child: BlocBuilder<PreferenceBloc, PreferenceState>(
             builder: (context, state) {
+          bool themeStatus = false;
+
           if (state is ThemeToggleState) {
-            return MaterialApp.router(
-              debugShowCheckedModeBanner: false,
-              routerConfig: routers,
-              theme: state.themeStatus ? darkTheme : lightTheme,
-            );
+            themeStatus = state.themeStatus;
           }
           if (state is NotificationToggleState) {
-            return MaterialApp.router(
-              debugShowCheckedModeBanner: false,
-              routerConfig: routers,
-              theme: state.themeStatus ? darkTheme : lightTheme,
-            );
+            themeStatus = state.themeStatus;
           }
           if (state is PreferenceInitial) {
-            return MaterialApp.router(
-              debugShowCheckedModeBanner: false,
-              routerConfig: routers,
-              theme:
-                  state.initialPrefernce.themeStatus! ? darkTheme : lightTheme,
-            );
+            themeStatus = state.initialPrefernce.themeStatus!;
           }
+
           return MaterialApp.router(
             debugShowCheckedModeBanner: false,
             routerConfig: routers,
-            theme: lightTheme,
+            theme: themeStatus ? darkTheme : lightTheme,
           );
         }),
       ),
