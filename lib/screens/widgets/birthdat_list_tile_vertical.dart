@@ -47,7 +47,6 @@ class BirthdatListTileVertical extends StatelessWidget {
             child: Container(
               width: MediaQuery.of(context).size.width,
               padding: const EdgeInsets.only(left: 10, bottom: 10, top: 10),
-              margin: const EdgeInsets.only(left: 10, right: 10),
               decoration: BoxDecoration(
                 color: colors[index % colors.length],
                 borderRadius: const BorderRadius.all(Radius.circular(12)),

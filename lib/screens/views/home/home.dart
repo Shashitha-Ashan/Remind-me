@@ -72,12 +72,12 @@ class _HomePageState extends State<HomePage> {
                 .getPastBirthdayList(list: snapshot.data!.docs);
 
             return SingleChildScrollView(
-              child: Column(
-                children: [
-                  if (todayList.isNotEmpty) ...[
-                    Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: Row(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Column(
+                  children: [
+                    if (todayList.isNotEmpty) ...[
+                      Row(
                         children: [
                           Text(
                             "Today's Birthdays",
@@ -90,20 +90,10 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ],
                       ),
-                    ),
-                    Row(
-                      children: [
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        listBuilder(list: todayList, isHorizontal: true),
-                      ],
-                    ),
-                  ],
-                  if (upcomingList.isNotEmpty) ...[
-                    Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: Row(
+                      listBuilder(list: todayList, isHorizontal: true),
+                    ],
+                    if (upcomingList.isNotEmpty) ...[
+                      Row(
                         children: [
                           Text(
                             "Upcoming Birthdays",
@@ -116,13 +106,10 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ],
                       ),
-                    ),
-                    listBuilder(list: upcomingList, isHorizontal: false),
-                  ],
-                  if (pastList.isNotEmpty) ...[
-                    Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: Row(
+                      listBuilder(list: upcomingList, isHorizontal: false),
+                    ],
+                    if (pastList.isNotEmpty) ...[
+                      Row(
                         children: [
                           Text(
                             "Past Birthdays",
@@ -135,21 +122,24 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ],
                       ),
-                    ),
-                    listBuilder(list: pastList, isHorizontal: false),
-                  ],
-                  if (todayList.isEmpty &&
-                      upcomingList.isEmpty &&
-                      pastList.isEmpty)
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        "No birthdays found",
-                        style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                            fontSize: 16, color: const Color(0xFFE85566)),
+                      listBuilder(list: pastList, isHorizontal: false),
+                    ],
+                    if (todayList.isEmpty &&
+                        upcomingList.isEmpty &&
+                        pastList.isEmpty)
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          "No birthdays found",
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleSmall!
+                              .copyWith(
+                                  fontSize: 16, color: const Color(0xFFE85566)),
+                        ),
                       ),
-                    ),
-                ],
+                  ],
+                ),
               ),
             );
           } else {
@@ -171,7 +161,7 @@ class _HomePageState extends State<HomePage> {
   Widget listBuilder(
       {required List<BirthdayModel> list, required bool isHorizontal}) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.only(top: 8, bottom: 8),
       child: SizedBox(
         height: isHorizontal ? MediaQuery.of(context).size.height * 0.3 : null,
         child: ListView.separated(

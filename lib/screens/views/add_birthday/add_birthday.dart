@@ -5,7 +5,6 @@ import 'package:birth_daily/screens/widgets/date_picker.dart';
 import 'package:birth_daily/screens/widgets/snack_bar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
@@ -46,28 +45,26 @@ class _AddBirthdayState extends State<AddBirthday> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<BirthdaysBloc, BirthdayState>(
-      builder: (context, state) {
+    return BlocConsumer<BirthdaysBloc, BirthdayState>(
+      listener: (context, state) {
         if (state is BirthdayAdded) {
-          SchedulerBinding.instance.addPostFrameCallback((_) {
-            showSnackBar(
-                message: "Birthday Added",
-                bkgColor: Colors.green,
-                context: context);
-          });
+          showSnackBar(
+              message: "Birthday Added",
+              bkgColor: Colors.green,
+              context: context);
           _name.clear();
           _date.clear();
           imageURL = imageURLs[0];
         }
 
         if (state is BirthdayAddError) {
-          SchedulerBinding.instance.addPostFrameCallback((_) {
-            showSnackBar(
-                message: "Birthday not Added",
-                bkgColor: Colors.red,
-                context: context);
-          });
+          showSnackBar(
+              message: "Birthday not Added",
+              bkgColor: Colors.red,
+              context: context);
         }
+      },
+      builder: (context, state) {
         if (state is BirthdayAvatarSelectedState) {
           imageURL = state.imageURL;
         }
