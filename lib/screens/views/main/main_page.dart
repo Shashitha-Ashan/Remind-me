@@ -1,4 +1,3 @@
-import 'package:birth_daily/blocs/internet_cubit/internet_cubit.dart';
 import 'package:birth_daily/helpers/device_id_helper.dart';
 import 'package:birth_daily/screens/views/birthday_gift/birthday_gift_page.dart';
 import 'package:birth_daily/screens/views/calendar/birthday_calendar.dart';
@@ -7,8 +6,6 @@ import 'package:birth_daily/screens/views/settings/settings_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class MainPage extends StatefulWidget {
@@ -48,19 +45,14 @@ class _MainPageState extends State<MainPage> {
         label: "Settings"),
   ];
 
-  late InternetCubit _cubit;
   @override
   void initState() {
     super.initState();
     _getToken();
-    _cubit = context.read<InternetCubit>();
-    _cubit.checkInternet();
-    _cubit.listenConnectionChanges();
   }
 
   @override
   void dispose() {
-    _cubit.dispose();
     super.dispose();
   }
 
@@ -79,62 +71,32 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<InternetCubit, InternetState>(
-      builder: (context, state) {
-        if (state is InternetStatus) {
-          if (state.status == ConnectionStatus.disconnected) {
-            SchedulerBinding.instance.addPostFrameCallback((_) {
-              ScaffoldMessenger.of(context).hideCurrentSnackBar();
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  backgroundColor: Colors.red,
-                  content: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.wifi_off),
-                      SizedBox(
-                        width: 20,
-                      ),
-                      Text(
-                        "You are offline. Any changes will not be saved",
-                        style: TextStyle(color: Colors.white),
-                      )
-                    ],
-                  ),
-                  duration: Duration(seconds: 3),
-                ),
-              );
+    return Scaffold(
+      bottomNavigationBar: NavigationBarTheme(
+        data: const NavigationBarThemeData(
+            labelTextStyle:
+                WidgetStatePropertyAll(TextStyle(color: Colors.white))),
+        child: NavigationBar(
+          onDestinationSelected: (value) {
+            setState(() {
+              currentPageIndex = value;
             });
-          }
-        }
-        return Scaffold(
-          bottomNavigationBar: NavigationBarTheme(
-            data: const NavigationBarThemeData(
-                labelTextStyle:
-                    WidgetStatePropertyAll(TextStyle(color: Colors.white))),
-            child: NavigationBar(
-              onDestinationSelected: (value) {
-                setState(() {
-                  currentPageIndex = value;
-                });
-              },
-              destinations: _navList,
-              height: 65,
-              backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
-              animationDuration: const Duration(milliseconds: 300),
-              indicatorColor: const Color(0xFFE48994),
-              labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
-              selectedIndex: currentPageIndex,
-            ),
-          ),
-          body: <Widget>[
-            const HomePage(),
-            const BirthdayCalendar(),
-            const BirthdayGiftPage(),
-            const SettingsPage()
-          ][currentPageIndex],
-        );
-      },
+          },
+          destinations: _navList,
+          height: 65,
+          backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+          animationDuration: const Duration(milliseconds: 300),
+          indicatorColor: const Color(0xFFE48994),
+          labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
+          selectedIndex: currentPageIndex,
+        ),
+      ),
+      body: <Widget>[
+        const HomePage(),
+        const BirthdayCalendar(),
+        const BirthdayGiftPage(),
+        const SettingsPage()
+      ][currentPageIndex],
     );
   }
 }

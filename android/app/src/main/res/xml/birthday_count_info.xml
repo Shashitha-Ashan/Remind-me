@@ -4,11 +4,11 @@
     android:initialKeyguardLayout="@layout/birthday_count"
     android:initialLayout="@layout/birthday_count"
     android:minWidth="180dp"
-    android:minHeight="180dp"
+    android:minHeight="120dp"
     android:previewImage="@drawable/example_appwidget_preview"
     android:previewLayout="@layout/birthday_count"
     android:resizeMode="vertical"
     android:targetCellWidth="3"
-    android:targetCellHeight="3"
+    android:targetCellHeight="2"
     android:updatePeriodMillis="86400000"
     android:widgetCategory="home_screen" />

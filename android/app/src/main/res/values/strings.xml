@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="appwidget_text">EXAMPLE</string>
+    <string name="appwidget_text">Today Birthdays 🎂</string>
     <string name="add_widget">Add widget</string>
+    <string name="cake">🎂</string>
+    <string name="count">0</string>
     <string name="app_widget_description">This is an app widget description</string>
+    <string name="birthday_count">2</string>
+
 </resources>

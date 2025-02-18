@@ -1,6 +1,8 @@
 import 'package:birth_daily/helpers/birthday_wishes_messages.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 
 class BirthdayGiftPage extends StatelessWidget {
   const BirthdayGiftPage({super.key});
@@ -10,6 +12,14 @@ class BirthdayGiftPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Birthday Wishes"),
+        actions: [
+          IconButton(
+            icon: const Icon(FontAwesomeIcons.wandMagicSparkles),
+            onPressed: () {
+              context.push('/ai-chat');
+            },
+          )
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.only(

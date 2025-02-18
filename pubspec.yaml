@@ -1,7 +1,7 @@
 name: birth_daily
 description: "A new Flutter project."
 publish_to: "none"
-version: 0.1.1
+version: 0.2.0
 
 environment:
   sdk: ">=3.3.0 <4.0.0"
@@ -24,11 +24,12 @@ dependencies:
   firebase_auth: ^5.1.1
   table_calendar: ^3.1.2
   firebase_ui_oauth_apple: ^1.2.21
-  flutter_slidable: ^3.1.0
+  flutter_slidable: ^4.0.0
   font_awesome_flutter: ^10.7.0
   smooth_page_indicator: ^1.1.0
   shared_preferences: ^2.2.3
-  connectivity_plus: ^6.0.3
+  home_widget: ^0.7.0
+  workmanager: ^0.5.2
 
 dev_dependencies:
   flutter_test:

@@ -146,16 +146,17 @@ class WelcomePage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       GoogleSignInIconButton(
-                          size: 25,
-                          loadingIndicator: CircularProgressIndicator(),
-                          clientId:
-                              "962001695927-35sjl1et0tihk884hfkqvc0u6gqqu8tu.apps.googleusercontent.com"),
-                      SizedBox(
-                        width: 20,
+                        size: 25,
+                        loadingIndicator: CircularProgressIndicator(),
+                        clientId:
+                            "962001695927-35sjl1et0tihk884hfkqvc0u6gqqu8tu.apps.googleusercontent.com",
                       ),
-                      AppleSignInIconButton(
-                          size: 25,
-                          loadingIndicator: CircularProgressIndicator()),
+                      // SizedBox(
+                      //   width: 20,
+                      // ),
+                      // AppleSignInIconButton(
+                      //     size: 25,
+                      //     loadingIndicator: CircularProgressIndicator()),
                     ],
                   )
                 ],

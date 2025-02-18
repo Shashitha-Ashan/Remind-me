@@ -6,6 +6,7 @@ void showSnackBar(
     required Color bkgColor,
     required BuildContext context}) {
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    behavior: SnackBarBehavior.floating,
     duration: const Duration(seconds: 2),
     content: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,

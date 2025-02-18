@@ -16,6 +16,7 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> {
   bool themeButtonVal = false;
   bool notificationButtonVal = true;
+  int count = 0;
   @override
   Widget build(BuildContext context) {
     TextStyle? titleStyle = Theme.of(context).textTheme.titleLarge!.copyWith(
@@ -58,7 +59,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       color: iconColor,
                     ),
                     title: Text(
-                      "Profile Infomation",
+                      "Profile Information",
                       style: titleStyle,
                     ),
                     onTap: () => context.push("/profile"),
